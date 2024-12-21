@@ -1,21 +1,35 @@
-export interface IDepense {
-    id: string;
-    idEvenement: string;
-    nom: string;
-    description?: string;
-    montant: number;
-    date: string;
-  }
+export interface IUtilisateur {
+  id: string;
+  idsEvenements: string[];
+  nom: string;
+  email: string;
+  motDePasse?: string;
+  telephone: string;
+  role: 1 | 2; // 1 = organisateur, 2 = participant
+}
+
   
-  export interface IEvenement {
-    id: string;
-    idUtilisateur: string;
-    nom: string;
-    type: 'Fête';
-    date: string;
-    lieu: string;
-    budget: number;
-  }
+export interface IEvenement {
+  id: string;
+  idUtilisateur: string;
+  nom: string;
+  type: 'Fête';
+  date: string;
+  lieu: string;
+  budget: number;
+}
+
+  
+export interface ITache {
+  id: string;
+  idEvenement: string;
+  titre: string;
+  description?: string;
+  dateLimite?: string;
+  statut: 1 | 2 | 3; // 1 = à faire, 2 = en cours, 3 = terminé
+  priorite: 1 | 2 | 3; // 1 = basse, 2 = moyenne, 3 = haute
+}
+
   
   export interface IInvitation {
     id: string;
@@ -28,6 +42,16 @@ export interface IDepense {
     statut: 1 | 2 | 3; // 1 = ouvert, 2 = terminé, 3 = annulé
   }
 
+
+export interface IDepense {
+    id: string;
+    idEvenement: string;
+    nom: string;
+    description?: string;
+    montant: number;
+    date: string;
+  }
+
   
   
   export interface IPrestataire {
@@ -38,24 +62,16 @@ export interface IDepense {
     gammePrix: string;
     note: 1 | 2 | 3 | 4 | 5;
   }
-  
-  export interface ITache {
+
+
+
+  export interface TNotification {
     id: string;
     idEvenement: string;
+    idDestinateur?: string; //si la notification est envoyée par un membre
     titre: string;
-    description?: string;
-    dateLimite?: string;
-    statut: 1 | 2 | 3; // 1 = à faire, 2 = en cours, 3 = terminé
-    priorite: 1 | 2 | 3; // 1 = basse, 2 = moyenne, 3 = haute
-  }
-  
-  export interface IUtilisateur {
-    id: string;
-    idsEvenements: string[];
-    nom: string;
-    email: string;
-    motDePasse?: string;
-    telephone: string;
-    role: 1 | 2; // 1 = organisateur, 2 = participant
-  }
-  
+    message: string;
+    lu: boolean;
+    dateCreation: string;
+    urlRedirection: string;
+  };

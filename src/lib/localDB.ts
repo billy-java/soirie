@@ -1,3 +1,5 @@
+//src\lib\localDB.ts
+
 import { IUtilisateur, IEvenement, IInvitation, IPrestataire, ITache, IDepense } from "./interfaces/entites"; 
 
 // Un seul utilisateur

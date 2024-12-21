@@ -5,13 +5,6 @@ export const menu: IMenu[] = [
   {
     actif: true,
     afficher: true,
-    nom: 'Accueil',
-    lien: '/',
-    icon1: iconsListe.home,
-  },
-  {
-    actif: true,
-    afficher: true,
     nom: 'Dashboard',
     lien: '/',
     icon1: iconsListe.dashboard,
@@ -19,24 +12,9 @@ export const menu: IMenu[] = [
   {
     actif: true,
     afficher: true,
-    nom: 'Evenements',
-    lien: '/evenements',
-    icon1: iconsListe.evenement,
-  },
-  {
-    actif: true,
-    afficher: true,
     nom: 'Taches',
     lien: '/taches',
     icon1: iconsListe.activite1,
-  },
-  {
-    actif: true,
-    afficher: true,
-    nom: 'Invitations',
-    lien: '/invitations',
-    icon1: iconsListe.pret,
-    icon2: iconsListe.vote,
   },
   {
     actif: true,
@@ -52,6 +30,18 @@ export const menu: IMenu[] = [
     lien: '/prestataires',
     icon1: iconsListe.user1,
   },
+  {
+    actif: true,
+    afficher: true,
+    nom: 'Menu',
+    lien: '/menu',
+    icon1: iconsListe.menu_OUVERT,
+  },
+];
+
+
+
+export const menuParametre: IMenu[] = [
   {
     actif: true,
     afficher: true,
