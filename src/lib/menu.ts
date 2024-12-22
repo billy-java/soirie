@@ -6,7 +6,7 @@ export const menu: IMenu[] = [
     actif: true,
     afficher: true,
     nom: 'Dashboard',
-    lien: '/',
+    lien: '/dashboard',
     icon1: iconsListe.dashboard,
   },
   {

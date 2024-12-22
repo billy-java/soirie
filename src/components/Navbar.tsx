@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { iconsListe } from '../lib/iconsListe';
+import { menu } from '../lib/menu';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -15,60 +17,18 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-gray-800 text-white">
       <ul className="flex justify-around items-center py-3">
-        <li>
-          <Link
-            to={`/e/${eId}/dashboard`}
-            className={`${
-              location.pathname.includes('/dashboard') ? 'text-blue-400' : ''
-            }`}
-          >
-            Dashboard
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to={`/e/${eId}/taches`}
-            className={`${
-              location.pathname.includes('/taches') ? 'text-blue-400' : ''
-            }`}
-          >
-            Tâches
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to={`/e/${eId}/depenses`}
-            className={`${
-              location.pathname.includes('/depenses') ? 'text-blue-400' : ''
-            }`}
-          >
-            Dépenses
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to={`/e/${eId}/prestataires`}
-            className={`${
-              location.pathname.includes('/prestataires') ? 'text-blue-400' : ''
-            }`}
-          >
-            Prestataires
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to={`/e/${eId}/menu`}
-            className={`${
-              location.pathname.includes('/menu') ? 'text-blue-400' : ''
-            }`}
-          >
-            Menu
-          </Link>
-        </li>
+        {menu.map((item, index) => (
+          <li key={index}>
+            <Link
+              to={`/e/${eId}${item.lien}`}
+              className={`flex items-center space-x-1 ${
+                location.pathname.includes(item.lien) ? 'text-blue-400' : ''
+              }`}>
+              {item.icon1}{' '}
+              {location.pathname.includes(item.lien) && <p>{item.nom}</p>}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
