@@ -1,2 +1,2 @@
 ### a faire
-creer un bouton pour telecharger la liste dinvite
+le drag and drop de ma liste de tache ne fonctionne pas

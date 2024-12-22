@@ -38,8 +38,8 @@ export interface ITache {
     nombrePersonnes: number | 'Aucune limite';
     nombreConfirmations: number;
     nombreRejets: number;
-    nombreDemandesEnAttente: number;
     statut: 1 | 2 | 3; // 1 = ouvert, 2 = terminé, 3 = annulé
+    lien: string;
   }
 
 

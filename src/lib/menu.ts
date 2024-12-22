@@ -52,7 +52,7 @@ export const menuParametre: IMenu[] = [
   {
     actif: true,
     afficher: true,
-    nom: 'Faq',
+    nom: 'FAQ',
     lien: '/faq',
     icon1: iconsListe.faq,
   },

@@ -9,25 +9,38 @@ import Parametres from './pages/evenements/menu/Parametres';
 import Prestataires from './pages/evenements/Prestataires';
 import Taches from './pages/evenements/Taches';
 import Home from './pages/Home';
-import Evenement from './pages/Evenement';
+import Menu from './pages/evenements/Menu';
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Navbar />
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/e/:eId" element={<Evenement />} />
-          <Route path="/e/:eId/dashboard" element={<Dashboard />} />
-          <Route path="/e/:eId/taches" element={<Taches />} />
-          <Route path="/e/:eId/depenses" element={<Depenses />} />
-          <Route path="/e/:eId/prestataires" element={<Prestataires />} />
-          <Route path="/parametres" element={<Parametres />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        {/* Route pour les pages d'événements avec la Navbar */}
+        <Route
+          path="/e/:eId/*"
+          element={
+            <>
+              <Navbar />
+              <div className="content">
+                <Routes>
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="taches" element={<Taches />} />
+                  <Route path="depenses" element={<Depenses />} />
+                  <Route path="prestataires" element={<Prestataires />} />
+                  <Route path="menu" element={<Menu />} />
+                </Routes>
+              </div>
+            </>
+          }
+        />
+
+        {/* Routes non liées aux événements */}
+        <Route path="/parametres" element={<Parametres />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </Router>
   );
 };

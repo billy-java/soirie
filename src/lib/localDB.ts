@@ -1,6 +1,13 @@
 //src\lib\localDB.ts
 
-import { IUtilisateur, IEvenement, IInvitation, IPrestataire, ITache, IDepense } from "./interfaces/entites"; 
+import {
+  IUtilisateur,
+  IEvenement,
+  IInvitation,
+  IPrestataire,
+  ITache,
+  IDepense,
+} from './interfaces/entites';
 
 // Un seul utilisateur
 export const utilisateurs: IUtilisateur[] = [
@@ -20,14 +27,14 @@ export const evenements: IEvenement[] = [
   {
     id: '1',
     idUtilisateur: '1', // Alice est l'organisateur
-    nom: 'Fête d\'anniversaire',
+    nom: "Fête d'anniversaire",
     type: 'Fête',
     date: '2024-12-31T23:59:59.999Z', // Date au format ISO
     lieu: 'Salle des fêtes',
     budget: 1000,
   },
   {
-    id: '2',
+    id: '1',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: 'Mariage de Bob',
     type: 'Fête',
@@ -37,112 +44,118 @@ export const evenements: IEvenement[] = [
   },
 ];
 
-
-
-  
 export const invitations: IInvitation[] = [
-    {
-      id: '1',
-      idEvenement: '1', // Événement 1
-      nom: 'Jean Dupont',
-      nombrePersonnes: 2,
-      nombreConfirmations: 1,
-      nombreRejets: 0,
-      nombreDemandesEnAttente: 0,
-      statut: 1, // Ouvert
-    },
-    {
-      id: '2',
-      idEvenement: '1', // Événement 1
-      nom: 'Marie Martin',
-      nombrePersonnes: 'Aucune limite',
-      nombreConfirmations: 0,
-      nombreRejets: 1,
-      nombreDemandesEnAttente: 1,
-      statut: 3, // Annulé
-    },
-    {
-      id: '3',
-      idEvenement: '1', // Événement 1
-      nom: 'Paul Bernard',
-      nombrePersonnes: 3,
-      nombreConfirmations: 1,
-      nombreRejets: 0,
-      nombreDemandesEnAttente: 0,
-      statut: 1, // Ouvert
-    },
-    {
-      id: '4',
-      idEvenement: '2', // Événement 2
-      nom: 'Sophie Lemoine',
-      nombrePersonnes: 1,
-      nombreConfirmations: 1,
-      nombreRejets: 0,
-      nombreDemandesEnAttente: 0,
-      statut: 2, // Terminé
-    },
-    {
-      id: '5',
-      idEvenement: '2', // Événement 2
-      nom: 'Julien Lefevre',
-      nombrePersonnes: 5,
-      nombreConfirmations: 1,
-      nombreRejets: 0,
-      nombreDemandesEnAttente: 0,
-      statut: 1, // Ouvert
-    },
-    {
-      id: '6',
-      idEvenement: '2', // Événement 2
-      nom: 'Claire Moreau',
-      nombrePersonnes: 'Aucune limite',
-      nombreConfirmations: 0,
-      nombreRejets: 1,
-      nombreDemandesEnAttente: 2,
-      statut: 3, // Annulé
-    },
-    {
-      id: '7',
-      idEvenement: '3', // Événement 3
-      nom: 'Alice Dupont',
-      nombrePersonnes: 4,
-      nombreConfirmations: 2,
-      nombreRejets: 0,
-      nombreDemandesEnAttente: 0,
-      statut: 1, // Ouvert
-    },
-    {
-      id: '8',
-      idEvenement: '3', // Événement 3
-      nom: 'Marc Durand',
-      nombrePersonnes: 2,
-      nombreConfirmations: 1,
-      nombreRejets: 1,
-      nombreDemandesEnAttente: 0,
-      statut: 2, // Terminé
-    },
-    {
-      id: '9',
-      idEvenement: '3', // Événement 3
-      nom: 'Lucie Perrot',
-      nombrePersonnes: 6,
-      nombreConfirmations: 1,
-      nombreRejets: 0,
-      nombreDemandesEnAttente: 1,
-      statut: 1, // Ouvert
-    },
-    {
-      id: '10',
-      idEvenement: '3', // Événement 3
-      nom: 'Pierre Bonnet',
-      nombrePersonnes: 3,
-      nombreConfirmations: 0,
-      nombreRejets: 1,
-      nombreDemandesEnAttente: 0,
-      statut: 3, // Annulé
-    },
-  ];
-  
+  {
+    id: '1',
+    idEvenement: '1', // Événement 1
+    nom: 'Jean Dupont',
+    nombrePersonnes: 2,
+    nombreConfirmations: 1,
+    nombreRejets: 0,
+
+    statut: 1,
+    lien: '',
+  },
+  {
+    id: '2',
+    idEvenement: '1', // Événement 1
+    nom: 'Marie Martin',
+    nombrePersonnes: 'Aucune limite',
+    nombreConfirmations: 0,
+    nombreRejets: 1,
+
+    statut: 3,
+    lien: '',
+  },
+  {
+    id: '3',
+    idEvenement: '1', // Événement 1
+    nom: 'Paul Bernard',
+    nombrePersonnes: 3,
+    nombreConfirmations: 1,
+    nombreRejets: 0,
+
+    statut: 1,
+    lien: '',
+  },
+  {
+    id: '4',
+    idEvenement: '2', // Événement 2
+    nom: 'Sophie Lemoine',
+    nombrePersonnes: 1,
+    nombreConfirmations: 1,
+    nombreRejets: 0,
+
+    statut: 2,
+    lien: '',
+  },
+  {
+    id: '5',
+    idEvenement: '2', // Événement 2
+    nom: 'Julien Lefevre',
+    nombrePersonnes: 5,
+    nombreConfirmations: 1,
+    nombreRejets: 0,
+
+    statut: 1,
+    lien: '',
+  },
+  {
+    id: '6',
+    idEvenement: '2', // Événement 2
+    nom: 'Claire Moreau',
+    nombrePersonnes: 'Aucune limite',
+    nombreConfirmations: 0,
+    nombreRejets: 1,
+
+    statut: 3,
+    lien: '',
+  },
+  {
+    id: '7',
+    idEvenement: '3', // Événement 3
+    nom: 'Alice Dupont',
+    nombrePersonnes: 4,
+    nombreConfirmations: 2,
+    nombreRejets: 0,
+
+    statut: 1,
+    lien: '',
+  },
+  {
+    id: '8',
+    idEvenement: '3', // Événement 3
+    nom: 'Marc Durand',
+    nombrePersonnes: 2,
+    nombreConfirmations: 1,
+    nombreRejets: 1,
+
+    statut: 2,
+    lien: '',
+  },
+  {
+    id: '9',
+    idEvenement: '3', // Événement 3
+    nom: 'Lucie Perrot',
+    nombrePersonnes: 6,
+    nombreConfirmations: 1,
+    nombreRejets: 0,
+
+    statut: 1,
+    lien: '',
+  },
+  {
+    id: '10',
+    idEvenement: '3', // Événement 3
+    nom: 'Pierre Bonnet',
+    nombrePersonnes: 3,
+    nombreConfirmations: 0,
+    nombreRejets: 1,
+
+    statut: 3,
+    lien: '',
+  },
+];
 
 // 10 prestataires différents
 export const prestataires: IPrestataire[] = [
@@ -237,7 +250,7 @@ export const taches: ITache[] = [
     description: `Description de la tâche ${i + 1}`,
     dateLimite: '2024-12-20T12:00:00.000Z', // Date limite au format ISO
     statut: 1 as 1 | 2 | 3, // À faire
-    priorite: (i % 3 + 1) as 1 | 2 | 3, // Priorité varie entre 1 et 3
+    priorite: ((i % 3) + 1) as 1 | 2 | 3, // Priorité varie entre 1 et 3
   })),
   ...Array.from({ length: 5 }, (_, i) => ({
     id: `${i + 6}`,
@@ -246,7 +259,7 @@ export const taches: ITache[] = [
     description: `Description de la tâche ${i + 6}`,
     dateLimite: '2025-06-01T12:00:00.000Z', // Date limite au format ISO
     statut: 2 as 1 | 2 | 3, // En cours
-    priorite: (i % 3 + 1) as 1 | 2 | 3, // Priorité varie entre 1 et 3
+    priorite: ((i % 3) + 1) as 1 | 2 | 3, // Priorité varie entre 1 et 3
   })),
 ];
 // 10 dépenses différentes

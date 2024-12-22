@@ -1,13 +1,20 @@
-import { menuParametre } from "../../lib/menu"
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { menuParametre } from '../../lib/menu';
 
-const Menu = () => {
+const Menu: React.FC = () => {
   return (
-      <div>
-          {menuParametre.map((menu) => (
-              <a key={menu.nom} href={menu.lien}> <div>{menu.nom}</div></a>
-          ))}
+    <div>
+      <h2>Menu supplementaire:</h2>
+      <ul>
+        {menuParametre.map((item) => (
+          <li key={item.nom}>
+            <Link to={item.lien}>{item.nom}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
