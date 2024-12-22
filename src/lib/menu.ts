@@ -14,7 +14,7 @@ export const menu: IMenu[] = [
     afficher: true,
     nom: 'Taches',
     lien: '/taches',
-    icon1: iconsListe.activite1,
+    icon1: iconsListe.tache,
   },
   {
     actif: true,
@@ -28,18 +28,16 @@ export const menu: IMenu[] = [
     afficher: true,
     nom: 'Prestataires',
     lien: '/prestataires',
-    icon1: iconsListe.user1,
+    icon1: iconsListe.user2,
   },
   {
     actif: true,
     afficher: true,
     nom: 'Menu',
     lien: '/menu',
-    icon1: iconsListe.menu_OUVERT,
+    icon1: iconsListe.menu,
   },
 ];
-
-
 
 export const menuParametre: IMenu[] = [
   {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { iconsListe } from '../lib/iconsListe';
 import { menu } from '../lib/menu';
 
 const Navbar: React.FC = () => {
