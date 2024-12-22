@@ -1,11 +1,11 @@
-import { taches } from '../../lib/localDB';
+import { anniversaireTaches } from '../../lib/localDB';
 
 const Taches = () => {
   return (
     <div>
       <h1>Gestion des Tâches</h1>
       <ul>
-        {taches.map((tache) => (
+        {anniversaireTaches.map((tache) => (
           <li key={tache.id}>
             <h3>{tache.titre}</h3>
             <p>

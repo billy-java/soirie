@@ -241,28 +241,119 @@ export const prestataires: IPrestataire[] = [
   },
 ];
 
-// 10 tâches différentes
-export const taches: ITache[] = [
-  ...Array.from({ length: 5 }, (_, i) => ({
-    id: `${i + 1}`,
-    idEvenement: '1', // Tâche liée à l'événement 1
-    titre: `Tâche ${i + 1} pour l'événement 1`,
-    description: `Description de la tâche ${i + 1}`,
-    dateLimite: '2024-12-20T12:00:00.000Z', // Date limite au format ISO
-    statut: 1 as 1 | 2 | 3, // À faire
-    priorite: ((i % 3) + 1) as 1 | 2 | 3, // Priorité varie entre 1 et 3
-  })),
-  ...Array.from({ length: 5 }, (_, i) => ({
-    id: `${i + 6}`,
-    idEvenement: '2', // Tâche liée à l'événement 2
-    titre: `Tâche ${i + 6} pour l'événement 2`,
-    description: `Description de la tâche ${i + 6}`,
-    dateLimite: '2025-06-01T12:00:00.000Z', // Date limite au format ISO
-    statut: 2 as 1 | 2 | 3, // En cours
-    priorite: ((i % 3) + 1) as 1 | 2 | 3, // Priorité varie entre 1 et 3
-  })),
+export const anniversaireTaches: ITache[] = [
+  {
+    id: '1',
+    idEvenement: '1',
+    titre: 'Choisir une date et une heure',
+    description: "Déterminer la date et l'heure de la fête.",
+    dateLimite: '2024-12-30',
+    statut: 1,
+    priorite: 3,
+  },
+  {
+    id: '2',
+    idEvenement: '1',
+    titre: 'Définir un budget',
+    description: 'Établir un budget pour les dépenses de la fête.',
+    dateLimite: '2024-12-01',
+    statut: 1,
+    priorite: 2,
+  },
+  {
+    id: '3',
+    idEvenement: '1',
+    titre: "Établir une liste d'invités",
+    description: 'Lister toutes les personnes à inviter.',
+    dateLimite: '2024-12-05',
+    statut: 1,
+    priorite: 3,
+  },
+  {
+    id: '4',
+    idEvenement: '1',
+    titre: 'Sélectionner un thème',
+    description: 'Choisir un thème pour la fête.',
+    dateLimite: '2024-12-05',
+    statut: 1,
+    priorite: 2,
+  },
+  {
+    id: '5',
+    idEvenement: '1',
+    titre: 'Envoyer les invitations',
+    description:
+      'Envoyer des invitations papier, électroniques ou via les réseaux sociaux.',
+    dateLimite: '2024-12-10',
+    statut: 1,
+    priorite: 3,
+  },
+  {
+    id: '6',
+    idEvenement: '1',
+    titre: 'Planifier le menu',
+    description: 'Décider des plats et des boissons à servir.',
+    dateLimite: '2024-12-15',
+    statut: 1,
+    priorite: 3,
+  },
+  {
+    id: '7',
+    idEvenement: '1',
+    titre: 'Organiser les décorations',
+    description: 'Acheter ou faire des décorations selon le thème.',
+    dateLimite: '2024-12-20',
+    statut: 1,
+    priorite: 2,
+  },
+  {
+    id: '8',
+    idEvenement: '1',
+    titre: 'Prévoir les activités',
+    description: "Planifier des jeux, de la musique, ou d'autres animations.",
+    dateLimite: '2024-12-20',
+    statut: 1,
+    priorite: 2,
+  },
+  {
+    id: '9',
+    idEvenement: '1',
+    titre: 'Commander le gâteau',
+    description: "Commander le gâteau d'anniversaire à l'avance.",
+    dateLimite: '2024-12-18',
+    statut: 1,
+    priorite: 3,
+  },
+  {
+    id: '10',
+    idEvenement: '1',
+    titre: 'Prévoir les cadeaux et les surprises',
+    description: 'Organiser des cadeaux ou des activités surprises.',
+    dateLimite: '2024-12-18',
+    statut: 1,
+    priorite: 2,
+  },
+  {
+    id: '11',
+    idEvenement: '1',
+    titre: 'Confirmer les RSVPs',
+    description: "S'assurer du nombre de personnes présentes.",
+    dateLimite: '2024-12-25',
+    statut: 1,
+    priorite: 3,
+  },
+  {
+    id: '12',
+    idEvenement: '1',
+    titre: 'Planifier la logistique',
+    description:
+      "Prévoir les sièges, les tables et l'espace pour tout le monde.",
+    dateLimite: '2024-12-20',
+    statut: 1,
+    priorite: 2,
+  },
 ];
-// 10 dépenses différentes
+
 export const depenses: IDepense[] = [
   ...Array.from({ length: 5 }, (_, i) => ({
     id: `${i + 1}`,

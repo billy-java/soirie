@@ -1,10 +1,10 @@
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
 import { IInvitation } from '../../lib/interfaces/entites';
-import { taches } from '../../lib/localDB';
+import { anniversaireTaches } from '../../lib/localDB';
 
 const Dashboard = () => {
-  const mesTaches = taches.filter((el) => el.idEvenement === '1');
+  const mesTaches = anniversaireTaches.filter((el) => el.idEvenement === '1');
 
   const invitation: IInvitation = {
     id: '1',
