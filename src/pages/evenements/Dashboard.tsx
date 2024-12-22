@@ -4,7 +4,9 @@ import { IInvitation } from '../../lib/interfaces/entites';
 import { anniversaireTaches } from '../../lib/localDB';
 
 const Dashboard = () => {
-  const mesTaches = anniversaireTaches.filter((el) => el.idEvenement === '1');
+  const mesTaches = anniversaireTaches.filter(
+    (el) => el.idEvenement === '1' && el.priorite === 3
+  );
 
   const invitation: IInvitation = {
     id: '1',

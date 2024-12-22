@@ -248,7 +248,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Choisir une date et une heure',
     description: "Déterminer la date et l'heure de la fête.",
     dateLimite: '2024-12-30',
-    statut: 1,
+    terminee: false,
     priorite: 3,
   },
   {
@@ -257,7 +257,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Définir un budget',
     description: 'Établir un budget pour les dépenses de la fête.',
     dateLimite: '2024-12-01',
-    statut: 1,
+    terminee: false,
     priorite: 2,
   },
   {
@@ -266,7 +266,7 @@ export const anniversaireTaches: ITache[] = [
     titre: "Établir une liste d'invités",
     description: 'Lister toutes les personnes à inviter.',
     dateLimite: '2024-12-05',
-    statut: 1,
+    terminee: false,
     priorite: 3,
   },
   {
@@ -275,7 +275,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Sélectionner un thème',
     description: 'Choisir un thème pour la fête.',
     dateLimite: '2024-12-05',
-    statut: 1,
+    terminee: false,
     priorite: 2,
   },
   {
@@ -285,7 +285,7 @@ export const anniversaireTaches: ITache[] = [
     description:
       'Envoyer des invitations papier, électroniques ou via les réseaux sociaux.',
     dateLimite: '2024-12-10',
-    statut: 1,
+    terminee: false,
     priorite: 3,
   },
   {
@@ -294,7 +294,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Planifier le menu',
     description: 'Décider des plats et des boissons à servir.',
     dateLimite: '2024-12-15',
-    statut: 1,
+    terminee: false,
     priorite: 3,
   },
   {
@@ -303,7 +303,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Organiser les décorations',
     description: 'Acheter ou faire des décorations selon le thème.',
     dateLimite: '2024-12-20',
-    statut: 1,
+    terminee: false,
     priorite: 2,
   },
   {
@@ -312,7 +312,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Prévoir les activités',
     description: "Planifier des jeux, de la musique, ou d'autres animations.",
     dateLimite: '2024-12-20',
-    statut: 1,
+    terminee: false,
     priorite: 2,
   },
   {
@@ -321,7 +321,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Commander le gâteau',
     description: "Commander le gâteau d'anniversaire à l'avance.",
     dateLimite: '2024-12-18',
-    statut: 1,
+    terminee: false,
     priorite: 3,
   },
   {
@@ -330,7 +330,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Prévoir les cadeaux et les surprises',
     description: 'Organiser des cadeaux ou des activités surprises.',
     dateLimite: '2024-12-18',
-    statut: 1,
+    terminee: false,
     priorite: 2,
   },
   {
@@ -339,7 +339,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Confirmer les RSVPs',
     description: "S'assurer du nombre de personnes présentes.",
     dateLimite: '2024-12-25',
-    statut: 1,
+    terminee: false,
     priorite: 3,
   },
   {
@@ -349,7 +349,7 @@ export const anniversaireTaches: ITache[] = [
     description:
       "Prévoir les sièges, les tables et l'espace pour tout le monde.",
     dateLimite: '2024-12-20',
-    statut: 1,
+    terminee: false,
     priorite: 2,
   },
 ];

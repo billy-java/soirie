@@ -26,7 +26,7 @@ export interface ITache {
   titre: string;
   description?: string;
   dateLimite?: string;
-  statut: 1 | 2 | 3; // 1 = à faire, 2 = en cours, 3 = terminé
+  terminee: boolean;
   priorite: 1 | 2 | 3; // 1 = basse, 2 = moyenne, 3 = haute
 }
 
