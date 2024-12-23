@@ -157,7 +157,8 @@ export const invitations: IInvitation[] = [
   },
 ];
 
-// 10 prestataires différents
+
+
 export const prestataires: IPrestataire[] = [
   {
     id: '1',
@@ -166,6 +167,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Paris',
     gammePrix: 'Moyenne',
     note: 4,
+    telephone: '0600000001',
+    email: 'contact@traiteurgourmet.fr'
   },
   {
     id: '2',
@@ -174,6 +177,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Lyon',
     gammePrix: 'Élevée',
     note: 5,
+    telephone: '0600000002',
+    email: 'booking@djparty.fr'
   },
   {
     id: '3',
@@ -182,6 +187,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Marseille',
     gammePrix: 'Basse',
     note: 3,
+    telephone: '0600000003',
+    email: 'info@decomagnifiques.fr'
   },
   {
     id: '4',
@@ -190,6 +197,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Nice',
     gammePrix: 'Moyenne',
     note: 4,
+    telephone: '0600000004',
+    email: 'contact@fleuristeenfete.fr'
   },
   {
     id: '5',
@@ -198,6 +207,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Lille',
     gammePrix: 'Élevée',
     note: 5,
+    telephone: '0600000005',
+    email: 'studio@photographe.fr'
   },
   {
     id: '6',
@@ -206,6 +217,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Bordeaux',
     gammePrix: 'Moyenne',
     note: 4,
+    telephone: '0600000006',
+    email: 'booking@musiquelive.fr'
   },
   {
     id: '7',
@@ -214,6 +227,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Paris',
     gammePrix: 'Basse',
     note: 3,
+    telephone: '0600000007',
+    email: 'contact@traiteurdelice.fr'
   },
   {
     id: '8',
@@ -222,6 +237,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Toulouse',
     gammePrix: 'Élevée',
     note: 5,
+    telephone: '0600000008',
+    email: 'info@cateringdeluxe.fr'
   },
   {
     id: '9',
@@ -230,6 +247,8 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Nantes',
     gammePrix: 'Basse',
     note: 3,
+    telephone: '0600000009',
+    email: 'vibes@djvibes.fr'
   },
   {
     id: '10',
@@ -238,8 +257,12 @@ export const prestataires: IPrestataire[] = [
     localisation: 'Lyon',
     gammePrix: 'Moyenne',
     note: 4,
+    telephone: '0600000010',
+    email: 'info@artdesign.fr'
   },
 ];
+
+
 
 export const anniversaireTaches: ITache[] = [
   {

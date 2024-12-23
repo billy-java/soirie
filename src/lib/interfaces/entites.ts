@@ -56,6 +56,8 @@ export interface IPrestataire {
   localisation: string;
   gammePrix: string;
   note: 1 | 2 | 3 | 4 | 5;
+  telephone: string;
+  email: string;
 }
 
 export interface TNotification {
