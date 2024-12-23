@@ -88,7 +88,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
   };
 
   return (
-    <section className="flex flex-col gap-4 bg-gray-100 p-4 rounded-md mb-20">
+    <section className="flex flex-col gap-4 rounded-md mb-20">
       <h2 className="text-lg font-bold">Gestion des Tâches :</h2>
       <button
         onClick={toggleFormulaireAjout}
@@ -202,7 +202,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                 </button>
               </form>
             ) : (
-              <div>
+              <div className="mr-4">
                 <p className="text-lg font-medium">{tache.titre}</p>
                 <p>{tache.description}</p>
                 <p>{tache.dateLimite}</p>
