@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { ITache } from '../lib/interfaces/entites';
+import { IDepense } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 
-interface TachesProps {
-  tachesProps: ITache[];
+interface DepensesProps {
+  depensesInitiales: IDepense[];
 }
 
 interface Data {
-  ajouter: ITache | null;
-  modifier: ITache | null;
+  ajouter: IDepense | null;
+  modifier: IDepense | null;
 }
 
-const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
-  const [taches, setTaches] = useState<ITache[]>(tachesProps);
+const SectionDepenses: React.FC<DepensesProps> = ({
+  depensesInitiales = [],
+}) => {
+  const [depenses, setDepenses] = useState<IDepense[]>(depensesInitiales);
   const [data, setData] = useState<Data>({
     ajouter: null,
     modifier: null,
@@ -26,90 +28,102 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
         ajouter: {
           id: Date.now().toString(),
           idEvenement: '1',
-          titre: '',
+          nom: '',
           description: '',
-          dateLimite: new Date().toISOString().split('T')[0],
+          montant: 0,
+          date: new Date().toISOString().split('T')[0],
           terminee: false,
-          priorite: 2,
         },
         modifier: null,
       });
     }
   };
 
-  const ajouterTache = (e: React.FormEvent) => {
+  const ajouterDepense = (e: React.FormEvent) => {
     e.preventDefault();
-    if (data.ajouter?.titre.trim()) {
-      setTaches([
+    if (data.ajouter?.nom.trim()) {
+      setDepenses([
         {
           ...data.ajouter,
           id: Date.now().toString(),
         },
-        ...taches,
+        ...depenses,
       ]);
       setData({ ajouter: null, modifier: null });
     }
   };
 
+  // Fonction pour démarrer la modification d'une dépense
   const demarrerModification = (id: string) => {
-    const tacheToEdit = taches.find((tache) => tache.id === id);
-    if (tacheToEdit) {
+    const depenseToEdit = depenses.find((depense) => depense.id === id);
+    if (depenseToEdit) {
       setData({
         ajouter: null,
-        modifier: { ...tacheToEdit },
+        modifier: { ...depenseToEdit },
       });
     }
   };
 
+  // Fonction pour valider la modification
   const validerModification = (e: React.FormEvent) => {
     e.preventDefault();
-    if (data.modifier && data.modifier.titre.trim()) {
-      setTaches(
-        taches.map((tache) =>
-          tache.id === data.modifier?.id
-            ? { ...tache, ...data.modifier }
-            : tache
+    if (data.modifier && data.modifier.nom.trim()) {
+      setDepenses(
+        depenses.map((depense) =>
+          depense.id === data.modifier?.id
+            ? {
+                ...depense,
+                nom: data.modifier.nom,
+                description: data.modifier.description,
+                montant: data.modifier.montant,
+                date: data.modifier.date,
+              }
+            : depense
         )
       );
       setData({ ajouter: null, modifier: null });
     }
   };
 
-  const supprimerTache = (id: string) => {
-    setTaches(taches.filter((tache) => tache.id !== id));
+  // Fonction pour supprimer une dépense
+  const supprimerDepense = (id: string) => {
+    setDepenses(depenses.filter((depense) => depense.id !== id));
   };
 
-  const changerStatutTache = (id: string) => {
-    setTaches(
-      taches.map((tache) =>
-        tache.id === id ? { ...tache, terminee: !tache.terminee } : tache
+  // Fonction pour changer le statut d'une dépense
+  const changerStatutDepense = (id: string) => {
+    setDepenses(
+      depenses.map((depense) =>
+        depense.id === id
+          ? { ...depense, terminee: !depense.terminee }
+          : depense
       )
     );
   };
 
   return (
     <section className="flex flex-col gap-4 bg-gray-100 p-4 rounded-md mb-20">
-      <h2 className="text-lg font-bold">Gestion des Tâches :</h2>
+      <h2 className="text-lg font-bold">Gestion des Dépenses :</h2>
       <button
         onClick={toggleFormulaireAjout}
         className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">
-        {data.ajouter ? 'Annuler' : 'Ajouter une tâche'}
+        {data.ajouter ? 'Annuler' : 'Ajouter une dépense'}
       </button>
 
       {data.ajouter && (
-        <form onSubmit={ajouterTache} className="flex flex-col gap-2 mt-4">
+        <form onSubmit={ajouterDepense} className="flex flex-col gap-2 mt-4">
           <input
             type="text"
-            value={data.ajouter?.titre || ''}
+            value={data.ajouter?.nom || ''}
             onChange={(e) =>
               setData({
                 ...data,
                 ajouter: data.ajouter
-                  ? { ...data.ajouter, titre: e.target.value }
+                  ? { ...data.ajouter, nom: e.target.value }
                   : null,
               })
             }
-            placeholder="Titre de la tâche"
+            placeholder="Nom de la dépense"
             className="p-2 border border-gray-300 rounded-md"
           />
           <textarea
@@ -122,17 +136,31 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                   : null,
               })
             }
-            placeholder="Description de la tâche"
+            placeholder="Description de la dépense"
             className="p-2 border border-gray-300 rounded-md"
           />
           <input
-            type="date"
-            value={data.ajouter?.dateLimite || ''}
+            type="number"
+            value={data.ajouter?.montant || 0}
             onChange={(e) =>
               setData({
                 ...data,
                 ajouter: data.ajouter
-                  ? { ...data.ajouter, dateLimite: e.target.value }
+                  ? { ...data.ajouter, montant: parseFloat(e.target.value) }
+                  : null,
+              })
+            }
+            placeholder="Montant"
+            className="p-2 border border-gray-300 rounded-md"
+          />
+          <input
+            type="date"
+            value={data.ajouter?.date || ''}
+            onChange={(e) =>
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? { ...data.ajouter, date: e.target.value }
                   : null,
               })
             }
@@ -147,24 +175,24 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       )}
 
       <ul className="bg-white rounded-md p-2">
-        {taches.map((tache) => (
+        {depenses.map((depense) => (
           <li
-            key={tache.id}
+            key={depense.id}
             className={`flex justify-between items-center p-2 border-b last:border-none ${
-              tache.terminee ? 'bg-green-100' : ''
+              depense.terminee ? 'bg-green-100' : ''
             }`}>
-            {data.modifier?.id === tache.id ? (
+            {data.modifier?.id === depense.id ? (
               <form
                 onSubmit={validerModification}
                 className="flex flex-wrap gap-2 mr-4">
                 <input
                   type="text"
-                  value={data.modifier?.titre || ''}
+                  value={data.modifier?.nom || ''}
                   onChange={(e) =>
                     setData({
                       ...data,
                       modifier: data.modifier
-                        ? { ...data.modifier, titre: e.target.value }
+                        ? { ...data.modifier, nom: e.target.value }
                         : null,
                     })
                   }
@@ -183,13 +211,29 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                   className="p-2 border border-gray-300 rounded-md flex-grow"
                 />
                 <input
-                  type="date"
-                  value={data.modifier?.dateLimite || ''}
+                  type="number"
+                  value={data.modifier?.montant || 0}
                   onChange={(e) =>
                     setData({
                       ...data,
                       modifier: data.modifier
-                        ? { ...data.modifier, dateLimite: e.target.value }
+                        ? {
+                            ...data.modifier,
+                            montant: parseFloat(e.target.value),
+                          }
+                        : null,
+                    })
+                  }
+                  className="p-2 border border-gray-300 rounded-md flex-grow"
+                />
+                <input
+                  type="date"
+                  value={data.modifier?.date || ''}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      modifier: data.modifier
+                        ? { ...data.modifier, date: e.target.value }
                         : null,
                     })
                   }
@@ -203,25 +247,32 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
               </form>
             ) : (
               <div>
-                <p className="text-lg font-medium">{tache.titre}</p>
-                <p>{tache.description}</p>
-                <p>{tache.dateLimite}</p>
+                <p className="text-lg font-medium">{depense.nom}</p>
+                <span>{depense.description}</span>
+                <p>
+                  Montant :{' '}
+                  <span className="bg-slate-200 p-1 rounded-lg text-lg">
+                    {depense.montant} €
+                  </span>
+                </p>
+                <p>Date : {depense.date}</p>
               </div>
             )}
             <div className="flex items-center gap-2">
               <button
-                onClick={() => changerStatutTache(tache.id)}
-                className={`${tache.terminee ? 'bg-green-500 hover:bg-green-600' : 'bg-orange-500 hover:bg-orange-600'}
-                               text-white px-2 py-1 rounded-md flex justify-center items-center w-24 h-10`}>
-                {tache.terminee ? 'Terminée' : 'À faire'}
+                onClick={() => changerStatutDepense(depense.id)}
+                className={`${depense.terminee ? 'bg-green-500 hover:bg-green-600' : 'bg-orange-500 hover:bg-orange-600'}
+                  text-white px-2 py-1 rounded-md flex justify-center items-center w-28 h-10`}>
+                {iconsListe.badge2}
+                <p>{depense.terminee ? 'Effectué' : 'En cours'}</p>
               </button>
               <button
-                onClick={() => demarrerModification(tache.id)}
+                onClick={() => demarrerModification(depense.id)}
                 className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 w-10 h-10">
                 {iconsListe.modifier}
               </button>
               <button
-                onClick={() => supprimerTache(tache.id)}
+                onClick={() => supprimerDepense(depense.id)}
                 className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 w-10 h-10">
                 {iconsListe.supprimer}
               </button>
@@ -233,4 +284,4 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
   );
 };
 
-export default TachesSection;
+export default SectionDepenses;

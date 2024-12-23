@@ -355,20 +355,59 @@ export const anniversaireTaches: ITache[] = [
 ];
 
 export const depenses: IDepense[] = [
-  ...Array.from({ length: 5 }, (_, i) => ({
-    id: `${i + 1}`,
-    idEvenement: '1', // Dépense liée à l'événement 1
-    nom: `Dépense ${i + 1}`,
-    description: `Description de la dépense ${i + 1}`,
-    montant: 100 * (i + 1),
-    date: '2024-12-15T12:00:00.000Z', // Date de la dépense au format ISO
-  })),
-  ...Array.from({ length: 5 }, (_, i) => ({
-    id: `${i + 6}`,
-    idEvenement: '2', // Dépense liée à l'événement 2
-    nom: `Dépense ${i + 6}`,
-    description: `Description de la dépense ${i + 6}`,
-    montant: 100 * (i + 6),
-    date: '2025-06-01T12:00:00.000Z', // Date de la dépense au format ISO
-  })),
+  {
+    id: '1',
+    idEvenement: '1',
+    nom: 'Location de salle',
+    description: 'Location d\'une salle de fête pour l\'anniversaire.',
+    montant: 500.00,
+    date: '2023-12-01',
+    terminee: false
+  },
+  {
+    id: '2',
+    idEvenement: '1',
+    nom: 'Décoration',
+    description: 'Ballons, banderoles, et autres décorations pour la fête.',
+    montant: 150.00,
+    date: '2023-12-02',
+    terminee: false
+  },
+  {
+    id: '3',
+    idEvenement: '1',
+    nom: 'Nourriture et boissons',
+    description: 'Catering pour les invités, incluant boissons et repas.',
+    montant: 600.00,
+    date: '2023-12-03',
+    terminee: false
+  },
+  {
+    id: '4',
+    idEvenement: '1',
+    nom: 'Gâteau d\'anniversaire',
+    description: 'Gâteau personnalisé pour l\'anniversaire.',
+    montant: 100.00,
+    date: '2023-12-04',
+    terminee: false
+  },
+  {
+    id: '5',
+    idEvenement: '1',
+    nom: 'Divertissement',
+    description: 'DJ et matériel de sonorisation pour la musique.',
+    montant: 300.00,
+    date: '2023-12-05',
+    terminee: false
+  },
+  {
+    id: '6',
+    idEvenement: '1',
+    nom: 'Invitations',
+    description: 'Cartes d\'invitation imprimées et envoyées aux invités.',
+    montant: 50.00,
+    date: '2023-12-06',
+    terminee: false
+  },
 ];
+
