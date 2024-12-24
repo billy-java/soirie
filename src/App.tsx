@@ -15,34 +15,34 @@ import Aide from './pages/evenements/menu/Aide';
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        {/* Home: sans Navbar */}
-        <Route path="/" element={<Home />} />
+      <>
+        <Navbar />
+        <Routes>
+          <Route path="/home" element={<Home />} />
 
-        {/* Autres pages : avec Navbar */}
-        <Route
-          path="*"
-          element={
-            <>
-              <Navbar />
-              <Routes>
-                {/* Routes avec la Navbar */}
-                <Route path="/parametres" element={<Parametres />} />
-                <Route path="/faq" element={<Faq />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/aide" element={<Aide />} />
+          {/* Route pour les pages d'événements avec la Navbar */}
+          <Route
+            path="/e/:eId/*"
+            element={
+              <div className="content">
+                <Routes>
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="taches" element={<Taches />} />
+                  <Route path="depenses" element={<Depenses />} />
+                  <Route path="prestataires" element={<Prestataires />} />
+                  <Route path="menu" element={<Menu />} />
+                </Routes>
+              </div>
+            }
+          />
 
-                {/* Routes spécifiques pour les événements */}
-                <Route path="/e/:eId/dashboard" element={<Dashboard />} />
-                <Route path="/e/:eId/taches" element={<Taches />} />
-                <Route path="/e/:eId/depenses" element={<Depenses />} />
-                <Route path="/e/:eId/prestataires" element={<Prestataires />} />
-                <Route path="/e/:eId/menu" element={<Menu />} />
-              </Routes>
-            </>
-          }
-        />
-      </Routes>
+          {/* Routes sans sous-routes */}
+          <Route path="/parametres" element={<Parametres />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/aide" element={<Aide />} />
+        </Routes>
+      </>
     </Router>
   );
 };

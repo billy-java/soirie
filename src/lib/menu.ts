@@ -6,7 +6,7 @@ export const menu: IMenu[] = [
     actif: true,
     afficher: true,
     nom: 'Home',
-    lien: '/',
+    lien: '/home',
     icon1: iconsListe.home,
   },
   {
