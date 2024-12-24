@@ -17,16 +17,29 @@ const Navbar: React.FC = () => {
     <nav className="fixed bottom-0 left-0 w-full bg-gray-800 text-white">
       <ul className="flex justify-around items-center py-3">
         {menu.map((item, index) => (
-          <li key={index}>
-            <Link
-              to={`/e/${eId}${item.lien}`}
-              className={`flex items-center space-x-1 ${
-                location.pathname.includes(item.lien) ? 'text-blue-400' : ''
-              }`}>
-              {item.icon1}{' '}
-              {location.pathname.includes(item.lien) && <p>{item.nom}</p>}
-            </Link>
-          </li>
+          item.nom === "Home" ? (
+            <li key={index}>
+              <Link
+                to={`${item.lien}`}
+                className={`flex items-center space-x-1 ${
+                  location.pathname.includes(item.lien) ? 'text-blue-400' : ''
+                }`}>
+                {item.icon1}{' '}
+                {location.pathname.includes(item.lien) && <p>{item.nom}</p>}
+              </Link>
+            </li>
+          ) : (
+            <li key={index}>
+              <Link
+                to={`/e/${eId}${item.lien}`}
+                className={`flex items-center space-x-1 ${
+                  location.pathname.includes(item.lien) ? 'text-blue-400' : ''
+                }`}>
+                {item.icon1}{' '}
+                {location.pathname.includes(item.lien) && <p>{item.nom}</p>}
+              </Link>
+            </li>
+          )
         ))}
       </ul>
     </nav>

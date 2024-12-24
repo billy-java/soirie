@@ -5,6 +5,13 @@ export const menu: IMenu[] = [
   {
     actif: true,
     afficher: true,
+    nom: 'Home',
+    lien: '/',
+    icon1: iconsListe.home,
+  },
+  {
+    actif: true,
+    afficher: true,
     nom: 'Dashboard',
     lien: '/dashboard',
     icon1: iconsListe.dashboard,

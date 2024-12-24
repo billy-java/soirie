@@ -16,32 +16,32 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
+        {/* Home: sans Navbar */}
         <Route path="/" element={<Home />} />
 
-        {/* Route pour les pages d'événements avec la Navbar */}
+        {/* Autres pages : avec Navbar */}
         <Route
-          path="/e/:eId/*"
+          path="*"
           element={
             <>
               <Navbar />
-              <div className="content">
-                <Routes>
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="taches" element={<Taches />} />
-                  <Route path="depenses" element={<Depenses />} />
-                  <Route path="prestataires" element={<Prestataires />} />
-                  <Route path="menu" element={<Menu />} />
-                </Routes>
-              </div>
+              <Routes>
+                {/* Routes avec la Navbar */}
+                <Route path="/parametres" element={<Parametres />} />
+                <Route path="/faq" element={<Faq />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/aide" element={<Aide />} />
+
+                {/* Routes spécifiques pour les événements */}
+                <Route path="/e/:eId/dashboard" element={<Dashboard />} />
+                <Route path="/e/:eId/taches" element={<Taches />} />
+                <Route path="/e/:eId/depenses" element={<Depenses />} />
+                <Route path="/e/:eId/prestataires" element={<Prestataires />} />
+                <Route path="/e/:eId/menu" element={<Menu />} />
+              </Routes>
             </>
           }
         />
-
-        {/* Routes non liées aux événements */}
-        <Route path="/parametres" element={<Parametres />} />
-        <Route path="/faq" element={<Faq />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/aide" element={<Aide />} />
       </Routes>
     </Router>
   );

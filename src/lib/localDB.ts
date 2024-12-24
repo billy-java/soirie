@@ -35,7 +35,7 @@ export const evenements: IEvenement[] = [
     budget: 1000,
   },
   {
-    id: '1',
+    id: '2',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: 'Mariage de Bob',
     type: 'Fête',

@@ -140,8 +140,8 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
           />
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Sauvegarder
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex flex-wrap justify-center items-center space-x-2">
+            <p>Sauvegarder</p> {iconsListe.enregister}
           </button>
         </form>
       )}
@@ -197,8 +197,8 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                 />
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600">
-                  Sauvegarder
+                  className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 flex flex-wrap justify-center items-center space-x-2">
+                  <p>Sauvegarder</p> {iconsListe.enregister}
                 </button>
               </form>
             ) : (
