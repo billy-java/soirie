@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/evenements/Dashboard';
 import Depenses from './pages/evenements/Depenses';
 import Contact from './pages/evenements/menu/Contact';
-import Faq from './pages/evenements/menu/Faq';
 import Parametres from './pages/evenements/menu/Parametres';
 import Prestataires from './pages/evenements/Prestataires';
 import Taches from './pages/evenements/Taches';
@@ -38,7 +37,6 @@ const App: React.FC = () => {
 
           {/* Routes sans sous-routes */}
           <Route path="/parametres" element={<Parametres />} />
-          <Route path="/faq" element={<Faq />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/aide" element={<Aide />} />
         </Routes>

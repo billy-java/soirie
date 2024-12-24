@@ -57,13 +57,6 @@ export const menuParametre: IMenu[] = [
   {
     actif: true,
     afficher: true,
-    nom: 'FAQ',
-    lien: '/faq',
-    icon1: iconsListe.faq,
-  },
-  {
-    actif: true,
-    afficher: true,
     nom: 'Contact',
     lien: '/contact',
     icon1: iconsListe.contact,
@@ -73,6 +66,6 @@ export const menuParametre: IMenu[] = [
     afficher: true,
     nom: 'Aide',
     lien: '/aide',
-    icon1: iconsListe.aide,
+    icon1: iconsListe.faq,
   },
 ];
