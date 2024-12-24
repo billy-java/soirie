@@ -184,7 +184,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             {data.modifier?.id === depense.id ? (
               <form
                 onSubmit={validerModification}
-                className="flex flex-wrap gap-2 mr-4">
+                className="flex flex-wrap flex-grow gap-2 mr-4">
                 <input
                   type="text"
                   value={data.modifier?.nom || ''}

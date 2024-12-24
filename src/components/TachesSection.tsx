@@ -156,7 +156,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
             {data.modifier?.id === tache.id ? (
               <form
                 onSubmit={validerModification}
-                className="flex flex-wrap gap-2 mr-4">
+                className="flex flex-wrap flex-grow gap-2 mr-4">
                 <input
                   type="text"
                   value={data.modifier?.titre || ''}
