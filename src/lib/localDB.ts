@@ -7,6 +7,7 @@ import {
   IPrestataire,
   ITache,
   IDepense,
+  IFaq,
 } from './interfaces/entites';
 
 // Un seul utilisateur
@@ -434,3 +435,105 @@ export const depenses: IDepense[] = [
   },
 ];
 
+
+
+export const faqData: IFaq[] = [
+  // Catégorie "Utilisation"
+  {
+    id: '1',
+    question: 'Comment créer un événement ?',
+    reponse: 'Pour créer un événement, cliquez sur "Créer un événement" dans le tableau de bord.',
+    categorie: 'Utilisation',
+    estPopulaire: true,
+  },
+  {
+    id: '5',
+    question: 'Puis-je personnaliser le design de mon événement ?',
+    reponse: 'Oui, vous pouvez personnaliser l’apparence de votre événement en choisissant un thème, une couleur et une image de couverture.',
+    categorie: 'Utilisation',
+    estPopulaire: false,
+  },
+  {
+    id: '6',
+    question: 'Comment ajouter un lieu à mon événement ?',
+    reponse: 'Dans la page de création de l’événement, vous pouvez ajouter un lieu en saisissant l’adresse ou en choisissant un lieu sur la carte intégrée.',
+    categorie: 'Utilisation',
+    estPopulaire: false,
+  },
+  
+  // Catégorie "Invitations"
+  {
+    id: '2',
+    question: 'Puis-je inviter plusieurs personnes à un événement ?',
+    reponse: 'Oui, vous pouvez inviter autant de personnes que nécessaire en partageant le lien d’invitation.',
+    categorie: 'Invitations',
+    estPopulaire: true,
+  },
+  {
+    id: '7',
+    question: 'Comment envoyer des invitations par email ?',
+    reponse: 'Pour envoyer des invitations par email, allez dans la section "Invitations" de l’événement et ajoutez les adresses des invités.',
+    categorie: 'Invitations',
+    estPopulaire: false,
+  },
+  {
+    id: '8',
+    question: 'Puis-je personnaliser le message d’invitation ?',
+    reponse: 'Oui, vous pouvez personnaliser le message envoyé avec chaque invitation en modifiant le modèle dans la section "Paramètres des invitations".',
+    categorie: 'Invitations',
+    estPopulaire: false,
+  },
+  
+  // Catégorie "Compte"
+  {
+    id: '3',
+    question: 'Comment modifier mes informations personnelles ?',
+    reponse: 'Vous pouvez modifier vos informations dans la section "Paramètres" de votre compte.',
+    categorie: 'Compte',
+    estPopulaire: false,
+  },
+  {
+    id: '9',
+    question: 'Comment réinitialiser mon mot de passe ?',
+    reponse: 'Cliquez sur "Mot de passe oublié" sur la page de connexion et suivez les instructions envoyées par email.',
+    categorie: 'Compte',
+    estPopulaire: true,
+  },
+  {
+    id: '10',
+    question: 'Comment changer mon adresse email ?',
+    reponse: 'Allez dans les paramètres de votre compte, puis modifiez votre adresse email dans la section "Informations personnelles".',
+    categorie: 'Compte',
+    estPopulaire: false,
+  },
+  
+  // Catégorie "Événements"
+  {
+    id: '4',
+    question: 'Comment annuler un événement ?',
+    reponse: 'Accédez à l’événement concerné et cliquez sur "Annuler". Un message de confirmation s’affichera.',
+    categorie: 'Événements',
+    estPopulaire: false,
+  },
+  {
+    id: '11',
+    question: 'Puis-je modifier la date d’un événement ?',
+    reponse: 'Oui, vous pouvez modifier la date de votre événement en accédant à la page de gestion de l’événement et en sélectionnant "Modifier les détails".',
+    categorie: 'Événements',
+    estPopulaire: false,
+  },
+  {
+    id: '12',
+    question: 'Comment ajouter des intervenants à mon événement ?',
+    reponse: 'Dans la page de gestion de l’événement, vous pouvez ajouter des intervenants en cliquant sur "Ajouter un intervenant" et en remplissant leurs informations.',
+    categorie: 'Événements',
+    estPopulaire: false,
+  },
+  {
+    id: '13',
+    question: 'Comment suivre le nombre de participants ?',
+    reponse: 'Vous pouvez suivre les inscriptions en temps réel dans la section "Participants" de l’événement, où vous verrez une liste des invités confirmés.',
+    categorie: 'Événements',
+    estPopulaire: true,
+  },
+];

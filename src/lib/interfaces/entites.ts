@@ -70,3 +70,12 @@ export interface TNotification {
   dateCreation: string;
   urlRedirection: string;
 }
+
+
+export interface IFaq {
+  id: string;
+  question: string;
+  reponse: string;
+  categorie: string; // Permet de regrouper les questions par thème
+  estPopulaire: boolean; // Indique si cette question est fréquemment posée
+}

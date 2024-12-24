@@ -6,6 +6,7 @@ const Home = () => {
   return (
     <div className="flex flex-col gap-4">
       <h1>Planifiez Votre Événement Facilement</h1>
+      
       <p>
         Une plateforme pour organiser des fêtes, mariages, anniversaires et plus
         encore!

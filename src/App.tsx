@@ -10,6 +10,7 @@ import Prestataires from './pages/evenements/Prestataires';
 import Taches from './pages/evenements/Taches';
 import Home from './pages/Home';
 import Menu from './pages/evenements/Menu';
+import Aide from './pages/evenements/menu/Aide';
 
 const App: React.FC = () => {
   return (
@@ -40,6 +41,7 @@ const App: React.FC = () => {
         <Route path="/parametres" element={<Parametres />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/aide" element={<Aide />} />
       </Routes>
     </Router>
   );
