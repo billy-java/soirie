@@ -42,8 +42,8 @@ const Aide = () => {
       );
 
   return (
-    <div className="p-6 bg-gray-100 h-screen flex flex-col items-center">
-      <section className="flex-grow">
+    <div className="p-6 min-h-screen bg-gray-100 mb-10 flex flex-col items-center">
+      <section>
         <h1 className="text-2xl text-indigo-600 font-bold mb-4">
           Liste des questions les plus frequentes (FAQ)
         </h1>
@@ -97,7 +97,7 @@ const Aide = () => {
             Object.keys(groupedFaqs).map((categorie) => (
               <section key={categorie}>
                 <h2
-                  className=" rounded-lg text-xl shadow-lg p-6 font-semibold mb-2 flex flex-nowrap items-center space-x-2 cursor-pointer"
+                  className="bg-white rounded-lg text-xl shadow-lg p-6 font-semibold mb-2 flex flex-nowrap items-center space-x-2 cursor-pointer"
                   onClick={() =>
                     setActiveCategory((prev) =>
                       prev === categorie ? null : categorie
@@ -161,13 +161,13 @@ const Aide = () => {
         </div>
       </section>
 
-      <section className="bg-white shadow-lg mt-6 p-6 rounded-lg gap-5 flex flex-col items-center">
+      <section className="bg-white shadow-lg mt-20 mb-10 p-6 rounded-lg gap-5 flex flex-col items-center">
         <h2 className="text-2xl text-indigo-600  font-semibold text-center">
           Nous contacter
         </h2>
         <p className="text-lg">
-          Si cette page na pas pu vous aider, vous pouvez nous ecrire pour poser
-          votre question. Nous vous repondrons dans quelques heures.
+          Si cette page n'a pas pu vous aider, vous pouvez nous écrire pour
+          poser votre question. Nous vous répondrons dans quelques heures.{' '}
         </p>
         <div className="flex flex-wrap items-center gap-2 w-fit">
           {/* Boutons pour appeler et envoyer un message */}
