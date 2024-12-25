@@ -8,7 +8,7 @@ import { setIdEv } from '../redux/authSlice';
 import {
   dateJSVersIDate,
   iDateVersDateJS,
-  iDateVersString,
+  iDateVersInput,
 } from '../lib/functions/convertirDates';
 
 const Home = () => {
@@ -129,7 +129,7 @@ const Home = () => {
           />
           <input
             type="date"
-            value={iDateVersString(nouvelEvenement.date!) || ''}
+            value={iDateVersInput(nouvelEvenement.date!) || ''}
             onChange={(e) => gererChangementChamp('date', e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
@@ -241,7 +241,7 @@ const Home = () => {
                   />
                   <input
                     type="date"
-                    value={iDateVersString(nouvelEvenement.date!) || ''}
+                    value={iDateVersInput(nouvelEvenement.date!) || ''}
                     onChange={(e) =>
                       gererChangementChamp('date', e.target.value)
                     }

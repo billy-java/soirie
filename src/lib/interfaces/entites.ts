@@ -23,7 +23,7 @@ export interface ITache {
   idEvenement: string;
   titre: string;
   description?: string;
-  dateLimite?: string;
+  dateLimite?: IDate;
   terminee: boolean;
   priorite: 1 | 2 | 3; // 1 = basse, 2 = moyenne, 3 = haute
 }
@@ -45,7 +45,7 @@ export interface IDepense {
   nom: string;
   description?: string;
   montant: number;
-  date: string;
+  date: IDate;
   terminee: boolean;
 }
 
@@ -85,6 +85,6 @@ export interface TNotification {
   titre: string;
   message: string;
   lu: boolean;
-  dateCreation: string;
+  dateCreation: IDate;
   urlRedirection: string;
 }

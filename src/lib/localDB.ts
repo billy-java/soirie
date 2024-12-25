@@ -271,13 +271,14 @@ export const prestataires: IPrestataire[] = [
   },
 ];
 
+
 export const anniversaireTaches: ITache[] = [
   {
     id: '1',
     idEvenement: '1',
     titre: 'Choisir une date et une heure',
     description: "Déterminer la date et l'heure de la fête.",
-    dateLimite: '2024-12-30',
+    dateLimite: { jour: 30, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
   },
@@ -286,7 +287,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Définir un budget',
     description: 'Établir un budget pour les dépenses de la fête.',
-    dateLimite: '2024-12-01',
+    dateLimite: { jour: 1, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
@@ -295,7 +296,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: "Établir une liste d'invités",
     description: 'Lister toutes les personnes à inviter.',
-    dateLimite: '2024-12-05',
+    dateLimite: { jour: 5, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
   },
@@ -304,7 +305,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Sélectionner un thème',
     description: 'Choisir un thème pour la fête.',
-    dateLimite: '2024-12-05',
+    dateLimite: { jour: 5, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
@@ -314,7 +315,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Envoyer les invitations',
     description:
       'Envoyer des invitations papier, électroniques ou via les réseaux sociaux.',
-    dateLimite: '2024-12-10',
+    dateLimite: { jour: 10, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
   },
@@ -323,7 +324,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Planifier le menu',
     description: 'Décider des plats et des boissons à servir.',
-    dateLimite: '2024-12-15',
+    dateLimite: { jour: 15, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
   },
@@ -332,7 +333,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Organiser les décorations',
     description: 'Acheter ou faire des décorations selon le thème.',
-    dateLimite: '2024-12-20',
+    dateLimite: { jour: 20, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
@@ -341,7 +342,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Prévoir les activités',
     description: "Planifier des jeux, de la musique, ou d'autres animations.",
-    dateLimite: '2024-12-20',
+    dateLimite: { jour: 20, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
@@ -350,7 +351,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Commander le gâteau',
     description: "Commander le gâteau d'anniversaire à l'avance.",
-    dateLimite: '2024-12-18',
+    dateLimite: { jour: 18, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
   },
@@ -359,7 +360,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Prévoir les cadeaux et les surprises',
     description: 'Organiser des cadeaux ou des activités surprises.',
-    dateLimite: '2024-12-18',
+    dateLimite: { jour: 18, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
@@ -368,7 +369,7 @@ export const anniversaireTaches: ITache[] = [
     idEvenement: '1',
     titre: 'Confirmer les RSVPs',
     description: "S'assurer du nombre de personnes présentes.",
-    dateLimite: '2024-12-25',
+    dateLimite: { jour: 25, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
   },
@@ -378,7 +379,7 @@ export const anniversaireTaches: ITache[] = [
     titre: 'Planifier la logistique',
     description:
       "Prévoir les sièges, les tables et l'espace pour tout le monde.",
-    dateLimite: '2024-12-20',
+    dateLimite: { jour: 20, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
@@ -391,7 +392,7 @@ export const depenses: IDepense[] = [
     nom: 'Location de salle',
     description: "Location d'une salle de fête pour l'anniversaire.",
     montant: 500.0,
-    date: '2023-12-01',
+    date: { jour: 1, mois: 12, annee: 2023 },
     terminee: false,
   },
   {
@@ -400,7 +401,7 @@ export const depenses: IDepense[] = [
     nom: 'Décoration',
     description: 'Ballons, banderoles, et autres décorations pour la fête.',
     montant: 150.0,
-    date: '2023-12-02',
+    date: { jour: 2, mois: 12, annee: 2023 },
     terminee: false,
   },
   {
@@ -409,7 +410,7 @@ export const depenses: IDepense[] = [
     nom: 'Nourriture et boissons',
     description: 'Catering pour les invités, incluant boissons et repas.',
     montant: 600.0,
-    date: '2023-12-03',
+    date: { jour: 3, mois: 12, annee: 2023 },
     terminee: false,
   },
   {
@@ -418,7 +419,7 @@ export const depenses: IDepense[] = [
     nom: "Gâteau d'anniversaire",
     description: "Gâteau personnalisé pour l'anniversaire.",
     montant: 100.0,
-    date: '2023-12-04',
+    date: { jour: 4, mois: 12, annee: 2023 },
     terminee: false,
   },
   {
@@ -427,7 +428,7 @@ export const depenses: IDepense[] = [
     nom: 'Divertissement',
     description: 'DJ et matériel de sonorisation pour la musique.',
     montant: 300.0,
-    date: '2023-12-05',
+    date: { jour: 5, mois: 12, annee: 2023 },
     terminee: false,
   },
   {
@@ -436,10 +437,11 @@ export const depenses: IDepense[] = [
     nom: 'Invitations',
     description: "Cartes d'invitation imprimées et envoyées aux invités.",
     montant: 50.0,
-    date: '2023-12-06',
+    date: { jour: 6, mois: 12, annee: 2023 },
     terminee: false,
   },
 ];
+
 
 export const faqData: IFaq[] = [
   // Catégorie "Utilisation"

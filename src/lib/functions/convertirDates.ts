@@ -68,8 +68,20 @@ export function inputVersIDate(inputValue: string): IDate {
 }
 
 
+//4- Convertir un input de type datetime-local en IDate
+// le format de date de l input est: 2024-12-21
+export function iDateVersInput(date: IDate): string {
+  const annee = date.annee.toString().padStart(4, '0');
+  const mois = date.mois.toString().padStart(2, '0');
+  const jour = date.jour.toString().padStart(2, '0');
 
-//4- Convertir un IDate en Date JavaScript
+  // Retourne la date au format 'YYYY-MM-DDTHH:mm'
+  return `${annee}-${mois}-${jour}`;
+}
+
+
+
+//5- Convertir un IDate en Date JavaScript
 export function iDateVersDateJS(date: IDate): Date {
   const heure = date.heure !== undefined ? date.heure : 0;
   const minute = date.minute !== undefined ? date.minute : 0;
@@ -87,7 +99,7 @@ console.log(dateJSWithoutTime); // Wed Dec 31 2024 00:00:00 GMT+0000 (UTC)
 
 
 
-//5- Convertir une Date JavaScript en IDate
+//6- Convertir une Date JavaScript en IDate
 export function dateJSVersIDate(date: Date): IDate {
   const iDate: IDate = {
     jour: date.getDate(),

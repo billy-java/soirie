@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IDepense } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
+import { dateJSVersIDate, iDateVersInput, iDateVersString, inputVersIDate } from '../lib/functions/convertirDates';
 
 interface DepensesProps {
   depensesInitiales: IDepense[];
@@ -34,7 +35,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
           nom: '',
           description: '',
           montant: 0,
-          date: new Date().toISOString().split('T')[0],
+          date: dateJSVersIDate(new Date()),
           terminee: false,
         },
         modifier: null,
@@ -180,12 +181,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
           />
           <input
             type="date"
-            value={data.ajouter?.date || ''}
+            value={iDateVersInput(data.ajouter?.date) || ''}
             onChange={(e) =>
               setData({
                 ...data,
                 ajouter: data.ajouter
-                  ? { ...data.ajouter, date: e.target.value }
+                  ? { ...data.ajouter, date: inputVersIDate(e.target.value) }
                   : null,
               })
             }
@@ -266,12 +267,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                   />
                   <input
                     type="date"
-                    value={data.modifier?.date || ''}
+                    value={iDateVersInput(data.modifier?.date) || ''}
                     onChange={(e) =>
                       setData({
                         ...data,
                         modifier: data.modifier
-                          ? { ...data.modifier, date: e.target.value }
+                          ? { ...data.modifier, date: inputVersIDate(e.target.value) }
                           : null,
                       })
                     }
@@ -295,7 +296,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       {depense.montant} €
                     </span>
                   </p>
-                  <p>Date : {depense.date}</p>
+                  <p>Date : {iDateVersString(depense.date)}</p>
                 </div>
               )}
               <div className="flex items-center gap-2">

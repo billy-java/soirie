@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { ITache } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
+import {
+  dateJSVersIDate,
+  iDateVersInput,
+  iDateVersString,
+  inputVersIDate,
+} from '../lib/functions/convertirDates';
 
 interface TachesProps {
   tachesProps: ITache[];
@@ -31,7 +37,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
           idEvenement: '1',
           titre: '',
           description: '',
-          dateLimite: new Date().toISOString().split('T')[0],
+          dateLimite: dateJSVersIDate(new Date()),
           terminee: false,
           priorite: 2,
         },
@@ -109,10 +115,12 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       </button>
 
       {data.ajouter && (
-        <form onSubmit={(e) => {
-          if (idConfirmationSuppression) annulerSuppression();
-          ajouterTache(e);
-        }}  className="flex flex-col gap-2 mt-4">
+        <form
+          onSubmit={(e) => {
+            if (idConfirmationSuppression) annulerSuppression();
+            ajouterTache(e);
+          }}
+          className="flex flex-col gap-2 mt-4">
           <input
             type="text"
             value={data.ajouter?.titre || ''}
@@ -142,12 +150,19 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
           />
           <input
             type="date"
-            value={data.ajouter?.dateLimite || ''}
+            value={
+              data.ajouter?.dateLimite
+                ? iDateVersInput(data.ajouter.dateLimite)
+                : ''
+            }
             onChange={(e) =>
               setData({
                 ...data,
                 ajouter: data.ajouter
-                  ? { ...data.ajouter, dateLimite: e.target.value }
+                  ? {
+                      ...data.ajouter,
+                      dateLimite: inputVersIDate(e.target.value),
+                    }
                   : null,
               })
             }
@@ -203,12 +218,23 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                   />
                   <input
                     type="date"
-                    value={data.modifier?.dateLimite || ''}
+                    value={iDateVersInput(
+                      data.modifier?.dateLimite || {
+                        jour: 1,
+                        mois: 1,
+                        annee: 2024,
+                        heure: 0,
+                        minute: 0,
+                      }
+                    )}
                     onChange={(e) =>
                       setData({
                         ...data,
                         modifier: data.modifier
-                          ? { ...data.modifier, dateLimite: e.target.value }
+                          ? {
+                              ...data.modifier,
+                              dateLimite: inputVersIDate(e.target.value),
+                            }
                           : null,
                       })
                     }
@@ -224,7 +250,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                 <div className="mr-4">
                   <p className="text-lg font-medium">{tache.titre}</p>
                   <p>{tache.description}</p>
-                  <p>{tache.dateLimite}</p>
+                  <p>{iDateVersString(tache.dateLimite!)}</p>
                 </div>
               )}
               <div className="flex items-center gap-2">
