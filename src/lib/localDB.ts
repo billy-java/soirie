@@ -31,7 +31,7 @@ export const evenements: IEvenement[] = [
     nom: "Fête d'anniversaire",
     type: 'Fête',
     date: {
-      jour: 25,
+      jour: 26,
       mois: 12,
       annee: 2024,
       heure: 18,

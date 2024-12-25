@@ -19,6 +19,9 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     ajouter: null,
     modifier: null,
   });
+  const [idConfirmationSuppression, setDeleteConfirmationId] = useState<
+    string | null
+  >(null);
 
   const toggleFormulaireAjout = () => {
     if (data.ajouter) {
@@ -95,6 +98,15 @@ const SectionDepenses: React.FC<DepensesProps> = ({
           : depense
       )
     );
+    setDeleteConfirmationId(null);
+  };
+
+  const confirmerSuppression = (id: string) => {
+    setDeleteConfirmationId(id);
+  };
+
+  const annulerSuppression = () => {
+    setDeleteConfirmationId(null);
   };
 
   return (
@@ -113,7 +125,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
       </button>
 
       {data.ajouter && (
-        <form onSubmit={ajouterDepense} className="flex flex-col gap-2 mt-4">
+        <form
+          onSubmit={(e) => {
+            if (idConfirmationSuppression) annulerSuppression();
+            ajouterDepense(e);
+          }}
+          className="flex flex-col gap-2 mt-4">
           <p className="text-gray-500">
             Remplissez le formulaire pour ajouter une nouvelle dépense.
           </p>
@@ -190,117 +207,158 @@ const SectionDepenses: React.FC<DepensesProps> = ({
         {depenses.map((depense) => (
           <li
             key={depense.id}
-            className={`flex justify-between items-center p-2 border-b last:border-none ${
-              depense.terminee ? 'bg-green-100' : ''
-            }`}>
-            {data.modifier?.id === depense.id ? (
-              <form
-                onSubmit={validerModification}
-                className="flex flex-wrap flex-grow gap-2 mr-4">
-                {/* Formulaire de modification */}
-                <input
-                  type="text"
-                  value={data.modifier?.nom || ''}
-                  onChange={(e) =>
-                    setData({
-                      ...data,
-                      modifier: data.modifier
-                        ? { ...data.modifier, nom: e.target.value }
-                        : null,
-                    })
-                  }
-                  className="p-2 border border-gray-300 rounded-md flex-grow"
-                  title="Modifiez le nom de la dépense."
-                />
-                <input
-                  value={data.modifier?.description || ''}
-                  onChange={(e) =>
-                    setData({
-                      ...data,
-                      modifier: data.modifier
-                        ? { ...data.modifier, description: e.target.value }
-                        : null,
-                    })
-                  }
-                  className="p-2 border border-gray-300 rounded-md flex-grow"
-                  title="Modifiez la description de la dépense."
-                />
-                <input
-                  type="number"
-                  value={data.modifier?.montant || 0}
-                  onChange={(e) =>
-                    setData({
-                      ...data,
-                      modifier: data.modifier
-                        ? {
-                            ...data.modifier,
-                            montant: parseFloat(e.target.value),
-                          }
-                        : null,
-                    })
-                  }
-                  className="p-2 border border-gray-300 rounded-md flex-grow"
-                  title="Modifiez le montant de la dépense."
-                />
-                <input
-                  type="date"
-                  value={data.modifier?.date || ''}
-                  onChange={(e) =>
-                    setData({
-                      ...data,
-                      modifier: data.modifier
-                        ? { ...data.modifier, date: e.target.value }
-                        : null,
-                    })
-                  }
-                  className="p-2 border border-gray-300 rounded-md flex-grow"
-                  title="Modifiez la date de la dépense."
-                />
+            className={`flex flex-col ${idConfirmationSuppression === depense.id ? 'bg-red-50' : ''}`}>
+            <div
+              className={`flex justify-between items-center p-2 border-b last:border-none ${
+                depense.terminee ? 'bg-green-100' : ''
+              }`}>
+              {data.modifier?.id === depense.id ? (
+                <form
+                  onSubmit={(e) => {
+                    if (idConfirmationSuppression) annulerSuppression();
+                    validerModification(e);
+                  }}
+                  className="flex flex-wrap flex-grow gap-2 mr-4">
+                  {/* Formulaire de modification */}
+                  <input
+                    type="text"
+                    value={data.modifier?.nom || ''}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? { ...data.modifier, nom: e.target.value }
+                          : null,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md flex-grow"
+                    title="Modifiez le nom de la dépense."
+                  />
+                  <input
+                    value={data.modifier?.description || ''}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? { ...data.modifier, description: e.target.value }
+                          : null,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md flex-grow"
+                    title="Modifiez la description de la dépense."
+                  />
+                  <input
+                    type="number"
+                    value={data.modifier?.montant || 0}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? {
+                              ...data.modifier,
+                              montant: parseFloat(e.target.value),
+                            }
+                          : null,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md flex-grow"
+                    title="Modifiez le montant de la dépense."
+                  />
+                  <input
+                    type="date"
+                    value={data.modifier?.date || ''}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? { ...data.modifier, date: e.target.value }
+                          : null,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md flex-grow"
+                    title="Modifiez la date de la dépense."
+                  />
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 flex flex-wrap flex-grow justify-center items-center space-x-2"
+                    title="Cliquez pour enregistrer les modifications.">
+                    <p>Sauvegarder</p> {iconsListe.enregister}
+                  </button>
+                </form>
+              ) : (
+                <div>
+                  <p className="text-lg font-medium">{depense.nom}</p>
+                  <span>{depense.description}</span>
+                  <p>
+                    Montant :{' '}
+                    <span className="bg-slate-200  px-2 rounded-lg text-lg">
+                      {depense.montant} €
+                    </span>
+                  </p>
+                  <p>Date : {depense.date}</p>
+                </div>
+              )}
+              <div className="flex items-center gap-2">
                 <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 flex flex-wrap flex-grow justify-center items-center space-x-2"
-                  title="Cliquez pour enregistrer les modifications.">
-                  <p>Sauvegarder</p> {iconsListe.enregister}
+                  onClick={() => {
+                    if (idConfirmationSuppression) annulerSuppression();
+                    changerStatutDepense(depense.id);
+                  }}
+                  className={`${depense.terminee ? 'bg-green-500 hover:bg-green-600' : 'border border-gray-300 text-red-500'}
+                  text-white px-2 py-1 rounded-md w-24 h-10`}
+                  title={
+                    depense.terminee
+                      ? 'Marquer comme non effectué'
+                      : 'Marquer comme effectué'
+                  }>
+                  {depense.terminee ? 'Effectué' : 'En attente'}
                 </button>
-              </form>
-            ) : (
-              <div>
-                <p className="text-lg font-medium">{depense.nom}</p>
-                <span>{depense.description}</span>
-                <p>
-                  Montant :{' '}
-                  <span className="bg-slate-200  px-2 rounded-lg text-lg">
-                    {depense.montant} €
-                  </span>
+                <button
+                  onClick={() => {
+                    if (idConfirmationSuppression) annulerSuppression();
+                    demarrerModification(depense.id);
+                  }}
+                  className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 w-10 h-10"
+                  title="Cliquez pour modifier cette dépense.">
+                  {iconsListe.modifier}
+                </button>
+                <button
+                  onClick={() => {
+                    if (
+                      idConfirmationSuppression &&
+                      idConfirmationSuppression === depense.id
+                    ) {
+                      annulerSuppression();
+                    } else {
+                      confirmerSuppression(depense.id);
+                    }
+                  }}
+                  className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 w-10 h-10"
+                  title="Cliquez pour supprimer cette dépense.">
+                  {iconsListe.supprimer}
+                </button>
+              </div>
+            </div>
+
+            {idConfirmationSuppression === depense.id && (
+              <div className="mt-4 p-4 bg-red-100 m-1 rounded-md">
+                <p className="text-red-600">
+                  Êtes-vous sûr de vouloir supprimer cette tâche ?
                 </p>
-                <p>Date : {depense.date}</p>
+                <div className="flex gap-4 mt-2">
+                  <button
+                    onClick={() => supprimerDepense(depense.id)}
+                    className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600 transition">
+                    Oui
+                  </button>
+                  <button
+                    onClick={annulerSuppression}
+                    className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 transition">
+                    Non
+                  </button>
+                </div>
               </div>
             )}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => changerStatutDepense(depense.id)}
-                className={`${depense.terminee ? 'bg-green-500 hover:bg-green-600' : 'border border-gray-300 text-red-500'}
-                  text-white px-2 py-1 rounded-md w-24 h-10`}
-                title={
-                  depense.terminee
-                    ? 'Marquer comme non effectué'
-                    : 'Marquer comme effectué'
-                }>
-                {depense.terminee ? 'Effectué' : 'En attente'}
-              </button>
-              <button
-                onClick={() => demarrerModification(depense.id)}
-                className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 w-10 h-10"
-                title="Cliquez pour modifier cette dépense.">
-                {iconsListe.modifier}
-              </button>
-              <button
-                onClick={() => supprimerDepense(depense.id)}
-                className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 w-10 h-10"
-                title="Cliquez pour supprimer cette dépense.">
-                {iconsListe.supprimer}
-              </button>
-            </div>
           </li>
         ))}
       </ul>

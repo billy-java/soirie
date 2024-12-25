@@ -5,37 +5,50 @@ import { iconsListe } from '../lib/iconsListe'; // Assurez-vous d'importer les i
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
 import { setIdEv } from '../redux/authSlice';
+import {
+  dateJSVersIDate,
+  iDateVersDateJS,
+  iDateVersString,
+} from '../lib/functions/convertirDates';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const initialEvenements = useSelector(
+  const evenementsInitials = useSelector(
     (state: RootState_DB) => state.evenement.evenementsAttr
   );
 
-  const [evenements, setEvenements] = useState<IEvenement[]>(initialEvenements);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [editEventId, setEditEventId] = useState<string | null>(null);
-  const [deleteConfirmationId, setDeleteConfirmationId] = useState<
+  const [evenements, setEvenements] =
+    useState<IEvenement[]>(evenementsInitials);
+  const [afficherFormulaireAjout, setAfficherFormulaireAjout] = useState(false);
+  const [idEvenementModification, setIdEvenementModification] = useState<
     string | null
   >(null);
-  const [newEvent, setNewEvent] = useState<Partial<IEvenement>>({
+  const [idConfirmationSuppression, setIdConfirmationSuppression] = useState<
+    string | null
+  >(null);
+  const [nouvelEvenement, setNouvelEvenement] = useState<Partial<IEvenement>>({
     nom: '',
-    date: '',
+    date: dateJSVersIDate(new Date()),
     lieu: '',
     budget: 0,
   });
 
   // Gestion des champs du formulaire
-  const handleInputChange = (
-    field: keyof IEvenement,
-    value: string | number
+  const gererChangementChamp = (
+    champ: keyof IEvenement,
+    valeur: string | number
   ) => {
-    setNewEvent((prev) => ({ ...prev, [field]: value }));
+    setNouvelEvenement((prev) => ({ ...prev, [champ]: valeur }));
   };
 
   // Ajout d'un nouvel événement
-  const handleAddEvent = () => {
-    if (!newEvent.nom || !newEvent.date || !newEvent.lieu || !newEvent.budget) {
+  const gererAjoutEvenement = () => {
+    if (
+      !nouvelEvenement.nom ||
+      !nouvelEvenement.date ||
+      !nouvelEvenement.lieu ||
+      !nouvelEvenement.budget
+    ) {
       alert('Tous les champs sont obligatoires.');
       return;
     }
@@ -45,27 +58,37 @@ const Home = () => {
         id: `${Date.now()}`, // Génère un id unique basé sur le temps
         idUtilisateur: '123', // Id utilisateur fictif
         type: 'Fête',
-        ...newEvent,
+        ...nouvelEvenement,
       } as IEvenement,
     ]);
-    setShowAddForm(false);
-    setNewEvent({ nom: '', date: '', lieu: '', budget: 0 });
+    setAfficherFormulaireAjout(false);
+    setNouvelEvenement({
+      nom: '',
+      date: dateJSVersIDate(new Date()),
+      lieu: '',
+      budget: 0,
+    });
   };
 
   // Modification d'un événement existant
-  const handleEditEvent = (id: string) => {
-    const updatedEvents = evenements.map((event) =>
-      event.id === id ? { ...event, ...newEvent } : event
+  const gererModificationEvenement = (id: string) => {
+    const evenementsMisesAJour = evenements.map((evenement) =>
+      evenement.id === id ? { ...evenement, ...nouvelEvenement } : evenement
     );
-    setEvenements(updatedEvents);
-    setEditEventId(null);
-    setNewEvent({ nom: '', date: '', lieu: '', budget: 0 });
+    setEvenements(evenementsMisesAJour);
+    setIdEvenementModification(null);
+    setNouvelEvenement({
+      nom: '',
+      date: dateJSVersIDate(new Date()),
+      lieu: '',
+      budget: 0,
+    });
   };
 
   // Suppression d'un événement
-  const handleDeleteEvent = (id: string) => {
-    setEvenements((prev) => prev.filter((event) => event.id !== id));
-    setDeleteConfirmationId(null);
+  const gererSuppressionEvenement = (id: string) => {
+    setEvenements((prev) => prev.filter((evenement) => evenement.id !== id));
+    setIdConfirmationSuppression(null);
   };
 
   return (
@@ -85,46 +108,52 @@ const Home = () => {
       <div className="mb-8">
         <button
           className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition"
-          onClick={() => setShowAddForm(!showAddForm)}>
-          {showAddForm ? 'Annuler' : 'Créer un nouvel événement'}
+          onClick={() => {
+            if (idConfirmationSuppression) setIdConfirmationSuppression(null);
+            setAfficherFormulaireAjout(!afficherFormulaireAjout);
+          }}>
+          {afficherFormulaireAjout ? 'Annuler' : 'Créer un nouvel événement'}
         </button>
       </div>
 
       {/* Formulaire d'ajout d'événement */}
-      {showAddForm && (
+      {afficherFormulaireAjout && (
         <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 mb-6">
           <h3 className="text-xl font-bold mb-4">Créer un nouvel événement</h3>
           <input
             type="text"
             placeholder="Nom de l'événement"
-            value={newEvent.nom || ''}
-            onChange={(e) => handleInputChange('nom', e.target.value)}
+            value={nouvelEvenement.nom || ''}
+            onChange={(e) => gererChangementChamp('nom', e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
             type="date"
-            value={newEvent.date || ''}
-            onChange={(e) => handleInputChange('date', e.target.value)}
+            value={iDateVersString(nouvelEvenement.date!) || ''}
+            onChange={(e) => gererChangementChamp('date', e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
             type="text"
             placeholder="Lieu"
-            value={newEvent.lieu || ''}
-            onChange={(e) => handleInputChange('lieu', e.target.value)}
+            value={nouvelEvenement.lieu || ''}
+            onChange={(e) => gererChangementChamp('lieu', e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
             type="number"
             placeholder="Budget (€)"
-            value={newEvent.budget || ''}
+            value={nouvelEvenement.budget || ''}
             onChange={(e) =>
-              handleInputChange('budget', parseFloat(e.target.value))
+              gererChangementChamp('budget', parseFloat(e.target.value))
             }
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <button
-            onClick={handleAddEvent}
+            onClick={() => {
+              if (idConfirmationSuppression) setIdConfirmationSuppression(null);
+              gererAjoutEvenement();
+            }}
             className="w-full bg-green-500 text-white font-semibold rounded-md py-2 hover:bg-green-600 transition">
             Sauvegarder
           </button>
@@ -149,7 +178,7 @@ const Home = () => {
                   <h4 className="text-xl font-bold mb-2">{evenement.nom}</h4>
                   <p className="text-gray-600">
                     <span className="font-semibold">Date :</span>{' '}
-                    {new Date(evenement.date).toLocaleDateString()}
+                    {iDateVersDateJS(evenement.date).toLocaleDateString()}
                   </p>
                   <p className="text-gray-600">
                     <span className="font-semibold">Lieu :</span>{' '}
@@ -161,7 +190,6 @@ const Home = () => {
                       {evenement.budget} €
                     </span>
                   </p>
-                  
                 </Link>
               </div>
 
@@ -169,8 +197,10 @@ const Home = () => {
               <div className="flex gap-4 mt-4">
                 <button
                   onClick={() => {
-                    setEditEventId(evenement.id);
-                    setNewEvent({
+                    if (idConfirmationSuppression)
+                      setIdConfirmationSuppression(null);
+                    setIdEvenementModification(evenement.id);
+                    setNouvelEvenement({
                       nom: evenement.nom,
                       date: evenement.date,
                       lieu: evenement.lieu,
@@ -181,48 +211,67 @@ const Home = () => {
                   {iconsListe.modifier}
                 </button>
                 <button
-                  onClick={() => setDeleteConfirmationId(evenement.id)}
+                  onClick={() => {
+                    if (
+                      idConfirmationSuppression &&
+                      idConfirmationSuppression === evenement.id
+                    ) {
+                      setIdConfirmationSuppression(null);
+                    } else {
+                      setIdConfirmationSuppression(evenement.id);
+                    }
+                  }}
                   className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition">
                   {iconsListe.supprimer}
                 </button>
               </div>
 
               {/* Formulaire de modification */}
-              {editEventId === evenement.id && (
+              {idEvenementModification === evenement.id && (
                 <div className="mt-4 p-4 bg-gray-100 rounded-md">
                   <h4 className="font-semibold mb-2">Modifier l'événement</h4>
                   <input
                     type="text"
                     placeholder="Nom"
-                    value={newEvent.nom || ''}
-                    onChange={(e) => handleInputChange('nom', e.target.value)}
+                    value={nouvelEvenement.nom || ''}
+                    onChange={(e) =>
+                      gererChangementChamp('nom', e.target.value)
+                    }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
                     type="date"
-                    value={newEvent.date || ''}
-                    onChange={(e) => handleInputChange('date', e.target.value)}
+                    value={iDateVersString(nouvelEvenement.date!) || ''}
+                    onChange={(e) =>
+                      gererChangementChamp('date', e.target.value)
+                    }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
                     type="text"
                     placeholder="Lieu"
-                    value={newEvent.lieu || ''}
-                    onChange={(e) => handleInputChange('lieu', e.target.value)}
+                    value={nouvelEvenement.lieu || ''}
+                    onChange={(e) =>
+                      gererChangementChamp('lieu', e.target.value)
+                    }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
                     type="number"
                     placeholder="Budget (€)"
-                    value={newEvent.budget || ''}
+                    value={nouvelEvenement.budget || ''}
                     onChange={(e) =>
-                      handleInputChange('budget', parseFloat(e.target.value))
+                      gererChangementChamp('budget', parseFloat(e.target.value))
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
 
                   <button
-                    onClick={() => handleEditEvent(evenement.id)}
+                    onClick={() => {
+                      if (idConfirmationSuppression)
+                        setIdConfirmationSuppression(null);
+                      gererModificationEvenement(evenement.id);
+                    }}
                     type="submit"
                     className="bg-blue-500 text-white w-full px-4 py-2 rounded-md hover:bg-blue-600 flex flex-wrap justify-center items-center space-x-2">
                     <p>Sauvegarder</p> {iconsListe.enregister}
@@ -231,19 +280,19 @@ const Home = () => {
               )}
 
               {/* Confirmation de suppression */}
-              {deleteConfirmationId === evenement.id && (
+              {idConfirmationSuppression === evenement.id && (
                 <div className="mt-4 p-4 bg-red-100 rounded-md">
                   <p className="text-red-600">
                     Êtes-vous sûr de vouloir supprimer cet événement ?
                   </p>
                   <div className="flex gap-4 mt-2">
                     <button
-                      onClick={() => handleDeleteEvent(evenement.id)}
+                      onClick={() => gererSuppressionEvenement(evenement.id)}
                       className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600 transition">
                       Oui
                     </button>
                     <button
-                      onClick={() => setDeleteConfirmationId(null)}
+                      onClick={() => setIdConfirmationSuppression(null)}
                       className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 transition">
                       Non
                     </button>
