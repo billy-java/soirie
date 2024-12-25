@@ -13,7 +13,7 @@ export interface IEvenement {
   idUtilisateur: string;
   nom: string;
   type: 'Fête';
-  date: string;
+  date: IDate;
   lieu: string;
   budget: number;
 }
@@ -60,6 +60,24 @@ export interface IPrestataire {
   email: string;
 }
 
+
+export interface IFaq {
+  id: string;
+  question: string;
+  reponse: string;
+  categorie: string; // Permet de regrouper les questions par thème
+  estPopulaire: boolean; // Indique si cette question est fréquemment posée
+}
+
+export interface IDate {
+  jour: number;   // Le jour du mois (1-31)
+  mois: number;   // Le mois de l'année (1-12)
+  annee: number;  // L'année (e.g., 2024)
+  heure?: number; // L'heure (0-23), facultatif
+  minute?: number; // Les minutes (0-59), facultatif
+}
+
+
 export interface TNotification {
   id: string;
   idEvenement: string;
@@ -69,13 +87,4 @@ export interface TNotification {
   lu: boolean;
   dateCreation: string;
   urlRedirection: string;
-}
-
-
-export interface IFaq {
-  id: string;
-  question: string;
-  reponse: string;
-  categorie: string; // Permet de regrouper les questions par thème
-  estPopulaire: boolean; // Indique si cette question est fréquemment posée
 }

@@ -156,9 +156,12 @@ const Home = () => {
                     {evenement.lieu}
                   </p>
                   <p className="text-gray-600">
-                    <span className="font-semibold">Budget :</span>{' '}
-                    {evenement.budget} €
+                    <span className="font-semibold">Budget total :</span>{' '}
+                    <span className="text-green-700 font-bold">
+                      {evenement.budget} €
+                    </span>
                   </p>
+                  
                 </Link>
               </div>
 
