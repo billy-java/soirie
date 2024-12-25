@@ -53,7 +53,6 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     }
   };
 
-  // Fonction pour démarrer la modification d'une dépense
   const demarrerModification = (id: string) => {
     const depenseToEdit = depenses.find((depense) => depense.id === id);
     if (depenseToEdit) {
@@ -64,7 +63,6 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     }
   };
 
-  // Fonction pour valider la modification
   const validerModification = (e: React.FormEvent) => {
     e.preventDefault();
     if (data.modifier && data.modifier.nom.trim()) {
@@ -85,12 +83,10 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     }
   };
 
-  // Fonction pour supprimer une dépense
   const supprimerDepense = (id: string) => {
     setDepenses(depenses.filter((depense) => depense.id !== id));
   };
 
-  // Fonction pour changer le statut d'une dépense
   const changerStatutDepense = (id: string) => {
     setDepenses(
       depenses.map((depense) =>
@@ -104,14 +100,23 @@ const SectionDepenses: React.FC<DepensesProps> = ({
   return (
     <section className="flex flex-col gap-4 bg-gray-100 p-4 rounded-md mb-20">
       <h2 className="text-lg font-bold">Gestion des Dépenses :</h2>
+      <p className="text-gray-600">
+        Utilisez cette section pour ajouter, modifier ou supprimer vos dépenses.
+        Vous pouvez également marquer les dépenses comme effectuées.
+      </p>
+
       <button
         onClick={toggleFormulaireAjout}
-        className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">
+        className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+        title="Cliquez pour ajouter une nouvelle dépense.">
         {data.ajouter ? 'Annuler' : 'Ajouter une dépense'}
       </button>
 
       {data.ajouter && (
         <form onSubmit={ajouterDepense} className="flex flex-col gap-2 mt-4">
+          <p className="text-gray-500">
+            Remplissez le formulaire pour ajouter une nouvelle dépense.
+          </p>
           <input
             type="text"
             value={data.ajouter?.nom || ''}
@@ -125,6 +130,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             }
             placeholder="Nom de la dépense"
             className="p-2 border border-gray-300 rounded-md"
+            title="Entrez le nom de la dépense."
           />
           <textarea
             value={data.ajouter?.description || ''}
@@ -138,6 +144,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             }
             placeholder="Description de la dépense"
             className="p-2 border border-gray-300 rounded-md"
+            title="Entrez une brève description de la dépense."
           />
           <input
             type="number"
@@ -152,6 +159,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             }
             placeholder="Montant"
             className="p-2 border border-gray-300 rounded-md"
+            title="Entrez le montant de la dépense."
           />
           <input
             type="date"
@@ -165,16 +173,20 @@ const SectionDepenses: React.FC<DepensesProps> = ({
               })
             }
             className="p-2 border border-gray-300 rounded-md"
+            title="Sélectionnez la date de la dépense."
           />
+
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Sauvegarder
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex flex-wrap justify-center items-center space-x-2"
+            title="Cliquez pour sauvegarder la dépense.">
+            <p>Sauvegarder</p> {iconsListe.enregister}
           </button>
         </form>
       )}
 
       <ul className="bg-white rounded-md p-2">
+        <p className="text-gray-500">Liste des dépenses enregistrées :</p>
         {depenses.map((depense) => (
           <li
             key={depense.id}
@@ -185,6 +197,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
               <form
                 onSubmit={validerModification}
                 className="flex flex-wrap flex-grow gap-2 mr-4">
+                {/* Formulaire de modification */}
                 <input
                   type="text"
                   value={data.modifier?.nom || ''}
@@ -197,6 +210,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     })
                   }
                   className="p-2 border border-gray-300 rounded-md flex-grow"
+                  title="Modifiez le nom de la dépense."
                 />
                 <input
                   value={data.modifier?.description || ''}
@@ -209,6 +223,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     })
                   }
                   className="p-2 border border-gray-300 rounded-md flex-grow"
+                  title="Modifiez la description de la dépense."
                 />
                 <input
                   type="number"
@@ -225,6 +240,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     })
                   }
                   className="p-2 border border-gray-300 rounded-md flex-grow"
+                  title="Modifiez le montant de la dépense."
                 />
                 <input
                   type="date"
@@ -238,11 +254,13 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     })
                   }
                   className="p-2 border border-gray-300 rounded-md flex-grow"
+                  title="Modifiez la date de la dépense."
                 />
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600">
-                  Sauvegarder
+                  className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 flex flex-wrap flex-grow justify-center items-center space-x-2"
+                  title="Cliquez pour enregistrer les modifications.">
+                  <p>Sauvegarder</p> {iconsListe.enregister}
                 </button>
               </form>
             ) : (
@@ -251,7 +269,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                 <span>{depense.description}</span>
                 <p>
                   Montant :{' '}
-                  <span className="bg-slate-200 p-1 rounded-lg text-lg">
+                  <span className="bg-slate-200  px-2 rounded-lg text-lg">
                     {depense.montant} €
                   </span>
                 </p>
@@ -261,19 +279,25 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => changerStatutDepense(depense.id)}
-                className={`${depense.terminee ? 'bg-green-500 hover:bg-green-600' : 'bg-orange-500 hover:bg-orange-600'}
-                  text-white px-2 py-1 rounded-md flex justify-center items-center w-28 h-10`}>
-                {iconsListe.badge2}
-                <p>{depense.terminee ? 'Effectué' : 'En cours'}</p>
+                className={`${depense.terminee ? 'bg-green-500 hover:bg-green-600' : 'border border-gray-300 text-red-500'}
+                  text-white px-2 py-1 rounded-md w-24 h-10`}
+                title={
+                  depense.terminee
+                    ? 'Marquer comme non effectué'
+                    : 'Marquer comme effectué'
+                }>
+                {depense.terminee ? 'Effectué' : 'En attente'}
               </button>
               <button
                 onClick={() => demarrerModification(depense.id)}
-                className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 w-10 h-10">
+                className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 w-10 h-10"
+                title="Cliquez pour modifier cette dépense.">
                 {iconsListe.modifier}
               </button>
               <button
                 onClick={() => supprimerDepense(depense.id)}
-                className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 w-10 h-10">
+                className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 w-10 h-10"
+                title="Cliquez pour supprimer cette dépense.">
                 {iconsListe.supprimer}
               </button>
             </div>

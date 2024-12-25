@@ -45,6 +45,7 @@ const Parametres = () => {
   return (
     <div className="p-10">
       <h1 className="text-2xl font-bold mb-4 text-center">Paramètres</h1>
+      <h1 className="text-2xl mb-4 text-center">ID: {userData.id}</h1>
       <div className="space-y-4 text-xl">
         {/* Nom */}
         <div className="shadow-lg p-4 rounded-lg bg-white">
@@ -165,11 +166,6 @@ const Parametres = () => {
             </div>
           )}
         </div>
-
-        
-
-
-
       </div>
 
       {/* Bouton "Tout sauvegarder" */}

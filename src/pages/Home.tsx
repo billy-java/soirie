@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IEvenement } from '../lib/interfaces/entites';
-import { evenements as initialEvenements } from '../lib/localDB';
 import { iconsListe } from '../lib/iconsListe'; // Assurez-vous d'importer les icônes nécessaires
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState_DB } from '../redux/store';
+import { setIdEv } from '../redux/authSlice';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const initialEvenements = useSelector(
+    (state: RootState_DB) => state.evenement.evenementsAttr
+  );
+
   const [evenements, setEvenements] = useState<IEvenement[]>(initialEvenements);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editEventId, setEditEventId] = useState<string | null>(null);
@@ -136,6 +143,7 @@ const Home = () => {
               className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition relative">
               <div>
                 <Link
+                  onClick={() => dispatch(setIdEv(evenement.id))}
                   to={`/e/${evenement.id}/dashboard`}
                   className="block text-gray-800 hover:text-blue-600">
                   <h4 className="text-xl font-bold mb-2">{evenement.nom}</h4>

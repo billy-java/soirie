@@ -10,6 +10,8 @@ import Taches from './pages/evenements/Taches';
 import Home from './pages/Home';
 import Menu from './pages/evenements/Menu';
 import Aide from './pages/evenements/menu/Aide';
+import Connexion from './pages/auth/Connexion';
+import RoutesProtegee from './RoutesProtegee';
 
 const App: React.FC = () => {
   return (
@@ -18,21 +20,28 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
+          <Route path="/connexion" element={<Connexion />} />
 
-          {/* Route pour les pages d'événements avec la Navbar */}
+          {/* Routes pour les pages d'événements */}
           <Route
-            path="/e/:eId/*"
-            element={
-              <div className="content">
-                <Routes>
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="taches" element={<Taches />} />
-                  <Route path="depenses" element={<Depenses />} />
-                  <Route path="prestataires" element={<Prestataires />} />
-                  <Route path="menu" element={<Menu />} />
-                </Routes>
-              </div>
-            }
+            path="/e/:eId/dashboard"
+            element={<RoutesProtegee element={<Dashboard />} />}
+          />
+          <Route
+            path="/e/:eId/taches"
+            element={<RoutesProtegee element={<Taches />} />}
+          />
+          <Route
+            path="/e/:eId/depenses"
+            element={<RoutesProtegee element={<Depenses />} />}
+          />
+          <Route
+            path="/e/:eId/prestataires"
+            element={<RoutesProtegee element={<Prestataires />} />}
+          />
+          <Route
+            path="/e/:eId/menu"
+            element={<RoutesProtegee element={<Menu />} />}
           />
 
           {/* Routes sans sous-routes */}

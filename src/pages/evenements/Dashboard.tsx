@@ -4,7 +4,10 @@ import TachesSection from '../../components/TachesSection';
 import { IInvitation } from '../../lib/interfaces/entites';
 import { anniversaireTaches } from '../../lib/localDB';
 
+
 const Dashboard = () => {
+
+  const [showUrgentTasks, setShowUrgentTasks] = useState(false); // État pour gérer l'affichage des tâches urgentes
   const mesTaches = anniversaireTaches.filter(
     (el) => el.idEvenement === '1' && el.priorite === 3
   );
@@ -127,7 +130,12 @@ const Dashboard = () => {
         <h2 className="text-2xl font-semibold mb-4 text-indigo-600">
           Tâches urgentes à faire :
         </h2>
-        <TachesSection tachesProps={mesTaches} />
+        <button
+          onClick={() => setShowUrgentTasks(!showUrgentTasks)}
+          className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+          {showUrgentTasks ? 'Masquer les tâches' : 'Afficher les tâches'}
+        </button>
+        {showUrgentTasks && <TachesSection tachesProps={mesTaches} />}
       </section>
     </div>
   );
