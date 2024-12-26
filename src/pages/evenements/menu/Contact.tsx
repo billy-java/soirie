@@ -27,7 +27,7 @@ const Contact = () => {
               <strong>Email :</strong>{' '}
               <a
                 href="mailto:contactcm02@gmail.com"
-                className="text-indigo-600 underline hover:text-indigo-500">
+                className="text-indigo-600 underline hover:text-indigo-600">
                 contactcm02@gmail.com
               </a>
             </div>
@@ -42,7 +42,7 @@ const Contact = () => {
               <strong>Téléphone :</strong>{' '}
               <a
                 href="tel:+33123456789"
-                className="text-green-600 underline hover:text-green-500">
+                className="text-green-600 underline hover:text-green-600">
                 +33 1 23 45 67 89
               </a>
             </div>

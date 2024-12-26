@@ -3,7 +3,7 @@ import { IUtilisateur } from '../../../lib/interfaces/entites';
 import { iconsListe } from '../../../lib/iconsListe';
 
 const Parametres = () => {
-  const [userData, setUserData] = useState<IUtilisateur>({
+  const [actuelUser, setActuelUser] = useState<IUtilisateur>({
     id: '1',
     idsEvenements: ['1', '2'],
     nom: 'Alice Dupont',
@@ -13,31 +13,31 @@ const Parametres = () => {
     role: 1, // Organisateur
   });
 
-  const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [modifier, setModifier] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    nom: userData.nom,
-    email: userData.email,
-    motDePasse: userData.motDePasse,
-    telephone: userData.telephone,
+    nom: actuelUser.nom,
+    email: actuelUser.email,
+    motDePasse: actuelUser.motDePasse,
+    telephone: actuelUser.telephone,
   });
 
-  const handleEdit = (field: string) => {
-    setIsEditing(field);
+  const modifierF = (field: string) => {
+    setModifier(field);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const mettreAJourF = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSave = (field: string) => {
-    setUserData({
-      ...userData,
+  const sauvegarderF = (field: string) => {
+    setActuelUser({
+      ...actuelUser,
       [field]: formData[field as keyof typeof formData],
     });
-    setIsEditing(null);
+    setModifier(null);
   };
 
-  const handleSaveAll = () => {
+  const toutSauvegarderF = () => {
     // Cette méthode sera implémentée ultérieurement
     console.log('Tout sauvegarder : ', formData);
   };
@@ -45,31 +45,31 @@ const Parametres = () => {
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold mb-4 text-center">Paramètres</h1>
-      <h1 className="text-2xl mb-4 text-center">ID: {userData.id}</h1>
+      <h1 className="text-2xl mb-4 text-center">ID: {actuelUser.id}</h1>
       <div className="space-y-4 text-xl">
         {/* Nom */}
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Nom :</label>
-          {isEditing === 'nom' ? (
+          {modifier === 'nom' ? (
             <div className="flex items-center gap-4">
               <input
                 type="text"
                 name="nom"
                 value={formData.nom}
-                onChange={handleChange}
+                onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
               <button
-                onClick={() => handleSave('nom')}
+                onClick={() => sauvegarderF('nom')}
                 className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
                 <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
             <div className="flex items-center justify-between">
-              <p>{userData.nom}</p>
+              <p>{actuelUser.nom}</p>
               <button
-                onClick={() => handleEdit('nom')}
+                onClick={() => modifierF('nom')}
                 className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
@@ -80,26 +80,26 @@ const Parametres = () => {
         {/* Email */}
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Email :</label>
-          {isEditing === 'email' ? (
+          {modifier === 'email' ? (
             <div className="flex items-center gap-4">
               <input
                 type="email"
                 name="email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
               <button
-                onClick={() => handleSave('email')}
+                onClick={() => sauvegarderF('email')}
                 className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
                 <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
             <div className="flex items-center justify-between">
-              <p>{userData.email}</p>
+              <p>{actuelUser.email}</p>
               <button
-                onClick={() => handleEdit('email')}
+                onClick={() => modifierF('email')}
                 className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
@@ -110,17 +110,17 @@ const Parametres = () => {
         {/* Mot de Passe */}
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Mot de Passe :</label>
-          {isEditing === 'motDePasse' ? (
+          {modifier === 'motDePasse' ? (
             <div className="flex items-center gap-4">
               <input
                 type="password"
                 name="motDePasse"
                 value={formData.motDePasse}
-                onChange={handleChange}
+                onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
               <button
-                onClick={() => handleSave('motDePasse')}
+                onClick={() => sauvegarderF('motDePasse')}
                 className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
                 <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
@@ -129,7 +129,7 @@ const Parametres = () => {
             <div className="flex items-center justify-between">
               <p>********</p>
               <button
-                onClick={() => handleEdit('motDePasse')}
+                onClick={() => modifierF('motDePasse')}
                 className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
@@ -140,26 +140,26 @@ const Parametres = () => {
         {/* Téléphone */}
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Téléphone :</label>
-          {isEditing === 'telephone' ? (
+          {modifier === 'telephone' ? (
             <div className="flex items-center gap-4">
               <input
                 type="tel"
                 name="telephone"
                 value={formData.telephone}
-                onChange={handleChange}
+                onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
               <button
-                onClick={() => handleSave('telephone')}
+                onClick={() => sauvegarderF('telephone')}
                 className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
                 <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
             <div className="flex items-center justify-between">
-              <p>{userData.telephone}</p>
+              <p>{actuelUser.telephone}</p>
               <button
-                onClick={() => handleEdit('telephone')}
+                onClick={() => modifierF('telephone')}
                 className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
@@ -171,7 +171,7 @@ const Parametres = () => {
       {/* Bouton "Tout sauvegarder" */}
       <div className="mt-6 flex flex-wrap justify-center">
         <button
-          onClick={handleSaveAll}
+          onClick={toutSauvegarderF}
           className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
           <p>Sauvegarder</p> {iconsListe.enregister}
         </button>

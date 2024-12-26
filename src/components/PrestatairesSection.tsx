@@ -8,8 +8,8 @@ interface IPrestataire {
   localisation: string;
   gammePrix: string;
   note: 1 | 2 | 3 | 4 | 5;
-  telephone: string; // Nouveau champ
-  email: string; // Nouveau champ
+  telephone: string;
+  email: string;
 }
 
 interface PrestatairesProps {
@@ -21,48 +21,50 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
 }) => {
   const [prestataires] = useState<IPrestataire[]>(prestatairesInitiales);
 
-  // Etats pour la recherche et les filtres
-  const [search, setSearch] = useState<string>('');
-  const [filterType, setFilterType] = useState<string>('');
-  const [filterPriceRange, setFilterPriceRange] = useState<string>('');
-  const [filterRating, setFilterRating] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('nom'); // Critère de tri (nom, note, localisation)
+  // États pour la recherche et les filtres
+  const [recherche, setRecherche] = useState<string>('');
+  const [filtreType, setFiltreType] = useState<string>('');
+  const [filtreNote, setFiltreNote] = useState<string>('');
+  const [trierPar, setTrierPar] = useState<string>('nom'); // Critère de tri (nom, note, localisation)
+  const [ordreCroissant, setOrdreCroissant] = useState<boolean>(true); // Détermine si le tri est croissant ou décroissant
+
+  const [contactOptionsVisible, setContactOptionsVisible] = useState<
+    string | null
+  >(null);
 
   // Fonction de recherche et filtrage
-  const filteredPrestataires = prestataires.filter((prestataire) => {
-    const matchesSearch =
-      prestataire.nom.toLowerCase().includes(search.toLowerCase()) ||
-      prestataire.localisation.toLowerCase().includes(search.toLowerCase());
-    const matchesType = filterType
-      ? prestataire.type.toString() === filterType
+  const prestatairesFiltres = prestataires.filter((prestataire) => {
+    const correspondRecherche =
+      prestataire.nom.toLowerCase().includes(recherche.toLowerCase()) ||
+      prestataire.localisation.toLowerCase().includes(recherche.toLowerCase());
+    const correspondType = filtreType
+      ? prestataire.type.toString() === filtreType
       : true;
-    const matchesPrice = filterPriceRange
-      ? prestataire.gammePrix === filterPriceRange
-      : true;
-    const matchesRating = filterRating
-      ? prestataire.note.toString() === filterRating
+    const correspondNote = filtreNote
+      ? prestataire.note.toString() === filtreNote
       : true;
 
-    return matchesSearch && matchesType && matchesPrice && matchesRating;
+    return correspondRecherche && correspondType && correspondNote;
   });
 
   // Fonction de tri
-  const sortPrestataires = (prestataires: IPrestataire[]) => {
+  const trierPrestatairesF = (prestataires: IPrestataire[]) => {
     return prestataires.sort((a, b) => {
-      if (sortBy === 'nom') {
-        return a.nom.localeCompare(b.nom);
+      let comparaison = 0;
+
+      if (trierPar === 'nom') {
+        comparaison = a.nom.localeCompare(b.nom);
+      } else if (trierPar === 'note') {
+        comparaison = b.note - a.note;
+      } else if (trierPar === 'localisation') {
+        comparaison = a.localisation.localeCompare(b.localisation);
       }
-      if (sortBy === 'note') {
-        return b.note - a.note;
-      }
-      if (sortBy === 'localisation') {
-        return a.localisation.localeCompare(b.localisation);
-      }
-      return 0;
+
+      return ordreCroissant ? comparaison : -comparaison;
     });
   };
 
-  const renderStars = (note: number) => {
+  const afficherEtoilesF = (note: number) => {
     const etoile = (remplie: boolean) =>
       remplie ? iconsListe.etoile_remplie : iconsListe.etoile_vide;
 
@@ -70,6 +72,13 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
       <span className="flex flex-nowrap">
         {[...Array(5)].map((_, index) => etoile(index < note))}
       </span>
+    );
+  };
+
+  // Fonction pour afficher ou masquer les options de contact
+  const toggleContactOptionsF = (prestataireId: string) => {
+    setContactOptionsVisible((prevState) =>
+      prevState === prestataireId ? null : prestataireId
     );
   };
 
@@ -82,14 +91,14 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
         <input
           type="text"
           placeholder="Rechercher par nom ou localisation"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={recherche}
+          onChange={(e) => setRecherche(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow"
         />
 
         <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
+          value={filtreType}
+          onChange={(e) => setFiltreType(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow">
           <option value="">Type</option>
           <option value="1">Traiteur</option>
@@ -99,18 +108,8 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
         </select>
 
         <select
-          value={filterPriceRange}
-          onChange={(e) => setFilterPriceRange(e.target.value)}
-          className="p-2 border border-gray-300 rounded-md flex-grow">
-          <option value="">Gamme de prix</option>
-          <option value="Bas">Bas</option>
-          <option value="Moyenne">Moyenne</option>
-          <option value="Élevée">Élevée</option>
-        </select>
-
-        <select
-          value={filterRating}
-          onChange={(e) => setFilterRating(e.target.value)}
+          value={filtreNote}
+          onChange={(e) => setFiltreNote(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow">
           <option value="">Note</option>
           {[1, 2, 3, 4, 5].map((note) => (
@@ -121,21 +120,27 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
         </select>
 
         <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
+          value={trierPar}
+          onChange={(e) => setTrierPar(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow">
           <option value="nom">Trier par Nom</option>
           <option value="note">Trier par Note</option>
           <option value="localisation">Trier par Localisation</option>
         </select>
+
+        <button
+          onClick={() => setOrdreCroissant(!ordreCroissant)}
+          className="p-2 border bg-white border-gray-300 rounded-md flex-grow">
+          Trier {ordreCroissant ? 'Croissant' : 'Décroissant'}
+        </button>
       </div>
 
       <ul className="bg-white rounded-md p-2">
-        {sortPrestataires(filteredPrestataires).map((prestataire) => (
+        {trierPrestatairesF(prestatairesFiltres).map((prestataire) => (
           <li
             key={prestataire.id}
             className="flex justify-between items-center p-2 border-b last:border-none">
-            <div>
+            <div className="pr-2 flex-grow">
               <p className="text-lg font-medium">{prestataire.nom}</p>
               <p>
                 Type:
@@ -146,28 +151,37 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
                 }
               </p>
               <p>Localisation: {prestataire.localisation}</p>
-              <p>Gamme de prix: {prestataire.gammePrix}</p>
               <p className="flex flex-nowrap">
-                Note: {renderStars(prestataire.note)}
+                Note: {afficherEtoilesF(prestataire.note)}
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-2 w-fit">
-              {/* Boutons pour appeler et envoyer un message */}
-              <a
-                href={`tel:+49${prestataire.telephone}`} // Numéro allemand
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-fit h-10">
-                Appeler
-              </a>
-              <a
-                href={`https://wa.me/49${prestataire.telephone}`} // Lien WhatsApp
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-fit h-10">
-                Écrire sur WhatsApp
-              </a>
-              <a
-                href={`mailto:${prestataire.email}`} // Lien pour email
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 w-fit h-10">
-                Écrire par Email
-              </a>
+            <div className="flex flex-col items-center gap-2 ">
+              <button
+                onClick={() => toggleContactOptionsF(prestataire.id)}
+                className={`text-center w-fit text-white px-4 py-1 rounded-md ${contactOptionsVisible === prestataire.id ? ' bg-red-600 hover:bg-red-800' : ' bg-blue-600 hover:bg-blue-800'}`}>
+                {contactOptionsVisible ? 'Annuler' : 'Contacter'}
+              </button>
+
+              {/* Affichage des options de contact si le bouton est cliqué */}
+              {contactOptionsVisible === prestataire.id && (
+                <div className="flex flex-col text-center gap-2">
+                  <a
+                    href={`tel:+49${prestataire.telephone}`}
+                    className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-800">
+                    Appeler
+                  </a>
+                  <a
+                    href={`https://wa.me/49${prestataire.telephone}`}
+                    className="bg-green-600 text-white px-4 py-1 rounded-md hover:bg-green-800">
+                    Écrire sur WhatsApp
+                  </a>
+                  <a
+                    href={`mailto:${prestataire.email}`}
+                    className="bg-gray-600 text-white px-4 py-1 rounded-md hover:bg-gray-800">
+                    Écrire par Email
+                  </a>
+                </div>
+              )}
             </div>
           </li>
         ))}

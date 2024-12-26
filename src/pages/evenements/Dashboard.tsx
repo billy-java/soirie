@@ -13,7 +13,6 @@ import {
 import { iconsListe } from '../../lib/iconsListe';
 
 const Dashboard = () => {
-
   const { eId } = useParams();
 
   const cetEvenement = useSelector((state: RootState_DB) =>
@@ -102,7 +101,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8 p-6 bg-gray-50 min-h-screen">
+    <div className="flex flex-col gap-8 px-4 py-10 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-extrabold text-center text-indigo-700">
         Tableau de Bord
       </h1>
@@ -211,7 +210,7 @@ const Dashboard = () => {
               <button
                 onClick={() => actionModifier()}
                 className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
-                  {iconsListe.modifier}
+                {iconsListe.modifier}
               </button>
             </div>
           )}
@@ -252,8 +251,4 @@ const Dashboard = () => {
 };
 export default Dashboard;
 
-
-
-
 import React from 'react';
-
