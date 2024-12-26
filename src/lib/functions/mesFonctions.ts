@@ -1,4 +1,6 @@
-export function gerer_IUtilisateur_Role(valeur: number | string): string | number {
+export function gerer_IUtilisateur_Role(
+  valeur: number | string
+): string | number {
   if (valeur === 1 || valeur === 'Organisateur') {
     return typeof valeur === 'number' ? 'Organisateur' : 1;
   } else if (valeur === 2 || valeur === 'Participant') {
@@ -18,43 +20,43 @@ export function gerer_ITache_Statut(valeur: number | string): string | number {
   return 'ERREUR STATUT TÂCHE';
 }
 
-export function convertirPrioriteF(
-  valeur: number | string
-): string | number {if (valeur === 1 || valeur === 'Basse') {
-  return typeof valeur === 'number' ? 'Basse' : 1;
-} else if (valeur === 2 || valeur === 'Moyenne') {
-  return typeof valeur === 'number' ? 'Moyenne' : 2;
-} else if (valeur === 3 || valeur === 'Haute') {
-  return typeof valeur === 'number' ? 'Haute' : 3;
-}
-return 'ERREUR PRIORITÉ';
+export function convertirPrioriteF(valeur: number | string): string | number {
+  if (valeur === 1 || valeur === 'Basse') {
+    return typeof valeur === 'number' ? 'Basse' : 1;
+  } else if (valeur === 2 || valeur === 'Moyenne') {
+    return typeof valeur === 'number' ? 'Moyenne' : 2;
+  } else if (valeur === 3 || valeur === 'Haute') {
+    return typeof valeur === 'number' ? 'Haute' : 3;
+  }
+  return 'ERREUR PRIORITÉ';
 }
 
 export function gerer_IReponseRSV_Statut(
   valeur: number | string
-): string | number { if (valeur === 1 || valeur === 'Confirmé') {
-  return typeof valeur === 'number' ? 'Confirmé' : 1;
-} else if (valeur === 2 || valeur === 'Refusé') {
-  return typeof valeur === 'number' ? 'Refusé' : 2;
-} else if (valeur === 3 || valeur === 'En attente') {
-  return typeof valeur === 'number' ? 'En attente' : 3;
+): string | number {
+  if (valeur === 1 || valeur === 'Confirmé') {
+    return typeof valeur === 'number' ? 'Confirmé' : 1;
+  } else if (valeur === 2 || valeur === 'Refusé') {
+    return typeof valeur === 'number' ? 'Refusé' : 2;
+  } else if (valeur === 3 || valeur === 'En attente') {
+    return typeof valeur === 'number' ? 'En attente' : 3;
+  }
+  return 'ERREUR STATUT RSVP';
 }
-return 'ERREUR STATUT RSVP';
-}
-
 
 export function gerer_IPrestataire_Type(
   valeur: number | string
-): string | number { if (valeur === 1 || valeur === 'Traiteur') {
-  return typeof valeur === 'number' ? 'Traiteur' : 1;
-} else if (valeur === 2 || valeur === 'DJ') {
-  return typeof valeur === 'number' ? 'DJ' : 2;
-} else if (valeur === 3 || valeur === 'Décorateur') {
-  return typeof valeur === 'number' ? 'Décorateur' : 3;
-} else if (valeur === 4 || valeur === 'Autre') {
-  return typeof valeur === 'number' ? 'Autre' : 4;
-}
-return 'ERREUR TYPE PRESTATAIRE';
+): string | number {
+  if (valeur === 1 || valeur === 'Traiteur') {
+    return typeof valeur === 'number' ? 'Traiteur' : 1;
+  } else if (valeur === 2 || valeur === 'DJ') {
+    return typeof valeur === 'number' ? 'DJ' : 2;
+  } else if (valeur === 3 || valeur === 'Décorateur') {
+    return typeof valeur === 'number' ? 'Décorateur' : 3;
+  } else if (valeur === 4 || valeur === 'Autre') {
+    return typeof valeur === 'number' ? 'Autre' : 4;
+  }
+  return 'ERREUR TYPE PRESTATAIRE';
 }
 
 export function gerer_IInvitation_statut(
@@ -71,7 +73,8 @@ export function gerer_IInvitation_statut(
 }
 
 export function genererIdUnique<T extends { id: string }>(
-  uneListe: T[], prefixe:string
+  uneListe: T[],
+  prefixe: string
 ): string {
   const ids_existants = new Set(uneListe.map((element) => element.id));
 
@@ -82,7 +85,7 @@ export function genererIdUnique<T extends { id: string }>(
   return nouveauId;
 }
 
-function creerId(prefixe:string): string {
+function creerId(prefixe: string): string {
   const part1 = Math.floor(Math.random() * 100)
     .toString()
     .padStart(2, '0');

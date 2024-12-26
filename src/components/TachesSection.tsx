@@ -184,6 +184,25 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
             className="p-2 border border-gray-300 rounded-md"
           />
 
+          <select
+            value={data.ajouter?.priorite || 2}
+            onChange={(e) =>
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? {
+                      ...data.ajouter,
+                      priorite: parseInt(e.target.value) as 1 | 2 | 3,
+                    }
+                  : null,
+              })
+            }
+            className="p-2 border border-gray-300 rounded-md">
+            <option value={1}>Basse</option>
+            <option value={2}>Moyenne</option>
+            <option value={3}>Haute</option>
+          </select>
+
           <button
             type="submit"
             title="Cliquez pour sauvegarder la dépense."
@@ -264,12 +283,22 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                     }
                     className="p-2 border border-gray-300 rounded-md flex-grow"
                   />
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-2 py-1 flex-grow rounded-md hover:bg-blue-600">
-                    Sauvegarder
-                  </button>
 
+<select
+      value={data.modifier?.priorite || 2}
+      onChange={(e) =>
+        setData({
+          ...data,
+          modifier: data.modifier
+            ? { ...data.modifier, priorite: parseInt(e.target.value) as 1 | 2 | 3 }
+            : null,
+        })
+      }
+      className="p-2 border border-gray-300 rounded-md">
+      <option value={1}>Basse</option>
+      <option value={2}>Moyenne</option>
+      <option value={3}>Haute</option>
+    </select>
                   <div className="w-full flex justify-center space-x-4">
                     <button
                       type="submit"
