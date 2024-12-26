@@ -14,24 +14,30 @@ interface TachesProps {
   tachesProps: ITache[];
 }
 
-interface Data {
+interface IData {
   ajouter: ITache | null;
   modifier: ITache | null;
+  idSuppression: string | null;
+  sauvegargerListe: boolean;
 }
 
 const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
   const [taches, setTaches] = useState<ITache[]>(tachesProps);
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<IData>({
     ajouter: null,
     modifier: null,
+    idSuppression: null,
+    sauvegargerListe: false,
   });
-  const [idConfirmationSuppression, setDeleteConfirmationId] = useState<
-    string | null
-  >(null);
 
   const toggleFormulaireAjout = () => {
     if (data.ajouter) {
-      setData({ ajouter: null, modifier: null });
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: false,
+      });
     } else {
       setData({
         ajouter: {
@@ -44,6 +50,8 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
           priorite: 2,
         },
         modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
       });
     }
   };
@@ -58,7 +66,12 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
         },
         ...taches,
       ]);
-      setData({ ajouter: null, modifier: null });
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
     }
   };
 
@@ -68,8 +81,15 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       setData({
         ajouter: null,
         modifier: { ...tacheToEdit },
+        idSuppression: null,
+        sauvegargerListe: false,
       });
     }
+  };
+
+  const sauvegardeSurleServeur = () => {
+    const temp = { ...data, sauvegargerListe: false } as IData;
+    setData(temp);
   };
 
   const validerModification = (e: React.FormEvent) => {
@@ -82,25 +102,42 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
             : tache
         )
       );
-      setData({ ajouter: null, modifier: null });
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
     }
   };
 
   const annulerModification = () => {
-    setData({ ajouter: null, modifier: null });
+    setData({
+      ajouter: null,
+      modifier: null,
+      idSuppression: null,
+      sauvegargerListe: false,
+    });
   };
 
   const supprimerTache = (id: string) => {
     setTaches(taches.filter((tache) => tache.id !== id));
-    setDeleteConfirmationId(null); // Annule la confirmation après suppression
+    const temp = {
+      ...data,
+      idSuppression: null,
+      sauvegargerListe: true,
+    } as IData;
+    setData(temp);
   };
 
   const confirmerSuppression = (id: string) => {
-    setDeleteConfirmationId(id);
+    const temp = { ...data, idSuppression: id } as IData;
+    setData(temp);
   };
 
   const annulerSuppression = () => {
-    setDeleteConfirmationId(null);
+    const temp = { ...data, idSuppression: null } as IData;
+    setData(temp);
   };
 
   const changerStatutTache = (id: string) => {
@@ -109,6 +146,12 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
         tache.id === id ? { ...tache, terminee: !tache.terminee } : tache
       )
     );
+    setData({
+      ajouter: null,
+      modifier: null,
+      idSuppression: null,
+      sauvegargerListe: true,
+    });
   };
 
   return (
@@ -129,7 +172,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       {data.ajouter && (
         <form
           onSubmit={(e) => {
-            if (idConfirmationSuppression) annulerSuppression();
+            if (data.idSuppression) annulerSuppression();
             ajouterTache(e);
           }}
           className="flex flex-col gap-2 mt-4">
@@ -220,17 +263,17 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
         {taches.map((tache) => (
           <li
             key={tache.id}
-            className={`flex flex-col shadow-lg rounded-lg ${idConfirmationSuppression === tache.id ? 'bg-red-50' : 'bg-white'}`}>
+            className={`flex flex-col shadow-lg rounded-lg ${data.idSuppression === tache.id ? 'bg-red-50' : 'bg-white'}`}>
             <div
               className={`flex justify-between items-center  rounded-lg p-4  ${
-                tache.terminee && idConfirmationSuppression !== tache.id
+                tache.terminee && data.idSuppression !== tache.id
                   ? 'bg-green-100'
                   : ''
               }`}>
               {data.modifier?.id === tache.id ? (
                 <form
                   onSubmit={(e) => {
-                    if (idConfirmationSuppression) annulerSuppression();
+                    if (data.idSuppression) annulerSuppression();
                     validerModification(e);
                   }}
                   className="flex flex-wrap flex-grow gap-2 mr-4">
@@ -284,21 +327,24 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                     className="p-2 border border-gray-300 rounded-md flex-grow"
                   />
 
-<select
-      value={data.modifier?.priorite || 2}
-      onChange={(e) =>
-        setData({
-          ...data,
-          modifier: data.modifier
-            ? { ...data.modifier, priorite: parseInt(e.target.value) as 1 | 2 | 3 }
-            : null,
-        })
-      }
-      className="p-2 border border-gray-300 rounded-md">
-      <option value={1}>Basse</option>
-      <option value={2}>Moyenne</option>
-      <option value={3}>Haute</option>
-    </select>
+                  <select
+                    value={data.modifier?.priorite || 2}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? {
+                              ...data.modifier,
+                              priorite: parseInt(e.target.value) as 1 | 2 | 3,
+                            }
+                          : null,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md">
+                    <option value={1}>Basse</option>
+                    <option value={2}>Moyenne</option>
+                    <option value={3}>Haute</option>
+                  </select>
                   <div className="w-full flex justify-center space-x-4">
                     <button
                       type="submit"
@@ -326,7 +372,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
               <div className="flex flex-col  items-center gap-2">
                 <button
                   onClick={() => {
-                    if (idConfirmationSuppression) annulerSuppression();
+                    if (data.idSuppression) annulerSuppression();
                     changerStatutTache(tache.id);
                   }}
                   className={`text-white rounded-md px-2 py-2 ${tache.terminee ? 'bg-green-600 hover:bg-green-800' : 'border border-gray-300 bg-yellow-600 hover:bg-yellow-800'}
@@ -335,7 +381,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                 </button>
                 <button
                   onClick={() => {
-                    if (idConfirmationSuppression) annulerSuppression();
+                    if (data.idSuppression) annulerSuppression();
                     demarrerModification(tache.id);
                   }}
                   className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
@@ -343,10 +389,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                 </button>
                 <button
                   onClick={() => {
-                    if (
-                      idConfirmationSuppression &&
-                      idConfirmationSuppression === tache.id
-                    ) {
+                    if (data.idSuppression && data.idSuppression === tache.id) {
                       annulerSuppression();
                     } else {
                       confirmerSuppression(tache.id);
@@ -358,7 +401,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
               </div>
             </div>
 
-            {idConfirmationSuppression === tache.id && (
+            {data.idSuppression === tache.id && (
               <div className="mt-4 p-4 bg-red-100 m-1 rounded-md">
                 <p className="text-red-600">
                   Êtes-vous sûr de vouloir supprimer cette tâche ?
@@ -380,8 +423,20 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
           </li>
         ))}
       </ul>
+
+      <div className="flex justify-center w-full">
+        {data.sauvegargerListe && (
+          <button
+            onClick={sauvegardeSurleServeur}
+            className={`px-6 py-3 text-lg rounded-md shadow-md transition bg-indigo-600 hover:bg-indigo-800 text-white`}
+            title="Cliquez pour Sauvegarder tout la liste de taches.">
+            {taches.length === 0
+              ? 'Sauvegarger une liste vide'
+              : 'Sauvegarder tout la liste de taches'}
+          </button>
+        )}
+      </div>
     </section>
   );
 };
-
 export default TachesSection;

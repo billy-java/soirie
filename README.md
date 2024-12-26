@@ -9,11 +9,6 @@
 - integrer les slice de redux
 
 
--- boutons uniformes
--- couleurs
--- div
--- font
--- responsive Design
 -- gestion des erreurs
 -- Textes descriptifs pour aider l'utilisateur
 
@@ -21,3 +16,11 @@
 ### Backend Java Spring Boot
 - implementer la base de donnees
 - implementer le Backend
+
+
+### terminee
+-- boutons uniformes
+-- couleurs
+-- div
+-- font
+-- responsive Design
