@@ -14,11 +14,12 @@ const authSlice = createSlice({
   reducers: {
     login: (
       state,
-      action: PayloadAction<{ user: IUtilisateur; token: string; idEv: string }>
+      action: PayloadAction<IAuth>
     ) => {
-      state.userActuel = action.payload.user;
-      state.token = action.payload.token;
-      state.idEv = action.payload.idEv;
+      const { userActuel, token, idEv } = action.payload;
+      state.userActuel = userActuel;
+      state.token = token;
+      state.idEv = idEv;
     },
     logout: (state) => {
       state.userActuel = null;

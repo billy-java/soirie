@@ -99,7 +99,8 @@ const Home = () => {
 
   const deconnection = () => {
     dispatch(logout());
-    navigate('/connexion');
+    setEvenements([]);
+    navigate('/');
   };
 
   return (
@@ -177,7 +178,7 @@ const Home = () => {
               if (idConfirmationSuppression) setIdConfirmationSuppression(null);
               gererAjoutEvenement();
             }}
-            className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+            className="bg-indigo-600 text-white size-fit px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
             <p>Sauvegarder</p> {iconsListe.enregister}
           </button>
         </div>

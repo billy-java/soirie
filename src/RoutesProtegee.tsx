@@ -28,7 +28,7 @@ const RoutesProtegee: React.FC<ProtectedRouteProps> = ({ element }) => {
       return <Navigate to="/home" />;
     }
   } else {
-    return <Navigate to="/connexion" />;
+    return <Navigate to="/" />;
   }
 };
 

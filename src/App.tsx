@@ -12,6 +12,8 @@ import Menu from './pages/evenements/Menu';
 import Aide from './pages/evenements/menu/Aide';
 import Connexion from './pages/auth/Connexion';
 import RoutesProtegee from './RoutesProtegee';
+import Inscription from './pages/auth/Inscription';
+import Restaurer from './pages/auth/Restaurer';
 
 const App: React.FC = () => {
   return (
@@ -20,7 +22,9 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/connexion" element={<Connexion />} />
+          <Route path="/" element={<Connexion />} />
+          <Route path="/inscription" element={<Inscription />} />
+          <Route path="/restaurer" element={<Restaurer />} />
 
           {/* Routes pour les pages d'événements */}
           <Route

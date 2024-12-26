@@ -2,9 +2,8 @@
 
 
 # a ameliorer:
-- un system de login
-- finaliser le Design
 - gerer le lien dinvitation
+- un system de login
 - integrer les slice de redux
 
 
