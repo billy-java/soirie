@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IEvenement } from '../lib/interfaces/entites';
-import { iconsListe } from '../lib/iconsListe'; // Assurez-vous d'importer les icônes nécessaires
+import { iconsListe } from '../lib/iconsListe';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
-import { setIdEv } from '../redux/authSlice';
+import { logout, setIdEv } from '../redux/authSlice';
 import {
   dateJSVersIDate,
   iDateVersDateJS,
@@ -14,6 +14,7 @@ import { Titre1, Titre2, Titre3 } from '../components/Titres';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const evenementsInitials = useSelector(
     (state: RootState_DB) => state.evenement.evenementsAttr
   );
@@ -90,6 +91,15 @@ const Home = () => {
   const gererSuppressionEvenement = (id: string) => {
     setEvenements((prev) => prev.filter((evenement) => evenement.id !== id));
     setIdConfirmationSuppression(null);
+  };
+
+  const creerParams = (id: string) => {
+    dispatch(setIdEv(id));
+  };
+
+  const deconnection = () => {
+    dispatch(logout());
+    navigate('/connexion');
   };
 
   return (
@@ -183,7 +193,7 @@ const Home = () => {
               className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition relative">
               <div>
                 <Link
-                  onClick={() => dispatch(setIdEv(evenement.id))}
+                  onClick={() => creerParams(evenement.id)}
                   to={`/e/${evenement.id}/dashboard`}
                   className="block text-indigo-600 hover:text-indigo-800">
                   <Titre3>{evenement.nom}</Titre3>
@@ -339,6 +349,12 @@ const Home = () => {
           ))}
         </ul>
       </div>
+
+      <button
+        className={`px-6 py-3 my-10 text-lg rounded-md shadow-md transition bg-red-600 hover:bg-red-600 text-white`}
+        onClick={deconnection}>
+        Se deconnecter
+      </button>
     </div>
   );
 };
