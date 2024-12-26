@@ -10,8 +10,10 @@ import {
   iDateVersDateJS,
   iDateVersString,
 } from '../../lib/functions/convertirDates';
+import { iconsListe } from '../../lib/iconsListe';
 
 const Dashboard = () => {
+
   const { eId } = useParams();
 
   const cetEvenement = useSelector((state: RootState_DB) =>
@@ -22,8 +24,9 @@ const Dashboard = () => {
   const mesTaches = anniversaireTaches.filter(
     (el) => el.idEvenement === '1' && el.priorite === 3
   );
+  const [modifier, setModifier] = useState<boolean>(false);
 
-  const invitation: IInvitation = {
+  const [invitation, setInvitation] = useState<IInvitation>({
     id: '1',
     idEvenement: '1',
     nom: 'Jean Dupont',
@@ -32,7 +35,7 @@ const Dashboard = () => {
     nombreRejets: 0,
     statut: 1, //ouvert
     lien: 'https://example',
-  };
+  });
 
   const [tempsRestant, setTempsRestant] = useState({
     jours: 0,
@@ -76,6 +79,27 @@ const Dashboard = () => {
     const interval = setInterval(calculerCompteARebours, 1000);
     return () => clearInterval(interval);
   }, [cetEvenement.date]);
+
+  const changeNombrePersonnes = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nouvelleValeur = parseInt(e.target.value, 10);
+    if (isNaN(nouvelleValeur) || nouvelleValeur < 0) {
+      return;
+    } else {
+      setInvitation({
+        ...invitation,
+        nombrePersonnes: nouvelleValeur,
+      });
+    }
+  };
+
+  function sauvegarder(): void {
+    //dispatch
+    setModifier(false);
+  }
+
+  function actionModifier(): void {
+    setModifier(true);
+  }
 
   return (
     <div className="flex flex-col gap-8 p-6 bg-gray-50 min-h-screen">
@@ -161,12 +185,37 @@ const Dashboard = () => {
           Votre lien d'invitation :
         </h2>
         <div className="space-y-2">
-          <p>
-            <span className="font-semibold">
-              Nombre de personnes souhaitées:
-            </span>{' '}
-            {invitation.nombrePersonnes}
-          </p>
+          {modifier ? (
+            <div className="flex items-center gap-4">
+              <input
+                type="number"
+                name="nom"
+                value={invitation.nombrePersonnes}
+                onChange={changeNombrePersonnes}
+                className="border p-2 rounded-md flex-grow"
+              />
+              <button
+                onClick={sauvegarder}
+                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                <p>Sauvegarder</p> {iconsListe.enregister}
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between">
+              <p>
+                <span className="font-semibold">
+                  Nombre de personnes souhaitées:
+                </span>{' '}
+                {invitation.nombrePersonnes}
+              </p>
+              <button
+                onClick={() => actionModifier()}
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
+                  {iconsListe.modifier}
+              </button>
+            </div>
+          )}
+
           <p>
             <span className="font-semibold">Nombre de confirmations:</span>{' '}
             {invitation.nombreConfirmations}
@@ -202,3 +251,9 @@ const Dashboard = () => {
   );
 };
 export default Dashboard;
+
+
+
+
+import React from 'react';
+

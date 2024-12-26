@@ -53,13 +53,13 @@ const Home = () => {
       return;
     }
     setEvenements((prev) => [
-      ...prev,
       {
         id: `${Date.now()}`, // Génère un id unique basé sur le temps
         idUtilisateur: '123', // Id utilisateur fictif
-        type: 'Fête',
+        type: 'Anniversaire',
         ...nouvelEvenement,
       } as IEvenement,
+      ...prev,
     ]);
     setAfficherFormulaireAjout(false);
     setNouvelEvenement({
@@ -92,10 +92,10 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-50 min-h-screen p-6">
+    <div className="flex flex-col items-center bg-gray-100 min-h-screen p-6">
       {/* Titre principal */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">
+        <h1 className="text-4xl font-bold text-indigo-600 mb-4">
           Planifiez Votre Événement Facilement
         </h1>
         <p className="text-gray-700 text-lg">
@@ -107,7 +107,11 @@ const Home = () => {
       {/* Bouton pour créer un événement */}
       <div className="mb-8">
         <button
-          className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition"
+          className={`px-6 py-3 font-semibold rounded-md shadow-md transition ${
+            afficherFormulaireAjout
+              ? 'bg-red-600 hover:bg-red-600 text-white'
+              : 'bg-indigo-600 hover:bg-indigo-800 text-white'
+          }`}
           onClick={() => {
             if (idConfirmationSuppression) setIdConfirmationSuppression(null);
             setAfficherFormulaireAjout(!afficherFormulaireAjout);
@@ -140,6 +144,16 @@ const Home = () => {
             onChange={(e) => gererChangementChamp('lieu', e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
+          <select
+            value={nouvelEvenement.type}
+            onChange={(e) => gererChangementChamp('type', e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2 mb-4">
+            <option value="Fête">Fête</option>
+            <option value="Mariage">Mariage</option>
+            <option value="Anniversaire">Anniversaire</option>
+            <option value="Autre">Autre</option>
+          </select>
+
           <input
             type="number"
             placeholder="Budget (€)"
@@ -154,8 +168,8 @@ const Home = () => {
               if (idConfirmationSuppression) setIdConfirmationSuppression(null);
               gererAjoutEvenement();
             }}
-            className="w-full bg-green-500 text-white font-semibold rounded-md py-2 hover:bg-green-600 transition">
-            Sauvegarder
+            className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+            <p>Sauvegarder</p> {iconsListe.enregister}
           </button>
         </div>
       )}
@@ -169,13 +183,17 @@ const Home = () => {
           {evenements.map((evenement) => (
             <li
               key={evenement.id}
-              className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition relative">
+              className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition relative">
               <div>
                 <Link
                   onClick={() => dispatch(setIdEv(evenement.id))}
                   to={`/e/${evenement.id}/dashboard`}
-                  className="block text-gray-800 hover:text-blue-600">
+                  className="block text-indigo-600 hover:text-indigo-800">
                   <h4 className="text-xl font-bold mb-2">{evenement.nom}</h4>
+                  <p className="text-gray-600">
+                    <span className="font-semibold">Type devenement :</span>{' '}
+                    {evenement.type}
+                  </p>
                   <p className="text-gray-600">
                     <span className="font-semibold">Date :</span>{' '}
                     {iDateVersDateJS(evenement.date).toLocaleDateString()}
@@ -207,7 +225,7 @@ const Home = () => {
                       budget: evenement.budget,
                     });
                   }}
-                  className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 transition">
+                  className="bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-800 transition">
                   {iconsListe.modifier}
                 </button>
                 <button
@@ -221,7 +239,7 @@ const Home = () => {
                       setIdConfirmationSuppression(evenement.id);
                     }
                   }}
-                  className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition">
+                  className="bg-red-600 text-white px-2 py-1 rounded-md hover:bg-red-800 transition">
                   {iconsListe.supprimer}
                 </button>
               </div>
@@ -256,6 +274,18 @@ const Home = () => {
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
+                  <select
+                    value={nouvelEvenement.type || evenement.type}
+                    onChange={(e) =>
+                      gererChangementChamp('type', e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded-md p-2 mb-2">
+                    <option value="Fête">Fête</option>
+                    <option value="Mariage">Mariage</option>
+                    <option value="Anniversaire">Anniversaire</option>
+                    <option value="Autre">Autre</option>
+                  </select>
+
                   <input
                     type="number"
                     placeholder="Budget (€)"
@@ -266,16 +296,24 @@ const Home = () => {
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
 
-                  <button
-                    onClick={() => {
-                      if (idConfirmationSuppression)
-                        setIdConfirmationSuppression(null);
-                      gererModificationEvenement(evenement.id);
-                    }}
-                    type="submit"
-                    className="bg-blue-500 text-white w-full px-4 py-2 rounded-md hover:bg-blue-600 flex flex-wrap justify-center items-center space-x-2">
-                    <p>Sauvegarder</p> {iconsListe.enregister}
-                  </button>
+                  <div className="flex justify-center space-x-4">
+                    <button
+                      onClick={() => {
+                        if (idConfirmationSuppression)
+                          setIdConfirmationSuppression(null);
+                        gererModificationEvenement(evenement.id);
+                      }}
+                      type="submit"
+                      className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                      <p>Sauvegarder</p> {iconsListe.enregister}
+                    </button>
+                    <button
+                      onClick={() => setIdEvenementModification(null)}
+                      type="submit"
+                      className="bg-red-600 text-white w-full px-4 py-2 rounded-md hover:bg-red-800 flex flex-wrap justify-center items-center space-x-2">
+                      Annuler
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -288,7 +326,7 @@ const Home = () => {
                   <div className="flex gap-4 mt-2">
                     <button
                       onClick={() => gererSuppressionEvenement(evenement.id)}
-                      className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600 transition">
+                      className="bg-red-600 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-800 transition">
                       Oui
                     </button>
                     <button

@@ -12,7 +12,7 @@ export interface IEvenement {
   id: string;
   idUtilisateur: string;
   nom: string;
-  type: 'Fête';
+  type: 'Fête' | 'Mariage' | 'Anniversaire' | 'Autre';
   date: IDate;
   lieu: string;
   budget: number;

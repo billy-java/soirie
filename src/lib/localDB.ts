@@ -29,7 +29,7 @@ export const evenements: IEvenement[] = [
     id: '1',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: "Fête d'anniversaire",
-    type: 'Fête',
+    type: 'Anniversaire',
     date: {
       jour: 26,
       mois: 12,
@@ -44,7 +44,7 @@ export const evenements: IEvenement[] = [
     id: '2',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: 'Mariage de Bob',
-    type: 'Fête',
+    type: 'Anniversaire',
     date: {
       jour: 31,
       mois: 12,
@@ -271,7 +271,6 @@ export const prestataires: IPrestataire[] = [
   },
 ];
 
-
 export const anniversaireTaches: ITache[] = [
   {
     id: '1',
@@ -441,7 +440,6 @@ export const depenses: IDepense[] = [
     terminee: false,
   },
 ];
-
 
 export const faqData: IFaq[] = [
   // Catégorie "Utilisation"

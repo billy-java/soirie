@@ -43,7 +43,7 @@ const Parametres = () => {
   };
 
   return (
-    <div className="p-10">
+    <div className="p-10 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold mb-4 text-center">Paramètres</h1>
       <h1 className="text-2xl mb-4 text-center">ID: {userData.id}</h1>
       <div className="space-y-4 text-xl">
@@ -57,12 +57,12 @@ const Parametres = () => {
                 name="nom"
                 value={formData.nom}
                 onChange={handleChange}
-                className="border p-2 rounded-md"
+                className="border p-2 rounded-md flex-grow"
               />
               <button
                 onClick={() => handleSave('nom')}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Enregistrer
+                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
@@ -70,7 +70,7 @@ const Parametres = () => {
               <p>{userData.nom}</p>
               <button
                 onClick={() => handleEdit('nom')}
-                className="bg-indigo-600 text-white p-2 rounded-md">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -87,12 +87,12 @@ const Parametres = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="border p-2 rounded-md"
+                className="border p-2 rounded-md flex-grow"
               />
               <button
                 onClick={() => handleSave('email')}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Enregistrer
+                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
@@ -100,7 +100,7 @@ const Parametres = () => {
               <p>{userData.email}</p>
               <button
                 onClick={() => handleEdit('email')}
-                className="bg-indigo-600 text-white p-2 rounded-md">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -117,12 +117,12 @@ const Parametres = () => {
                 name="motDePasse"
                 value={formData.motDePasse}
                 onChange={handleChange}
-                className="border p-2 rounded-md"
+                className="border p-2 rounded-md flex-grow"
               />
               <button
                 onClick={() => handleSave('motDePasse')}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Enregistrer
+                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
@@ -130,7 +130,7 @@ const Parametres = () => {
               <p>********</p>
               <button
                 onClick={() => handleEdit('motDePasse')}
-                className="bg-indigo-600 text-white p-2 rounded-md">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -147,12 +147,12 @@ const Parametres = () => {
                 name="telephone"
                 value={formData.telephone}
                 onChange={handleChange}
-                className="border p-2 rounded-md"
+                className="border p-2 rounded-md flex-grow"
               />
               <button
                 onClick={() => handleSave('telephone')}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Enregistrer
+                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                <p>Sauvegarder</p> {iconsListe.enregister}
               </button>
             </div>
           ) : (
@@ -160,7 +160,7 @@ const Parametres = () => {
               <p>{userData.telephone}</p>
               <button
                 onClick={() => handleEdit('telephone')}
-                className="bg-indigo-600 text-white p-2 rounded-md">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -172,8 +172,8 @@ const Parametres = () => {
       <div className="mt-6 flex flex-wrap justify-center">
         <button
           onClick={handleSaveAll}
-          className="bg-green-500 text-white px-4 py-3 rounded-md text-xl shadow-lg">
-          Sauvegarder
+          className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+          <p>Sauvegarder</p> {iconsListe.enregister}
         </button>
       </div>
     </div>

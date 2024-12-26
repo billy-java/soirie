@@ -5,6 +5,8 @@
 # a ameliorer:
 - un system de login
 - finaliser le Design
+- gerer le lien dinvitation
+- integrer les slice de redux
 
 
 -- boutons uniformes

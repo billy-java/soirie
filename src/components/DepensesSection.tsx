@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { IDepense } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
-import { dateJSVersIDate, iDateVersInput, iDateVersString, inputVersIDate } from '../lib/functions/convertirDates';
+import {
+  dateJSVersIDate,
+  iDateVersInput,
+  iDateVersString,
+  inputVersIDate,
+} from '../lib/functions/convertirDates';
 
 interface DepensesProps {
   depensesInitiales: IDepense[];
@@ -272,7 +277,10 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       setData({
                         ...data,
                         modifier: data.modifier
-                          ? { ...data.modifier, date: inputVersIDate(e.target.value) }
+                          ? {
+                              ...data.modifier,
+                              date: inputVersIDate(e.target.value),
+                            }
                           : null,
                       })
                     }
@@ -306,7 +314,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     changerStatutDepense(depense.id);
                   }}
                   className={`${depense.terminee ? 'bg-green-500 hover:bg-green-600' : 'border border-gray-300 text-red-500'}
-                  text-white px-2 py-1 rounded-md w-24 h-10`}
+                  text-black px-2 py-1 rounded-md w-24 h-10`}
                   title={
                     depense.terminee
                       ? 'Marquer comme non effectué'
