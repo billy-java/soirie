@@ -33,10 +33,10 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
   const toggleFormulaireAjout = () => {
     if (data.ajouter) {
       setData({
+        ...data,
         ajouter: null,
         modifier: null,
         idSuppression: null,
-        sauvegargerListe: false,
       });
     } else {
       setData({
@@ -79,17 +79,16 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
     const tacheToEdit = taches.find((tache) => tache.id === id);
     if (tacheToEdit) {
       setData({
+        ...data,
         ajouter: null,
         modifier: { ...tacheToEdit },
         idSuppression: null,
-        sauvegargerListe: false,
       });
     }
   };
 
   const sauvegardeSurleServeur = () => {
-    const temp = { ...data, sauvegargerListe: false } as IData;
-    setData(temp);
+    setData({ ...data, sauvegargerListe: false });
   };
 
   const validerModification = (e: React.FormEvent) => {
@@ -113,10 +112,10 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
 
   const annulerModification = () => {
     setData({
+      ...data,
       ajouter: null,
       modifier: null,
       idSuppression: null,
-      sauvegargerListe: false,
     });
   };
 

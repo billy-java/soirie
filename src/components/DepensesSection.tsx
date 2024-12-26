@@ -14,9 +14,11 @@ interface DepensesProps {
   depensesInitiales: IDepense[];
 }
 
-interface Data {
+interface IData {
   ajouter: IDepense | null;
   modifier: IDepense | null;
+  idSuppression: string | null;
+  sauvegargerListe: boolean;
 }
 
 const SectionDepenses: React.FC<DepensesProps> = ({
@@ -45,13 +47,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     depassement: false,
   });
 
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<IData>({
     ajouter: null,
     modifier: null,
+    idSuppression: null,
+    sauvegargerListe: false,
   });
-  const [idConfirmationSuppression, setDeleteConfirmationId] = useState<
-    string | null
-  >(null);
 
   const [triCritere, setTriCritere] = useState<'date' | 'montant' | 'terminee'>(
     'date'
@@ -113,7 +114,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
 
   const toggleFormulaireAjout = () => {
     if (data.ajouter) {
-      setData({ ajouter: null, modifier: null }); // Réinitialiser l'état si on annule
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: false,
+      }); // Réinitialiser l'état si on annule
     } else {
       setData({
         ajouter: {
@@ -126,6 +132,8 @@ const SectionDepenses: React.FC<DepensesProps> = ({
           terminee: false,
         },
         modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
       });
     }
   };
@@ -140,7 +148,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
         },
         ...depenses,
       ]);
-      setData({ ajouter: null, modifier: null });
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
     }
   };
 
@@ -148,14 +161,21 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     const depenseToEdit = depenses.find((depense) => depense.id === id);
     if (depenseToEdit) {
       setData({
+        ...data,
         ajouter: null,
         modifier: { ...depenseToEdit },
+        idSuppression: null,
       });
     }
   };
 
   const annulerModification = () => {
-    setData({ ajouter: null, modifier: null });
+    setData({
+      ...data,
+      ajouter: null,
+      modifier: null,
+      idSuppression: null,
+    });
   };
 
   const validerModification = (e: React.FormEvent) => {
@@ -174,12 +194,23 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             : depense
         )
       );
-      setData({ ajouter: null, modifier: null });
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
     }
   };
 
   const supprimerDepense = (id: string) => {
     setDepenses(depenses.filter((depense) => depense.id !== id));
+    const temp = {
+      ...data,
+      idSuppression: null,
+      sauvegargerListe: true,
+    } as IData;
+    setData(temp);
   };
 
   const changerStatutDepense = (id: string) => {
@@ -191,15 +222,22 @@ const SectionDepenses: React.FC<DepensesProps> = ({
       )
     );
 
-    setDeleteConfirmationId(null);
+    setData({
+      ajouter: null,
+      modifier: null,
+      idSuppression: null,
+      sauvegargerListe: true,
+    });
   };
 
   const confirmerSuppression = (id: string) => {
-    setDeleteConfirmationId(id);
+    const temp = { ...data, idSuppression: id } as IData;
+    setData(temp);
   };
 
   const annulerSuppression = () => {
-    setDeleteConfirmationId(null);
+    const temp = { ...data, idSuppression: null } as IData;
+    setData(temp);
   };
 
   const trierDepenses = (
@@ -231,6 +269,10 @@ const SectionDepenses: React.FC<DepensesProps> = ({
     setDepenses(depensesTriees);
   };
 
+  const sauvegardeSurleServeur = () => {
+    setData({ ...data, sauvegargerListe: false });
+  };
+
   return (
     <section className="flex flex-col gap-10 bg-gray-100 p-4 rounded-md mb-20">
       <div className="flex justify-center w-full">
@@ -249,7 +291,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
       {data.ajouter && (
         <form
           onSubmit={(e) => {
-            if (idConfirmationSuppression) annulerSuppression();
+            if (data.idSuppression) annulerSuppression();
             ajouterDepense(e);
           }}
           className="flex flex-col gap-2 mt-4">
@@ -443,17 +485,17 @@ const SectionDepenses: React.FC<DepensesProps> = ({
           {depenses.map((depense) => (
             <li
               key={depense.id}
-              className={`flex flex-col shadow-lg rounded-lg ${idConfirmationSuppression === depense.id ? 'bg-red-50' : 'bg-white'}`}>
+              className={`flex flex-col shadow-lg rounded-lg ${data.idSuppression === depense.id ? 'bg-red-50' : 'bg-white'}`}>
               <div
                 className={`flex justify-between items-center  rounded-lg p-4  ${
-                  depense.terminee && idConfirmationSuppression !== depense.id
+                  depense.terminee && data.idSuppression !== depense.id
                     ? 'bg-green-100'
                     : ''
                 }`}>
                 {data.modifier?.id === depense.id ? (
                   <form
                     onSubmit={(e) => {
-                      if (idConfirmationSuppression) annulerSuppression();
+                      if (data.idSuppression) annulerSuppression();
                       validerModification(e);
                     }}
                     className="flex flex-wrap flex-grow gap-2 mr-4">
@@ -552,7 +594,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                 <div className="flex flex-col  items-center gap-2">
                   <button
                     onClick={() => {
-                      if (idConfirmationSuppression) annulerSuppression();
+                      if (data.idSuppression) annulerSuppression();
                       changerStatutDepense(depense.id);
                     }}
                     title={
@@ -566,7 +608,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                   </button>
                   <button
                     onClick={() => {
-                      if (idConfirmationSuppression) annulerSuppression();
+                      if (data.idSuppression) annulerSuppression();
                       demarrerModification(depense.id);
                     }}
                     className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
@@ -575,8 +617,8 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                   <button
                     onClick={() => {
                       if (
-                        idConfirmationSuppression &&
-                        idConfirmationSuppression === depense.id
+                        data.idSuppression &&
+                        data.idSuppression === depense.id
                       ) {
                         annulerSuppression();
                       } else {
@@ -589,7 +631,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                 </div>
               </div>
 
-              {idConfirmationSuppression === depense.id && (
+              {data.idSuppression === depense.id && (
                 <div className="mt-4 p-4 bg-red-100 rounded-md m-2">
                   <p className="text-red-600">
                     Êtes-vous sûr de vouloir supprimer cette tâche ?
@@ -611,6 +653,19 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="flex justify-center w-full">
+        {data.sauvegargerListe && (
+          <button
+            onClick={sauvegardeSurleServeur}
+            className={`px-6 py-3 text-lg rounded-md shadow-md transition bg-indigo-600 hover:bg-indigo-800 text-white`}
+            title="Cliquez pour Sauvegarder tout la liste de taches.">
+            {depenses.length === 0
+              ? 'Sauvegarger une liste vide'
+              : 'Sauvegarder tout la liste de taches'}
+          </button>
+        )}
       </div>
     </section>
   );
