@@ -101,16 +101,12 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8 px-4 py-10 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-extrabold text-center text-indigo-700">
-        Tableau de Bord
-      </h1>
+    <div className="px-8 py-14 mb-10 min-h-screen flex flex-col gap-8 bg-gray-50">
+      <Titre1>Tableau de Bord</Titre1>
 
       {/* Compte à rebours */}
-      <section className="bg-gradient-to-r from-blue-50 via-white to-blue-50 shadow-lg p-8 rounded-lg text-center">
-        <h2 className="text-3xl font-bold mb-6 text-indigo-600">
-          Compte à rebours ⏳
-        </h2>
+      <section className="bg-gradient-to-r from-blue-50 via-white to-blue-100 shadow-lg p-8 rounded-lg text-center">
+        <Titre2>Compte à rebours ⏳</Titre2>
         {tempsRestant.jours > 0 ||
         tempsRestant.heures > 0 ||
         tempsRestant.minutes > 0 ||
@@ -150,9 +146,8 @@ const Dashboard = () => {
 
       {/* Informations importantes */}
       <section className="bg-indigo-50 shadow-lg text-lg  p-6 rounded-lg border border-indigo-200">
-        <h2 className="text-2xl font-semibold mb-4 text-indigo-600">
-          Informations importantes :
-        </h2>
+        <Titre3>Informations importantes :</Titre3>
+
         <div className="space-y-2">
           <p>
             <span className="font-semibold">Nom:</span> {cetEvenement.nom}
@@ -180,9 +175,7 @@ const Dashboard = () => {
 
       {/* Lien d'invitation */}
       <section className="mb-6 bg-green-50 shadow-lg text-lg p-6 rounded-lg border border-green-200">
-        <h2 className="text-2xl font-semibold mb-4 text-indigo-600">
-          Votre lien d'invitation :
-        </h2>
+        <Titre3>Votre lien d'invitation :</Titre3>
         <div className="space-y-2">
           {modifier ? (
             <div className="flex items-center gap-4">
@@ -235,15 +228,15 @@ const Dashboard = () => {
       </section>
 
       {/* Tâches urgentes */}
-      <section className="bg-white shadow-lg p-6 rounded-lg">
-        <h2 className="text-2xl font-semibold mb-4 text-indigo-600">
-          Tâches urgentes à faire :
-        </h2>
+      <section className="bg-white shadow-lg p-6 rounded-lg flex flex-col justify-center items-center">
+        <Titre3>Tâches urgentes à faire :</Titre3>
+
         <button
           onClick={() => setShowUrgentTasks(!showUrgentTasks)}
-          className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-800 transition">
+          className={`px-4 py-2 size-fit text-white rounded-lg transition ${showUrgentTasks ? 'bg-red-600 hover:bg-red-800' : 'bg-indigo-600 hover:bg-indigo-800'}`}>
           {showUrgentTasks ? 'Masquer les tâches' : 'Afficher les tâches'}
         </button>
+
         {showUrgentTasks && <TachesSection tachesProps={mesTaches} />}
       </section>
     </div>
@@ -252,3 +245,4 @@ const Dashboard = () => {
 export default Dashboard;
 
 import React from 'react';
+import { Titre1, Titre2, Titre3 } from '../../components/Titres';

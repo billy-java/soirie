@@ -10,6 +10,7 @@ import {
   iDateVersDateJS,
   iDateVersInput,
 } from '../lib/functions/convertirDates';
+import { Titre1, Titre2, Titre3 } from '../components/Titres';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -92,12 +93,10 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 min-h-screen px-4 py-10">
+    <div className="px-4 py-10 min-h-screen flex flex-col items-center bg-gray-100">
       {/* Titre principal */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-indigo-600 mb-4">
-          Planifiez Votre Événement Facilement
-        </h1>
+      <div className="text-center p-4 mb-8">
+        <Titre1> Planifiez Votre Événement Facilement</Titre1>
         <p className="text-gray-700 text-lg">
           Une plateforme pour organiser des fêtes, mariages, anniversaires et
           bien plus encore !
@@ -107,7 +106,7 @@ const Home = () => {
       {/* Bouton pour créer un événement */}
       <div className="mb-8">
         <button
-          className={`px-6 py-3 font-semibold rounded-md shadow-md transition ${
+          className={`px-6 py-3 text-lg rounded-md shadow-md transition ${
             afficherFormulaireAjout
               ? 'bg-red-600 hover:bg-red-600 text-white'
               : 'bg-indigo-600 hover:bg-indigo-800 text-white'
@@ -175,10 +174,8 @@ const Home = () => {
       )}
 
       {/* Liste des événements */}
-      <div className="w-full max-w-4xl">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Vos événements :
-        </h2>
+      <div className="w-full max-w-4xl p-4">
+        <Titre2>Vos événements :</Titre2>
         <ul className="space-y-6">
           {evenements.map((evenement) => (
             <li
@@ -189,7 +186,7 @@ const Home = () => {
                   onClick={() => dispatch(setIdEv(evenement.id))}
                   to={`/e/${evenement.id}/dashboard`}
                   className="block text-indigo-600 hover:text-indigo-800">
-                  <h4 className="text-xl font-bold mb-2">{evenement.nom}</h4>
+                  <Titre3>{evenement.nom}</Titre3>
                   <p className="text-gray-600">
                     <span className="font-semibold">Type devenement :</span>{' '}
                     {evenement.type}
@@ -225,7 +222,7 @@ const Home = () => {
                       budget: evenement.budget,
                     });
                   }}
-                  className="bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-800 transition">
+                  className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
                   {iconsListe.modifier}
                 </button>
                 <button
@@ -239,7 +236,7 @@ const Home = () => {
                       setIdConfirmationSuppression(evenement.id);
                     }
                   }}
-                  className="bg-red-600 text-white px-2 py-1 rounded-md hover:bg-red-800 transition">
+                  className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 transition">
                   {iconsListe.supprimer}
                 </button>
               </div>
@@ -248,6 +245,7 @@ const Home = () => {
               {idEvenementModification === evenement.id && (
                 <div className="mt-4 p-4 bg-gray-100 rounded-md">
                   <h4 className="font-semibold mb-2">Modifier l'événement</h4>
+
                   <input
                     type="text"
                     placeholder="Nom"

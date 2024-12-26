@@ -84,8 +84,6 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
 
   return (
     <section className="flex flex-col gap-4 bg-gray-100 p-4 rounded-md mb-20">
-      <h2 className="text-lg font-bold">Gestion des Prestataires :</h2>
-
       {/* Barre de recherche */}
       <div className="flex flex-wrap gap-4 mb-4">
         <input
@@ -131,7 +129,7 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
         <button
           onClick={() => setOrdreCroissant(!ordreCroissant)}
           className="p-2 border bg-white border-gray-300 rounded-md flex-grow">
-          Trier {ordreCroissant ? 'Croissant' : 'Décroissant'}
+          Trie {ordreCroissant ? 'Croissant' : 'Décroissant'}
         </button>
       </div>
 
