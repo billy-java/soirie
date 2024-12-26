@@ -11,6 +11,8 @@ import {
   iDateVersString,
 } from '../../lib/functions/convertirDates';
 import { iconsListe } from '../../lib/iconsListe';
+import React from 'react';
+import { Titre1, Titre2, Titre3 } from '../../components/Titres';
 
 const Dashboard = () => {
   const { eId } = useParams();
@@ -228,7 +230,7 @@ const Dashboard = () => {
       </section>
 
       {/* Tâches urgentes */}
-      <section className="bg-white shadow-lg p-6 rounded-lg flex flex-col justify-center items-center">
+      <section className="py-6 flex flex-col justify-center items-center">
         <Titre3>Tâches urgentes à faire :</Titre3>
 
         <button
@@ -243,6 +245,3 @@ const Dashboard = () => {
   );
 };
 export default Dashboard;
-
-import React from 'react';
-import { Titre1, Titre2, Titre3 } from '../../components/Titres';

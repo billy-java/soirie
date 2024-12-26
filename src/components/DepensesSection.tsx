@@ -536,9 +536,9 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     </div>
                   </form>
                 ) : (
-                  <div className="flex-grow mr-2">
-                    <p className="text-lg font-medium">{depense.nom}</p>
-                    <span>{depense.description}</span>
+                  <div className="flex-grow text-lg mr-2">
+                    <Titre3>{depense.nom}</Titre3>
+                    <p>{depense.description}</p>
                     <p>
                       Coût :{' '}
                       <span className="bg-slate-200  px-2 rounded-lg text-lg">

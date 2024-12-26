@@ -18,7 +18,7 @@ export function gerer_ITache_Statut(valeur: number | string): string | number {
   return 'ERREUR STATUT TÂCHE';
 }
 
-export function gerer_ITache_Priorite(
+export function convertirPrioriteF(
   valeur: number | string
 ): string | number {if (valeur === 1 || valeur === 'Basse') {
   return typeof valeur === 'number' ? 'Basse' : 1;

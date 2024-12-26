@@ -7,6 +7,8 @@ import {
   iDateVersString,
   inputVersIDate,
 } from '../lib/functions/convertirDates';
+import { Titre3 } from './Titres';
+import { convertirPrioriteF } from '../lib/functions/mesFonctions';
 
 interface TachesProps {
   tachesProps: ITache[];
@@ -110,7 +112,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
   };
 
   return (
-    <section className="flex flex-col gap-10 bg-gray-100 p-4 rounded-md mb-20">
+    <section className="flex flex-col gap-10 p-4 rounded-md my-20">
       <div className="flex justify-center w-full">
         <button
           onClick={toggleFormulaireAjout}
@@ -192,6 +194,10 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       )}
 
       <ul className="space-y-6">
+        <p className="text-gray-700">
+          Utilisez les boutons a droite pour valider(⚠️), modifier ou supprimer
+          vos tâches.
+        </p>
         {taches.map((tache) => (
           <li
             key={tache.id}
@@ -280,10 +286,11 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                   </div>
                 </form>
               ) : (
-                <div className="mr-4">
-                  <p className="text-lg font-medium">{tache.titre}</p>
+                <div className="flex-grow mr-4">
+                  <Titre3>{tache.titre}</Titre3>
                   <p>{tache.description}</p>
-                  <p>{iDateVersString(tache.dateLimite!)}</p>
+                  <p>Date limite : {iDateVersString(tache.dateLimite!)}</p>
+                  <p>Priorite : {convertirPrioriteF(tache.priorite)}</p>
                 </div>
               )}
 
