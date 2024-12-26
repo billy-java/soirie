@@ -1,22 +1,23 @@
 import TachesSection from '../../components/TachesSection';
+import { Titre1 } from '../../components/Titres';
 import { anniversaireTaches } from '../../lib/localDB';
 
 const Taches = () => {
   return (
-    <div>
-      <section className="flex flex-col gap-2 bg-gray-100 p-4 rounded-md">
-        <h2>
-          Voici la liste des actions a faire si vous voulez realiser un
+    <div className="px-4 py-10 min-h-screen bg-gray-100">
+      <div className="text-center p-4 mb-8">
+        <Titre1>Tâches à faire</Titre1>
+        <p className="text-gray-700 text-lg">
+          Voici la liste des tâches à faire si vous voulez réaliser un
           anniversaire parfait.
-        </h2>
-        <p>
-          Vous pouvez marquer une tache comme Terminée, creer, modifier ou
-          supprimer une tache.
         </p>
-        <div>
-          <TachesSection tachesProps={anniversaireTaches} />
-        </div>
-      </section>
+        <p className="text-gray-700 text-lg">
+          Vous pouvez marquer une tâche comme Terminée, créer, modifier ou
+          supprimer une tâche.
+        </p>
+      </div>
+
+      <TachesSection tachesProps={anniversaireTaches} />
     </div>
   );
 };

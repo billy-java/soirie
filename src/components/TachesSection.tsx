@@ -84,6 +84,10 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
     }
   };
 
+  const annulerModification = () => {
+    setData({ ajouter: null, modifier: null });
+  };
+
   const supprimerTache = (id: string) => {
     setTaches(taches.filter((tache) => tache.id !== id));
     setDeleteConfirmationId(null); // Annule la confirmation après suppression
@@ -106,13 +110,19 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
   };
 
   return (
-    <section className="flex flex-col gap-4 rounded-md mb-20">
-      <h2 className="text-lg font-bold">Gestion des Tâches :</h2>
-      <button
-        onClick={toggleFormulaireAjout}
-        className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">
-        {data.ajouter ? 'Annuler' : 'Ajouter une tâche'}
-      </button>
+    <section className="flex flex-col gap-10 bg-gray-100 p-4 rounded-md mb-20">
+      <div className="flex justify-center w-full">
+        <button
+          onClick={toggleFormulaireAjout}
+          className={`px-6 py-3 text-lg rounded-md shadow-md transition ${
+            data.ajouter
+              ? 'bg-red-600 hover:bg-red-600 text-white'
+              : 'bg-indigo-600 hover:bg-indigo-800 text-white'
+          }`}
+          title="Cliquez pour ajouter une nouvelle dépense.">
+          {data.ajouter ? 'Annuler' : 'Ajouter une tâche'}
+        </button>
+      </div>
 
       {data.ajouter && (
         <form
@@ -121,6 +131,9 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
             ajouterTache(e);
           }}
           className="flex flex-col gap-2 mt-4">
+          <p className="text-gray-500">
+            Remplissez le formulaire pour ajouter une nouvelle tâche.
+          </p>
           <input
             type="text"
             value={data.ajouter?.titre || ''}
@@ -168,22 +181,27 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
             }
             className="p-2 border border-gray-300 rounded-md"
           />
+
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Sauvegarder
+            title="Cliquez pour sauvegarder la dépense."
+            className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+            <p>Sauvegarder</p> {iconsListe.enregister}
           </button>
         </form>
       )}
 
-      <ul className="bg-white rounded-md p-2">
+      <ul className="space-y-6">
         {taches.map((tache) => (
           <li
             key={tache.id}
-            className={`flex flex-col ${idConfirmationSuppression === tache.id ? 'bg-red-50' : ''}`}>
+            className={`flex flex-col shadow-lg rounded-lg ${idConfirmationSuppression === tache.id ? 'bg-red-50' : 'bg-white'}`}>
             <div
-              className={`flex justify-between items-center p-2 border-b last:border-none ${tache.terminee ? 'bg-green-100' : ''}`}>
-              {' '}
+              className={`flex justify-between items-center  rounded-lg p-4  ${
+                tache.terminee && idConfirmationSuppression !== tache.id
+                  ? 'bg-green-100'
+                  : ''
+              }`}>
               {data.modifier?.id === tache.id ? (
                 <form
                   onSubmit={(e) => {
@@ -245,6 +263,21 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                     className="bg-blue-500 text-white px-2 py-1 flex-grow rounded-md hover:bg-blue-600">
                     Sauvegarder
                   </button>
+
+                  <div className="w-full flex justify-center space-x-4">
+                    <button
+                      type="submit"
+                      title="Cliquez pour enregistrer les modifications."
+                      className="bg-indigo-600 text-white w-full px-4 py-2 size-fit rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+                      <p>Sauvegarder</p> {iconsListe.enregister}
+                    </button>
+                    <button
+                      onClick={annulerModification}
+                      type="reset"
+                      className="bg-red-600 text-white w-full px-4 py-2 size-fit rounded-md hover:bg-red-800 flex flex-wrap justify-center items-center space-x-2">
+                      Annuler
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <div className="mr-4">
@@ -253,22 +286,23 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                   <p>{iDateVersString(tache.dateLimite!)}</p>
                 </div>
               )}
-              <div className="flex items-center gap-2">
+
+              <div className="flex flex-col  items-center gap-2">
                 <button
                   onClick={() => {
                     if (idConfirmationSuppression) annulerSuppression();
                     changerStatutTache(tache.id);
                   }}
-                  className={`${tache.terminee ? 'bg-green-500 hover:bg-green-600' : 'bg-orange-500 hover:bg-orange-600'}
-                               text-white px-2 py-1 rounded-md flex justify-center items-center w-24 h-10`}>
-                  {tache.terminee ? 'Terminée' : 'À faire'}
+                  className={`text-white rounded-md px-2 py-2 ${tache.terminee ? 'bg-green-600 hover:bg-green-800' : 'border border-gray-300 bg-yellow-600 hover:bg-yellow-800'}
+                                    `}>
+                  {tache.terminee ? iconsListe.true1 : iconsListe.attention}
                 </button>
                 <button
                   onClick={() => {
                     if (idConfirmationSuppression) annulerSuppression();
                     demarrerModification(tache.id);
                   }}
-                  className="bg-indigo-400 text-white px-2 py-1 rounded-md hover:bg-indigo-500 w-10 h-10">
+                  className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
                   {iconsListe.modifier}
                 </button>
                 <button
@@ -282,7 +316,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                       confirmerSuppression(tache.id);
                     }
                   }}
-                  className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 w-10 h-10">
+                  className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 transition">
                   {iconsListe.supprimer}
                 </button>
               </div>
