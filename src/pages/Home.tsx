@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IEvenement } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
 import { logout, setIdEv } from '../redux/authSlice';
 import {
-  dateJSVersIDate,
   iDateVersDateJS,
   iDateVersInput,
+  inputVersIDate,
 } from '../lib/functions/convertirDates';
 import { Titre1, Titre2, Titre3 } from '../components/Titres';
 import { initialiserEvenement } from '../lib/functions/initialiseEntities';
@@ -21,8 +21,6 @@ interface IData {
 }
 
 const Home = () => {
-  const { eId } = useParams();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,102 +29,92 @@ const Home = () => {
   );
   const [evenements, setEvenements] =
     useState<IEvenement[]>(evenementsInitials);
-  
-  const [afficherFormulaireAjout, setAfficherFormulaireAjout] = useState(false);
-  const [idEvenementModification, setIdEvenementModification] = useState<
-    string | null
-  >(null);
-  const [idConfirmationSuppression, setIdConfirmationSuppression] = useState<
-    string | null
-    >(null);
-  
-  const [nouvelEvenement, setNouvelEvenement] = useState<Partial<IEvenement>>({
-    nom: '',
-    date: dateJSVersIDate(new Date()),
-    lieu: '',
-    budget: 0,
-  });
-  const [data, setData] = useState<IData>({
-      ajouter: null,
-      modifier: null,
-      idSuppression: null,
-      sauvegargerListe: false,
-  });
-  
-  const toggleFormulaireAjout = () => {
-      if (data.ajouter) {
-        setData({
-          ...data,
-          ajouter: null,
-          modifier: null,
-          idSuppression: null,
-        });
-      } else {
-        setData({
-          ajouter: initialiserEvenement(eId as string),
-          modifier: null,
-          idSuppression: null,
-          sauvegargerListe: true,
-        });
-      }
-    };
 
-  // Gestion des champs du formulaire
-  const gererChangementChamp = (
-    champ: keyof IEvenement,
-    valeur: string | number
-  ) => {
-    setNouvelEvenement((prev) => ({ ...prev, [champ]: valeur }));
+  const [data, setData] = useState<IData>({
+    ajouter: null,
+    modifier: null,
+    idSuppression: null,
+    sauvegargerListe: false,
+  });
+
+  const toggleFormulaireAjout = () => {
+    if (data.ajouter) {
+      setData({
+        ...data,
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+      });
+    } else {
+      setData({
+        ajouter: initialiserEvenement(),
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
+    }
   };
 
   // Ajout d'un nouvel événement
   const gererAjoutEvenement = () => {
-    if (
-      !nouvelEvenement.nom ||
-      !nouvelEvenement.date ||
-      !nouvelEvenement.lieu ||
-      !nouvelEvenement.budget
-    ) {
-      alert('Tous les champs sont obligatoires.');
-      return;
+    if (data.ajouter?.nom.trim()) {
+      setEvenements((elements) => [
+        {
+          ...data.ajouter,
+          id: `${Date.now()}`,
+        } as IEvenement,
+        ...elements,
+      ]);
+      /* setAfficherFormulaireAjout(false); */
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
     }
-    setEvenements((prev) => [
-      {
-        id: `${Date.now()}`, // Génère un id unique basé sur le temps
-        idUtilisateur: '123', // Id utilisateur fictif
-        type: 'Anniversaire',
-        ...nouvelEvenement,
-      } as IEvenement,
-      ...prev,
-    ]);
-    setAfficherFormulaireAjout(false);
-    setNouvelEvenement({
-      nom: '',
-      date: dateJSVersIDate(new Date()),
-      lieu: '',
-      budget: 0,
-    });
+  };
+
+  const validerModification = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (data.modifier && data.modifier.nom.trim()) {
+      setEvenements((elements) =>
+        elements.map((evenement) =>
+          evenement.id === data.modifier?.id
+            ? { ...evenement, ...data.modifier }
+            : evenement
+        )
+      );
+      setData({
+        ajouter: null,
+        modifier: null,
+        idSuppression: null,
+        sauvegargerListe: true,
+      });
+    }
   };
 
   // Modification d'un événement existant
   const gererModificationEvenement = (id: string) => {
-    const evenementsMisesAJour = evenements.map((evenement) =>
-      evenement.id === id ? { ...evenement, ...nouvelEvenement } : evenement
+ 
+    const evenementAModifier = evenements.find(
+      (evenement) => evenement.id === id
     );
-    setEvenements(evenementsMisesAJour);
-    setIdEvenementModification(null);
-    setNouvelEvenement({
-      nom: '',
-      date: dateJSVersIDate(new Date()),
-      lieu: '',
-      budget: 0,
-    });
+    if (evenementAModifier) {
+      setData({
+        ...data,
+        ajouter: null,
+        modifier: { ...evenementAModifier },
+        idSuppression: null,
+      });
+    }
   };
 
   // Suppression d'un événement
   const gererSuppressionEvenement = (id: string) => {
     setEvenements((prev) => prev.filter((evenement) => evenement.id !== id));
-    setIdConfirmationSuppression(null);
+    /* setIdConfirmationSuppression(null); */
+    setData({ ...data, idSuppression: null });
   };
 
   const creerParams = (id: string) => {
@@ -137,6 +125,20 @@ const Home = () => {
     dispatch(logout());
     setEvenements([]);
     navigate('/');
+  };
+
+  const annulerModification = () => {
+    const temp = {
+      ...data,
+      ajouter: null,
+      modifier: null,
+      idSuppression: null,
+    } as IData;
+    setData(temp);
+  };
+  const annulerSuppression = () => {
+    const temp = { ...data, idSuppression: null } as IData;
+    setData(temp);
   };
 
   return (
@@ -154,45 +156,85 @@ const Home = () => {
       <div className="mb-8">
         <button
           className={`px-6 py-3 text-lg rounded-md shadow-md transition ${
-            afficherFormulaireAjout
+            data.ajouter
               ? 'bg-red-600 hover:bg-red-600 text-white'
               : 'bg-indigo-600 hover:bg-indigo-800 text-white'
           }`}
-          onClick={() => {
-            if (idConfirmationSuppression) setIdConfirmationSuppression(null);
-            setAfficherFormulaireAjout(!afficherFormulaireAjout);
-          }}>
-          {afficherFormulaireAjout ? 'Annuler' : 'Créer un nouvel événement'}
+          onClick={toggleFormulaireAjout}>
+          {data.ajouter ? 'Annuler' : 'Créer un nouvel événement'}
         </button>
       </div>
 
       {/* Formulaire d'ajout d'événement */}
-      {afficherFormulaireAjout && (
-        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 mb-6">
+      {data.ajouter && (
+        <form
+          onSubmit={() => {
+            if (data.idSuppression) annulerSuppression();
+            gererAjoutEvenement();
+          }}
+          className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 mb-6">
           <h3 className="text-xl font-bold mb-4">Créer un nouvel événement</h3>
           <input
             type="text"
             placeholder="Nom de l'événement"
-            value={nouvelEvenement.nom || ''}
-            onChange={(e) => gererChangementChamp('nom', e.target.value)}
+            value={data.ajouter?.nom || ''}
+            onChange={(e) =>
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? { ...data.ajouter, nom: e.target.value }
+                  : null,
+              })
+            }
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
             type="date"
-            value={iDateVersInput(nouvelEvenement.date!) || ''}
-            onChange={(e) => gererChangementChamp('date', e.target.value)}
+            value={data.ajouter?.date ? iDateVersInput(data.ajouter.date) : ''}
+            onChange={(e) =>
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? {
+                      ...data.ajouter,
+                      date: inputVersIDate(e.target.value),
+                    }
+                  : null,
+              })
+            }
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
             type="text"
             placeholder="Lieu"
-            value={nouvelEvenement.lieu || ''}
-            onChange={(e) => gererChangementChamp('lieu', e.target.value)}
+            value={data.ajouter?.lieu || ''}
+            onChange={(e) =>
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? { ...data.ajouter, lieu: e.target.value }
+                  : null,
+              })
+            }
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <select
-            value={nouvelEvenement.type}
-            onChange={(e) => gererChangementChamp('type', e.target.value)}
+            value={data.ajouter?.type}
+            onChange={(e) =>
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? {
+                      ...data.ajouter,
+                      type: e.target.value as
+                        | 'Fête'
+                        | 'Mariage'
+                        | 'Anniversaire'
+                        | 'Autre',
+                    }
+                  : null,
+              })
+            }
             className="w-full border border-gray-300 rounded-md p-2 mb-4">
             <option value="Fête">Fête</option>
             <option value="Mariage">Mariage</option>
@@ -203,21 +245,27 @@ const Home = () => {
           <input
             type="number"
             placeholder="Budget (€)"
-            value={nouvelEvenement.budget || ''}
+            value={data.ajouter?.budget || ''}
             onChange={(e) =>
-              gererChangementChamp('budget', parseFloat(e.target.value))
+              setData({
+                ...data,
+                ajouter: data.ajouter
+                  ? { ...data.ajouter, budget: parseFloat(e.target.value) }
+                  : null,
+              })
             }
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <button
-            onClick={() => {
-              if (idConfirmationSuppression) setIdConfirmationSuppression(null);
+            type="submit"
+            /* onClick={() => {
+              if (data.idSuppression) setData({ ...data, idSuppression: null });
               gererAjoutEvenement();
-            }}
+            }} */
             className="bg-indigo-600 text-white size-fit px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
             <p>Sauvegarder</p> {iconsListe.enregister}
           </button>
-        </div>
+        </form>
       )}
 
       {/* Liste des événements */}
@@ -259,15 +307,9 @@ const Home = () => {
               <div className="flex gap-4 mt-4">
                 <button
                   onClick={() => {
-                    if (idConfirmationSuppression)
-                      setIdConfirmationSuppression(null);
-                    setIdEvenementModification(evenement.id);
-                    setNouvelEvenement({
-                      nom: evenement.nom,
-                      date: evenement.date,
-                      lieu: evenement.lieu,
-                      budget: evenement.budget,
-                    });
+                    if (data.idSuppression)
+                      setData({ ...data, idSuppression: null });
+                    gererModificationEvenement(evenement.id);
                   }}
                   className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
                   {iconsListe.modifier}
@@ -275,12 +317,12 @@ const Home = () => {
                 <button
                   onClick={() => {
                     if (
-                      idConfirmationSuppression &&
-                      idConfirmationSuppression === evenement.id
+                      data.idSuppression &&
+                      data.idSuppression === evenement.id
                     ) {
-                      setIdConfirmationSuppression(null);
+                      setData({ ...data, idSuppression: null });
                     } else {
-                      setIdConfirmationSuppression(evenement.id);
+                      setData({ ...data, idSuppression: evenement.id });
                     }
                   }}
                   className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 transition">
@@ -289,40 +331,80 @@ const Home = () => {
               </div>
 
               {/* Formulaire de modification */}
-              {idEvenementModification === evenement.id && (
-                <div className="mt-4 p-4 bg-gray-100 rounded-md">
+              {data.modifier?.id === evenement.id && (
+                <form
+                  onSubmit={(e) => {
+                    if (data.idSuppression){
+                      setData({ ...data, idSuppression: null });}
+                    validerModification(e);
+                  }}
+                  className="mt-4 p-4 bg-gray-100 rounded-md">
                   <h4 className="font-semibold mb-2">Modifier l'événement</h4>
 
                   <input
                     type="text"
                     placeholder="Nom"
-                    value={nouvelEvenement.nom || ''}
+                    value={data.modifier?.nom || ''}
                     onChange={(e) =>
-                      gererChangementChamp('nom', e.target.value)
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? { ...data.modifier, nom: e.target.value }
+                          : null,
+                      })
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
                     type="date"
-                    value={iDateVersInput(nouvelEvenement.date!) || ''}
+                    value={
+                      data.modifier?.date
+                        ? iDateVersInput(data.modifier.date)
+                        : ''
+                    }
                     onChange={(e) =>
-                      gererChangementChamp('date', e.target.value)
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? {
+                              ...data.modifier,
+                              date: inputVersIDate(e.target.value),
+                            }
+                          : null,
+                      })
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
                     type="text"
                     placeholder="Lieu"
-                    value={nouvelEvenement.lieu || ''}
+                    value={data.modifier?.lieu || ''}
                     onChange={(e) =>
-                      gererChangementChamp('lieu', e.target.value)
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? { ...data.modifier, lieu: e.target.value }
+                          : null,
+                      })
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <select
-                    value={nouvelEvenement.type || evenement.type}
+                    value={data.modifier?.type || evenement.type}
                     onChange={(e) =>
-                      gererChangementChamp('type', e.target.value)
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? {
+                              ...data.modifier,
+                              type: e.target.value as
+                                | 'Fête'
+                                | 'Mariage'
+                                | 'Anniversaire'
+                                | 'Autre',
+                            }
+                          : null,
+                      })
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2">
                     <option value="Fête">Fête</option>
@@ -334,36 +416,39 @@ const Home = () => {
                   <input
                     type="number"
                     placeholder="Budget (€)"
-                    value={nouvelEvenement.budget || ''}
+                    value={data.modifier?.budget || ''}
                     onChange={(e) =>
-                      gererChangementChamp('budget', parseFloat(e.target.value))
+                      setData({
+                        ...data,
+                        modifier: data.modifier
+                          ? {
+                              ...data.modifier,
+                              budget: parseFloat(e.target.value),
+                            }
+                          : null,
+                      })
                     }
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
 
                   <div className="flex justify-center space-x-4">
                     <button
-                      onClick={() => {
-                        if (idConfirmationSuppression)
-                          setIdConfirmationSuppression(null);
-                        gererModificationEvenement(evenement.id);
-                      }}
                       type="submit"
                       className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
                       <p>Sauvegarder</p> {iconsListe.enregister}
                     </button>
                     <button
-                      onClick={() => setIdEvenementModification(null)}
-                      type="submit"
+                      onClick={annulerModification}
+                      type="reset"
                       className="bg-red-600 text-white w-full px-4 py-2 rounded-md hover:bg-red-800 flex flex-wrap justify-center items-center space-x-2">
                       Annuler
                     </button>
                   </div>
-                </div>
+                </form>
               )}
 
               {/* Confirmation de suppression */}
-              {idConfirmationSuppression === evenement.id && (
+              {data.idSuppression === evenement.id && (
                 <div className="mt-4 p-4 bg-red-100 rounded-md">
                   <p className="text-red-600">
                     Êtes-vous sûr de vouloir supprimer cet événement ?
@@ -375,7 +460,7 @@ const Home = () => {
                       Oui
                     </button>
                     <button
-                      onClick={() => setIdConfirmationSuppression(null)}
+                      onClick={() => setData({ ...data, idSuppression: null })}
                       className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 transition">
                       Non
                     </button>

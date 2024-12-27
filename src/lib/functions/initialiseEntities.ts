@@ -23,8 +23,8 @@ export const initialiserUtilisateur = (): IUtilisateur => ({
 });
 
 // Exemple de méthode pour initialiser un événement
-export const initialiserEvenement = (evID:string): IEvenement => ({
-  id: evID,
+export const initialiserEvenement = (): IEvenement => ({
+  id: "0",
   idUtilisateur: '',
   nom: '',
   type: 'Anniversaire',
