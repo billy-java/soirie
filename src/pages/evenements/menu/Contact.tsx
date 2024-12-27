@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { iconsListe } from '../../../lib/iconsListe';
 
 const Contact = () => {
@@ -25,11 +26,11 @@ const Contact = () => {
             </div>
             <div>
               <strong>Email :</strong>{' '}
-              <a
-                href="mailto:contactcm02@gmail.com"
+              <Link
+                to="mailto:contactcm02@gmail.com"
                 className="text-indigo-600 underline hover:text-indigo-600">
                 contactcm02@gmail.com
-              </a>
+              </Link>
             </div>
           </li>
 

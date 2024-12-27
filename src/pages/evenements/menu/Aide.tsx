@@ -3,6 +3,7 @@ import { faqData } from '../../../lib/localDB';
 import { iconsListe } from '../../../lib/iconsListe';
 import { IFaq } from '../../../lib/interfaces/entites';
 import Fuse from 'fuse.js';
+import { Link } from 'react-router-dom';
 
 const Aide = () => {
   const [requeteRecherche, definirRequeteRecherche] = useState(''); // Recherche dynamique
@@ -173,21 +174,21 @@ const Aide = () => {
         </p>
         <div className="flex flex-wrap items-center gap-2 w-fit">
           {/* Boutons pour appeler et envoyer un message */}
-          <a
-            href={`tel:+49000000`} // Numéro allemand
+          <Link
+            to={`tel:+49000000`} // Numéro allemand
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800 w-fit h-10">
             Appeler
-          </a>
-          <a
-            href={`https://wa.me/49000000000000`} // Lien WhatsApp
+          </Link>
+          <Link
+            to={`https://wa.me/49000000000000`} // Lien WhatsApp
             className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-800 w-fit h-10">
             Écrire sur WhatsApp
-          </a>
-          <a
-            href={`mailto:00000000000`} // Lien pour email
+          </Link>
+          <Link
+            to={`mailto:00000000000`} // Lien pour email
             className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-800 w-fit h-10">
             Écrire par Email
-          </a>
+          </Link>
         </div>
       </section>
     </div>

@@ -20,7 +20,7 @@ const invitationSlice = createSlice({
     },
     incrementDoutes: (state) => {
       state.invitation.nombreDoute += 1;
-      alert('test ' + state.invitation.nombreDoute);
+      alert('test ' + state.invitation.nombrePersonnes);
     },
     incrementRejections: (state) => {
       state.invitation.nombreRejets += 1;
@@ -32,7 +32,7 @@ const invitationSlice = createSlice({
     },
     updateNombrePersonnes: (state, action: PayloadAction<number>) => {
       state.invitation.nombrePersonnes = action.payload;
-      alert('test updateNombrePersonnes' + action.payload);
+      alert('test updateNombrePersonnes' + state.invitation.nombrePersonnes);
     },
   },
 });

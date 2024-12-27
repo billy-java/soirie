@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { iconsListe } from '../lib/iconsListe';
+import { Link } from 'react-router-dom';
 
 interface IPrestataire {
   id: string;
@@ -163,21 +164,21 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
               {/* Affichage des options de contact si le bouton est cliqué */}
               {contactOptionsVisible === prestataire.id && (
                 <div className="flex flex-col text-center gap-2">
-                  <a
-                    href={`tel:+49${prestataire.telephone}`}
+                  <Link
+                    to={`tel:+49${prestataire.telephone}`}
                     className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-800">
                     Appeler
-                  </a>
-                  <a
-                    href={`https://wa.me/49${prestataire.telephone}`}
+                  </Link>
+                  <Link
+                    to={`https://wa.me/49${prestataire.telephone}`}
                     className="bg-green-600 text-white px-4 py-1 rounded-md hover:bg-green-800">
                     Écrire sur WhatsApp
-                  </a>
-                  <a
-                    href={`mailto:${prestataire.email}`}
+                  </Link>
+                  <Link
+                    to={`mailto:${prestataire.email}`}
                     className="bg-gray-600 text-white px-4 py-1 rounded-md hover:bg-gray-800">
                     Écrire par Email
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

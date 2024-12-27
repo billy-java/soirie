@@ -14,6 +14,7 @@ import { iconsListe } from '../../lib/iconsListe';
 import React from 'react';
 import { Titre1, Titre2, Titre3 } from '../../components/Titres';
 import { updateNombrePersonnes } from '../../redux/invitationSlice';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { eId } = useParams();
@@ -205,10 +206,19 @@ const Dashboard = () => {
               </button>
             </div>
           )}
-
+          <p>
+            <span className="font-semibold">Nombre d''invites total :</span>{' '}
+            <span className="font-bold text-white text-xl bg-green-700 px-2 py-1 rounded-lg">
+              {cetInvitation.nombreConfirmations + cetInvitation.nombreDoute}
+            </span>{' '}
+          </p>{' '}
           <p>
             <span className="font-semibold">Nombre de confirmations:</span>{' '}
             {cetInvitation.nombreConfirmations}
+          </p>
+          <p>
+            <span className="font-semibold">Nombre d'hesitation:</span>{' '}
+            {cetInvitation.nombreDoute}
           </p>
           <p>
             <span className="font-semibold">Nombre de rejets :</span>{' '}
@@ -217,23 +227,22 @@ const Dashboard = () => {
           <p>
             <span className="font-semibold">Statut de l'invitation:</span>{' '}
             <span
-              className={`font-bold ${cetInvitation.statut === 1 ? 'text-green-600' : 'text-red-600'}`}>
+              className={`font-bold ${cetInvitation.statut === 1 ? 'text-green-700' : 'text-red-600'}`}>
               {cetInvitation.statut === 1 ? 'Ouvert' : 'Fermé'}
             </span>
           </p>
           {/* <p>
             <span className="font-semibold">Partagez ce lien :</span>{' '}
-            <a href={`/${eId}/invitation`} className="text-blue-600 underline">
+            <Link to={`/${eId}/invitation`} className="text-blue-600 underline">
               {window.location.origin}/{eId}/invitation
-            </a>
+            </Link>
           </p> */}
           <p>
             <span className="font-semibold">Partagez ce lien :</span>{' '}
-            <a href={`/invitation`} className="text-blue-600 underline">
+            <Link to={`/invitation`} className="text-blue-600 underline">
               {window.location.origin}/{eId}/invitation
-            </a>
+            </Link>
           </p>
-
           <CopierLien lien={`${window.location.origin}/${eId}/invitation`} />
           <button
             onClick={() => setShowUrgentTasks(!showUrgentTasks)}
