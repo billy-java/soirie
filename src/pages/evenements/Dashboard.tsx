@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
 import { IEvenement } from '../../lib/interfaces/entites';
-import { anniversaireTaches } from '../../lib/localDB';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../../redux/store';
@@ -27,6 +26,8 @@ const Dashboard = () => {
   ) as IEvenement;
 
   const [showUrgentTasks, setShowUrgentTasks] = useState(false);
+  const anniversaireTaches = useSelector(((state: RootState_DB) => state.tache.taches))
+
   const mesTaches = anniversaireTaches.filter(
     (el) => el.idEvenement === '1' && el.priorite === 3
   );

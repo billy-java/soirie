@@ -41,11 +41,11 @@ const Contact = () => {
             </div>
             <div>
               <strong>Téléphone :</strong>{' '}
-              <a
-                href="tel:+33123456789"
+              <Link
+                to="tel:+33123456789"
                 className="text-green-600 underline hover:text-green-600">
                 +33 1 23 45 67 89
-              </a>
+              </Link>
             </div>
           </li>
 

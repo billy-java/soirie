@@ -1,13 +1,14 @@
 // src/redux/tacheSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITache } from '../lib/interfaces/entites';
+import { anniversaireTaches } from '../lib/localDB';
 
 interface TacheState {
   taches: ITache[];
 }
 
 const initialState: TacheState = {
-  taches: [],
+  taches: anniversaireTaches || [],
 };
 
 const tacheSlice = createSlice({

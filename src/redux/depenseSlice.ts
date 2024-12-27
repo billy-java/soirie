@@ -1,13 +1,14 @@
 // src/redux/depenseSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDepense } from '../lib/interfaces/entites';
+import { depenses } from '../lib/localDB';
 
 interface DepenseState {
   depenses: IDepense[];
 }
 
 const initialState: DepenseState = {
-  depenses: [],
+  depenses: depenses || [],
 };
 
 const depenseSlice = createSlice({
