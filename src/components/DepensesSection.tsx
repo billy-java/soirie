@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { IDepense } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 import {
-  dateJSVersIDate,
   iDateVersInput,
   iDateVersString,
   inputVersIDate,
 } from '../lib/functions/convertirDates';
 import { Titre3 } from './Titres';
 import ExportPDFButton from './ExportPDFButton';
+import { useParams } from 'react-router-dom';
+import { initialiserDepense } from '../lib/functions/initialiseEntities';
 
 interface DepensesProps {
   depensesInitiales: IDepense[];
@@ -24,6 +25,8 @@ interface IData {
 const SectionDepenses: React.FC<DepensesProps> = ({
   depensesInitiales = [],
 }) => {
+  const { eId } = useParams();
+
   const [depenses, setDepenses] = useState<IDepense[]>(depensesInitiales);
   const [resultatCalculs, setResultatCalculs] = useState<{
     totalDepense: number; // Montant total dépensé
@@ -122,15 +125,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
       }); // Réinitialiser l'état si on annule
     } else {
       setData({
-        ajouter: {
-          id: Date.now().toString(),
-          idEvenement: '1',
-          nom: '',
-          description: '',
-          montant: 0,
-          date: dateJSVersIDate(new Date()),
-          terminee: false,
-        },
+        ajouter: initialiserDepense(eId as string),
         modifier: null,
         idSuppression: null,
         sauvegargerListe: true,

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IEvenement } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,29 +11,65 @@ import {
   iDateVersInput,
 } from '../lib/functions/convertirDates';
 import { Titre1, Titre2, Titre3 } from '../components/Titres';
+import { initialiserEvenement } from '../lib/functions/initialiseEntities';
+
+interface IData {
+  ajouter: IEvenement | null;
+  modifier: IEvenement | null;
+  idSuppression: string | null;
+  sauvegargerListe: boolean;
+}
 
 const Home = () => {
+  const { eId } = useParams();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const evenementsInitials = useSelector(
     (state: RootState_DB) => state.evenement.evenementsAttr
   );
-
   const [evenements, setEvenements] =
     useState<IEvenement[]>(evenementsInitials);
+  
   const [afficherFormulaireAjout, setAfficherFormulaireAjout] = useState(false);
   const [idEvenementModification, setIdEvenementModification] = useState<
     string | null
   >(null);
   const [idConfirmationSuppression, setIdConfirmationSuppression] = useState<
     string | null
-  >(null);
+    >(null);
+  
   const [nouvelEvenement, setNouvelEvenement] = useState<Partial<IEvenement>>({
     nom: '',
     date: dateJSVersIDate(new Date()),
     lieu: '',
     budget: 0,
   });
+  const [data, setData] = useState<IData>({
+      ajouter: null,
+      modifier: null,
+      idSuppression: null,
+      sauvegargerListe: false,
+  });
+  
+  const toggleFormulaireAjout = () => {
+      if (data.ajouter) {
+        setData({
+          ...data,
+          ajouter: null,
+          modifier: null,
+          idSuppression: null,
+        });
+      } else {
+        setData({
+          ajouter: initialiserEvenement(eId as string),
+          modifier: null,
+          idSuppression: null,
+          sauvegargerListe: true,
+        });
+      }
+    };
 
   // Gestion des champs du formulaire
   const gererChangementChamp = (

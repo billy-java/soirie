@@ -23,8 +23,8 @@ export const initialiserUtilisateur = (): IUtilisateur => ({
 });
 
 // Exemple de méthode pour initialiser un événement
-export const initialiserEvenement = (): IEvenement => ({
-  id: '',
+export const initialiserEvenement = (evID:string): IEvenement => ({
+  id: evID,
   idUtilisateur: '',
   nom: '',
   type: 'Anniversaire',
@@ -34,14 +34,14 @@ export const initialiserEvenement = (): IEvenement => ({
 });
 
 // Exemple de méthode pour initialiser une tâche
-export const initialiserTache = (): ITache => ({
-  id: '',
-  idEvenement: '',
+export const initialiserTache = (evID:string): ITache => ({
+  id: Date.now().toString(),
+  idEvenement: evID,
   titre: '',
   description: '',
   dateLimite: dateJSVersIDate(new Date()),
   terminee: false,
-  priorite: 1, // Par défaut, priorité = basse
+  priorite: 2, // Par défaut, priorité = basse
 });
 
 // Exemple de méthode pour initialiser une invitation
@@ -58,9 +58,9 @@ export const initialiserInvitation = (): IInvitation => ({
 });
 
 // Exemple de méthode pour initialiser une dépense
-export const initialiserDepense = (): IDepense => ({
-  id: '',
-  idEvenement: '',
+export const initialiserDepense = (evID:string): IDepense => ({
+  id: Date.now().toString(),
+  idEvenement: evID,
   nom: '',
   description: '',
   montant: 0,

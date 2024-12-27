@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { ITache } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 import {
-  dateJSVersIDate,
   iDateVersInput,
   iDateVersString,
   inputVersIDate,
 } from '../lib/functions/convertirDates';
 import { Titre3 } from './Titres';
 import { convertirPrioriteF } from '../lib/functions/mesFonctions';
+import { useParams } from 'react-router-dom';
+import { initialiserTache } from '../lib/functions/initialiseEntities';
 
 interface TachesProps {
   tachesProps: ITache[];
@@ -22,6 +23,7 @@ interface IData {
 }
 
 const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
+  const { eId } = useParams();
   const [taches, setTaches] = useState<ITache[]>(tachesProps);
   const [data, setData] = useState<IData>({
     ajouter: null,
@@ -40,15 +42,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       });
     } else {
       setData({
-        ajouter: {
-          id: Date.now().toString(),
-          idEvenement: '1',
-          titre: '',
-          description: '',
-          dateLimite: dateJSVersIDate(new Date()),
-          terminee: false,
-          priorite: 2,
-        },
+        ajouter: initialiserTache(eId as string),
         modifier: null,
         idSuppression: null,
         sauvegargerListe: true,

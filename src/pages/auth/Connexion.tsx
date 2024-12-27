@@ -1,70 +1,63 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { IAuth } from '../../lib/interfaces/IAuth';
+import { IUtilisateur } from '../../lib/interfaces/entites';
+import { initialiserUtilisateur } from '../../lib/functions/initialiseEntities';
 import { login } from '../../redux/authSlice';
-import ChampInput from '../../components/ChampInput';
-import Bouton1 from '../../components/Boutons';
+import { IAuth } from '../../lib/interfaces/IAuth';
 
 const Connexion = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<IUtilisateur>(initialiserUtilisateur());
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const temp: IAuth = {
-      userActuel: {
-        email,
-        motDePasse: password,
-        id: '',
-        idsEvenements: [],
-        nom: '',
-        telephone: '',
-        role: 2,
-      },
-      token: null,
-      idEv: '0',
-    };
+    const temp: IAuth = { userActuel: user, token: null, idEv: '0' };
     dispatch(login(temp));
     navigate('/home');
   };
 
+  const modifierUser = (champ: keyof IUtilisateur, valeur: string) => {
+    setUser((prevUser) => ({ ...prevUser, [champ]: valeur }));
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 mt-4 max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
       <p className="text-gray-500">Veuillez vous connecter à votre compte.</p>
-      <ChampInput
+      <input
         type="email"
         name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={user.email}
+        onChange={(e) => modifierUser('email', e.target.value)}
         placeholder="Email"
+        className="p-2 border border-gray-300 rounded-md"
       />
-      <ChampInput
+      <input
         type="password"
         name="motDePasse"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={user.motDePasse}
+        onChange={(e) => modifierUser('motDePasse', e.target.value)}
         placeholder="Mot de passe"
+        className="p-2 border border-gray-300 rounded-md"
       />
-      <Bouton1 type="submit" text="Se connecter" />
-      <div className="flex flex-col gap-2">
-        <button
-          type="button"
-          onClick={() => navigate('/inscription')}
-          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-800">
-          Créer un compte
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate('/restaurer')}
-          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-800">
-          Réinitialiser le mot de passe
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800">
+        Se connecter
+      </button>
+      <button
+        type="button"
+        onClick={() => navigate('/inscription')}
+        className="mt-2 bg-gray-600 text-white w-full px-4 py-2 rounded-md hover:bg-gray-800">
+        Créer un compte
+      </button>
+      <button
+        type="button"
+        onClick={() => navigate('/restaurer')}
+        className="mt-2 bg-gray-600 text-white w-full px-4 py-2 rounded-md hover:bg-gray-800">
+        Réinitialiser le mot de passe
+      </button>
     </form>
   );
 };

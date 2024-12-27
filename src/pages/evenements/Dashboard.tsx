@@ -16,6 +16,9 @@ import { Titre1, Titre2, Titre3 } from '../../components/Titres';
 import { updateNombrePersonnes } from '../../redux/invitationSlice';
 import { Link } from 'react-router-dom';
 
+
+
+
 const Dashboard = () => {
   const { eId } = useParams();
   const dispatch = useDispatch();

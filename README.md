@@ -1,5 +1,5 @@
 ### a faire
-
+- finir dintegrer lobjet IData a ma page Home.tsx
 
 # a ameliorer:
 - gerer le lien dinvitation
