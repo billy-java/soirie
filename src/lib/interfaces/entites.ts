@@ -34,6 +34,7 @@ export interface IInvitation {
   nom: string;
   nombrePersonnes: number | 'Aucune limite';
   nombreConfirmations: number;
+  nombreDoute: number;
   nombreRejets: number;
   statut: 1 | 2 | 3; // 1 = ouvert, 2 = terminé, 3 = annulé
   lien: string;

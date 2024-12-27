@@ -3,7 +3,6 @@
 import {
   IUtilisateur,
   IEvenement,
-  IInvitation,
   IPrestataire,
   ITache,
   IDepense,
@@ -55,118 +54,7 @@ export const evenements: IEvenement[] = [
   },
 ];
 
-export const invitations: IInvitation[] = [
-  {
-    id: '1',
-    idEvenement: '1', // Événement 1
-    nom: 'Jean Dupont',
-    nombrePersonnes: 2,
-    nombreConfirmations: 1,
-    nombreRejets: 0,
 
-    statut: 1,
-    lien: '',
-  },
-  {
-    id: '2',
-    idEvenement: '1', // Événement 1
-    nom: 'Marie Martin',
-    nombrePersonnes: 'Aucune limite',
-    nombreConfirmations: 0,
-    nombreRejets: 1,
-
-    statut: 3,
-    lien: '',
-  },
-  {
-    id: '3',
-    idEvenement: '1', // Événement 1
-    nom: 'Paul Bernard',
-    nombrePersonnes: 3,
-    nombreConfirmations: 1,
-    nombreRejets: 0,
-
-    statut: 1,
-    lien: '',
-  },
-  {
-    id: '4',
-    idEvenement: '2', // Événement 2
-    nom: 'Sophie Lemoine',
-    nombrePersonnes: 1,
-    nombreConfirmations: 1,
-    nombreRejets: 0,
-
-    statut: 2,
-    lien: '',
-  },
-  {
-    id: '5',
-    idEvenement: '2', // Événement 2
-    nom: 'Julien Lefevre',
-    nombrePersonnes: 5,
-    nombreConfirmations: 1,
-    nombreRejets: 0,
-
-    statut: 1,
-    lien: '',
-  },
-  {
-    id: '6',
-    idEvenement: '2', // Événement 2
-    nom: 'Claire Moreau',
-    nombrePersonnes: 'Aucune limite',
-    nombreConfirmations: 0,
-    nombreRejets: 1,
-
-    statut: 3,
-    lien: '',
-  },
-  {
-    id: '7',
-    idEvenement: '3', // Événement 3
-    nom: 'Alice Dupont',
-    nombrePersonnes: 4,
-    nombreConfirmations: 2,
-    nombreRejets: 0,
-
-    statut: 1,
-    lien: '',
-  },
-  {
-    id: '8',
-    idEvenement: '3', // Événement 3
-    nom: 'Marc Durand',
-    nombrePersonnes: 2,
-    nombreConfirmations: 1,
-    nombreRejets: 1,
-
-    statut: 2,
-    lien: '',
-  },
-  {
-    id: '9',
-    idEvenement: '3', // Événement 3
-    nom: 'Lucie Perrot',
-    nombrePersonnes: 6,
-    nombreConfirmations: 1,
-    nombreRejets: 0,
-
-    statut: 1,
-    lien: '',
-  },
-  {
-    id: '10',
-    idEvenement: '3', // Événement 3
-    nom: 'Pierre Bonnet',
-    nombrePersonnes: 3,
-    nombreConfirmations: 0,
-    nombreRejets: 1,
-
-    statut: 3,
-    lien: '',
-  },
-];
 
 export const prestataires: IPrestataire[] = [
   {

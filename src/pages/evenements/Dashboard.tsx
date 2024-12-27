@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
-import { IEvenement, IInvitation } from '../../lib/interfaces/entites';
+import { IEvenement } from '../../lib/interfaces/entites';
 import { anniversaireTaches } from '../../lib/localDB';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../../redux/store';
 import {
   iDateVersDateJS,
@@ -13,10 +13,11 @@ import {
 import { iconsListe } from '../../lib/iconsListe';
 import React from 'react';
 import { Titre1, Titre2, Titre3 } from '../../components/Titres';
+import { updateNombrePersonnes } from '../../redux/invitationSlice';
 
 const Dashboard = () => {
   const { eId } = useParams();
-
+  const dispatch = useDispatch();
   const cetEvenement = useSelector((state: RootState_DB) =>
     state.evenement.evenementsAttr.find((el) => el.id === eId)
   ) as IEvenement;
@@ -27,16 +28,9 @@ const Dashboard = () => {
   );
   const [modifier, setModifier] = useState<boolean>(false);
 
-  const [invitation, setInvitation] = useState<IInvitation>({
-    id: '1',
-    idEvenement: '1',
-    nom: 'Jean Dupont',
-    nombrePersonnes: 2,
-    nombreConfirmations: 1,
-    nombreRejets: 0,
-    statut: 1, //ouvert
-    lien: 'https://example',
-  });
+  const cetInvitation = useSelector(
+    (state: RootState_DB) => state.invitation.invitation
+  );
 
   const [tempsRestant, setTempsRestant] = useState({
     jours: 0,
@@ -45,12 +39,13 @@ const Dashboard = () => {
     secondes: 0,
   });
 
+  const [nouvelleValeur, setNouvelleValeur] = useState(0);
+
   useEffect(() => {
     const calculerCompteARebours = () => {
       const dateEvenement = iDateVersDateJS(cetEvenement.date).getTime();
       const dateActuelle = new Date().getTime();
       const tempsRestantEnMillisecondes = dateEvenement - dateActuelle;
-
       if (tempsRestantEnMillisecondes > 0) {
         const days = Math.floor(
           tempsRestantEnMillisecondes / (1000 * 60 * 60 * 24)
@@ -86,15 +81,16 @@ const Dashboard = () => {
     if (isNaN(nouvelleValeur) || nouvelleValeur < 0) {
       return;
     } else {
-      setInvitation({
+      /*  setInvitation({
         ...invitation,
         nombrePersonnes: nouvelleValeur,
-      });
+      }); */
+      setNouvelleValeur(nouvelleValeur);
     }
   };
 
   function sauvegarder(): void {
-    //dispatch
+    dispatch(updateNombrePersonnes(nouvelleValeur));
     setModifier(false);
   }
 
@@ -184,7 +180,7 @@ const Dashboard = () => {
               <input
                 type="number"
                 name="nom"
-                value={invitation.nombrePersonnes}
+                defaultValue={cetInvitation.nombrePersonnes}
                 onChange={changeNombrePersonnes}
                 className="border p-2 rounded-md flex-grow"
               />
@@ -200,7 +196,7 @@ const Dashboard = () => {
                 <span className="font-semibold">
                   Nombre de personnes souhaitées:
                 </span>{' '}
-                {invitation.nombrePersonnes}
+                {cetInvitation.nombrePersonnes}
               </p>
               <button
                 onClick={() => actionModifier()}
@@ -212,20 +208,38 @@ const Dashboard = () => {
 
           <p>
             <span className="font-semibold">Nombre de confirmations:</span>{' '}
-            {invitation.nombreConfirmations}
+            {cetInvitation.nombreConfirmations}
           </p>
           <p>
-            <span className="font-semibold">Nombre de rejets:</span>{' '}
-            {invitation.nombreRejets}
+            <span className="font-semibold">Nombre de rejets :</span>{' '}
+            {cetInvitation.nombreRejets}
           </p>
           <p>
             <span className="font-semibold">Statut de l'invitation:</span>{' '}
             <span
-              className={`font-bold ${invitation.statut === 1 ? 'text-green-600' : 'text-red-600'}`}>
-              {invitation.statut === 1 ? 'Ouvert' : 'Fermé'}
+              className={`font-bold ${cetInvitation.statut === 1 ? 'text-green-600' : 'text-red-600'}`}>
+              {cetInvitation.statut === 1 ? 'Ouvert' : 'Fermé'}
             </span>
           </p>
-          <CopierLien lien={invitation.lien} />
+          {/* <p>
+            <span className="font-semibold">Partagez ce lien :</span>{' '}
+            <a href={`/${eId}/invitation`} className="text-blue-600 underline">
+              {window.location.origin}/{eId}/invitation
+            </a>
+          </p> */}
+          <p>
+            <span className="font-semibold">Partagez ce lien :</span>{' '}
+            <a href={`/invitation`} className="text-blue-600 underline">
+              {window.location.origin}/{eId}/invitation
+            </a>
+          </p>
+
+          <CopierLien lien={`${window.location.origin}/${eId}/invitation`} />
+          <button
+            onClick={() => setShowUrgentTasks(!showUrgentTasks)}
+            className={`px-4 py-2 ml-10 size-fit text-white rounded-lg transition bg-red-600 hover:bg-red-800`}>
+            PAGE INVITATION
+          </button>
         </div>
       </section>
 

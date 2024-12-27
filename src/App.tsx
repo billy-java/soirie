@@ -14,6 +14,7 @@ import Connexion from './pages/auth/Connexion';
 import RoutesProtegee from './RoutesProtegee';
 import Inscription from './pages/auth/Inscription';
 import Restaurer from './pages/auth/Restaurer';
+import Invitation from './pages/Invitations';
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
+          <Route path="/invitation" element={<Invitation />} />
           <Route path="/" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
           <Route path="/restaurer" element={<Restaurer />} />
