@@ -1,85 +1,77 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../redux/authSlice';
-import { initialiserUtilisateur } from '../../lib/functions/initialiseEntities';
-import { IUtilisateur } from '../../lib/interfaces/entites';
+import ChampInput from '../../components/ChampInput';
+import Bouton1 from '../../components/Boutons';
 
 const Inscription = () => {
-  const dispatch = useDispatch();
+  const [form, setForm] = useState({
+    nom: '',
+    email: '',
+    motDePasse: '',
+    telephone: '',
+    role: 1,
+  });
   const navigate = useNavigate();
-  const [utilisateur, setUtilisateur] = useState<IUtilisateur>(
-    initialiserUtilisateur()
-  );
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setUtilisateur((prevUtilisateur) => ({
-      ...prevUtilisateur,
-      [name]: value,
-    }));
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(login({ userActuel: utilisateur, token: null, idEv: '0' }));
+    // Dispatch login action here
     navigate('/home');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
-      <p className="text-gray-500">Veuillez créer un nouveau compte.</p>
-      <input
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 mt-4 max-w-md mx-auto">
+      <p className="text-gray-500">Créez un nouveau compte pour commencer.</p>
+      <ChampInput
         type="text"
         name="nom"
-        value={utilisateur.nom}
+        value={form.nom}
         onChange={handleChange}
         placeholder="Nom"
-        className="p-2 border border-gray-300 rounded-md"
       />
-      <input
+      <ChampInput
         type="email"
         name="email"
-        value={utilisateur.email}
+        value={form.email}
         onChange={handleChange}
         placeholder="Email"
-        className="p-2 border border-gray-300 rounded-md"
       />
-      <input
+      <ChampInput
         type="password"
         name="motDePasse"
-        value={utilisateur.motDePasse}
+        value={form.motDePasse}
         onChange={handleChange}
         placeholder="Mot de passe"
-        className="p-2 border border-gray-300 rounded-md"
       />
-      <input
+      <ChampInput
         type="tel"
         name="telephone"
-        value={utilisateur.telephone}
+        value={form.telephone}
         onChange={handleChange}
         placeholder="Téléphone"
-        className="p-2 border border-gray-300 rounded-md"
       />
       <select
         name="role"
-        value={utilisateur.role}
+        value={form.role}
         onChange={handleChange}
         className="p-2 border border-gray-300 rounded-md">
         <option value={1}>Organisateur</option>
         <option value={2}>Participant</option>
       </select>
-      <button
-        type="submit"
-        className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800">
-        S'inscrire
-      </button>
+      <Bouton1 type="submit" text="S'inscrire" />
       <button
         type="button"
         onClick={() => navigate('/')}
-        className="mt-2 bg-gray-600 text-white w-full px-4 py-2 rounded-md hover:bg-gray-800">
+        className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-800">
         J'ai déjà un compte
       </button>
     </form>

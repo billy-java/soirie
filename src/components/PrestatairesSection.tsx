@@ -134,11 +134,11 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
         </button>
       </div>
 
-      <ul className="bg-white rounded-md p-2">
+      <ul className="space-y-6">
         {trierPrestatairesF(prestatairesFiltres).map((prestataire) => (
           <li
             key={prestataire.id}
-            className="flex justify-between items-center p-2 border-b last:border-none">
+            className="bg-white flex justify-between items-center p-4 shadow-lg rounded-lg">
             <div className="pr-2 flex-grow">
               <p className="text-lg font-medium">{prestataire.nom}</p>
               <p>
@@ -158,7 +158,9 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
               <button
                 onClick={() => toggleContactOptionsF(prestataire.id)}
                 className={`text-center w-fit text-white px-4 py-1 rounded-md ${contactOptionsVisible === prestataire.id ? ' bg-red-600 hover:bg-red-800' : ' bg-blue-600 hover:bg-blue-800'}`}>
-                {contactOptionsVisible ? 'Annuler' : 'Contacter'}
+                {contactOptionsVisible === prestataire.id
+                  ? 'Annuler'
+                  : 'Contacter'}
               </button>
 
               {/* Affichage des options de contact si le bouton est cliqué */}
