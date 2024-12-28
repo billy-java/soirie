@@ -48,7 +48,6 @@ export const initialiserTache = (evID:string): ITache => ({
 export const initialiserInvitation = (): IInvitation => ({
   id: '',
   idEvenement: '',
-  nom: '',
   nombrePersonnes: 100, // Par défaut
   nombreConfirmations: 10,
   nombreDoute: 5,

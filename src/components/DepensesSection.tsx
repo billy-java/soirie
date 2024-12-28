@@ -10,6 +10,8 @@ import { Titre3 } from './Titres';
 import ExportPDFButton from './ExportPDFButton';
 import { useParams } from 'react-router-dom';
 import { initialiserDepense } from '../lib/functions/initialiseEntities';
+import { setToutesLesDepenses } from '../redux/depenseSlice';
+import { useDispatch } from 'react-redux';
 
 interface DepensesProps {
   depensesInitiales: IDepense[];
@@ -26,6 +28,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
   depensesInitiales = [],
 }) => {
   const { eId } = useParams();
+  const dispatch = useDispatch();
 
   const [depenses, setDepenses] = useState<IDepense[]>(depensesInitiales);
   const [resultatCalculs, setResultatCalculs] = useState<{
@@ -266,6 +269,8 @@ const SectionDepenses: React.FC<DepensesProps> = ({
 
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
+    dispatch(setToutesLesDepenses(depenses));
+
   };
 
   return (
@@ -273,7 +278,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
       <div className="flex justify-center w-full">
         <button
           onClick={toggleFormulaireAjout}
-          className={`px-6 py-3 text-lg rounded-md shadow-md transition ${
+          className={`px-6 py-3 text-lg rounded-md shadow-md  ${
             data.ajouter
               ? 'bg-red-600 hover:bg-red-600 text-white'
               : 'bg-indigo-600 hover:bg-indigo-800 text-white'
@@ -606,7 +611,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       if (data.idSuppression) annulerSuppression();
                       demarrerModification(depense.id);
                     }}
-                    className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
+                    className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 ">
                     {iconsListe.modifier}
                   </button>
                   <button
@@ -620,7 +625,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                         confirmerSuppression(depense.id);
                       }
                     }}
-                    className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 transition">
+                    className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 ">
                     {iconsListe.supprimer}
                   </button>
                 </div>
@@ -634,12 +639,12 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                   <div className="flex gap-4 mt-2">
                     <button
                       onClick={() => supprimerDepense(depense.id)}
-                      className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600 transition">
+                      className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600 ">
                       Oui
                     </button>
                     <button
                       onClick={annulerSuppression}
-                      className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 transition">
+                      className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 ">
                       Non
                     </button>
                   </div>
@@ -654,7 +659,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
         {data.sauvegargerListe && (
           <button
             onClick={sauvegardeSurleServeur}
-            className={`px-6 py-3 text-lg rounded-md shadow-md transition bg-indigo-600 hover:bg-indigo-800 text-white`}
+            className={`px-6 py-3 text-lg rounded-md shadow-md  bg-indigo-600 hover:bg-indigo-800 text-white`}
             title="Cliquez pour Sauvegarder tout la liste de taches.">
             {depenses.length === 0
               ? 'Sauvegarger une liste vide'

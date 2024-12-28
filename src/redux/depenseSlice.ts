@@ -35,12 +35,12 @@ const depenseSlice = createSlice({
         (depense) => depense.id !== action.payload
       );
     },
-    setDepenses: (state, action: PayloadAction<IDepense[]>) => {
+    setToutesLesDepenses: (state, action: PayloadAction<IDepense[]>) => {
       state.depenses = action.payload;
     },
   },
 });
 
-export const { addDepense, setDepenses, removeDepense, updateDepense } =
+export const { addDepense, updateDepense, removeDepense, setToutesLesDepenses } =
   depenseSlice.actions;
 export default depenseSlice.reducer;

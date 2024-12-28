@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   incrementConfirmations,
   incrementDoutes,
@@ -9,84 +9,144 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
 
 const Invitation: React.FC = () => {
+  const { eId } = useParams();
   const dispatch = useDispatch();
+  const naviguer = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [formData, setFormData] = useState({ prenom: '', nom: '' });
-  const [response, setResponse] = useState(0);
+  const [formulaire, setFormulaire] = useState({ prenom: '', nom: '' });
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [reponseSelectionnee, setReponseSelectionnee] = useState<number | null>(
+    null
+  );
+  const userId = 'test00025'; //"test00025" oder null
+  // Remplacez par votre logique de récupération de l'utilisateur connecté
 
-  const cetInvitation = useSelector(
-    (state: RootState_DB) => state.invitation.invitation
+  const cetteInvitation = useSelector(
+    (etat: RootState_DB) => etat.invitation.invitation
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const libellesReponses: Record<number, string> = {
+    1: 'Je serais là',
+    2: 'Peut-être',
+    3: 'Ne sera pas là',
   };
 
-  const handleSubmit = (reponseUser: number) => {
-    setResponse(reponseUser);
+  const gererChangementInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormulaire({ ...formulaire, [name]: value });
+  };
 
-    if (reponseUser === 1) {
+  const gererClicReponse = (reponseUtilisateur: number) => {
+    setReponseSelectionnee(reponseUtilisateur);
+    setPopupVisible(true); // Affiche le popup
+  };
+
+  const confirmerReponse = () => {
+    if (reponseSelectionnee === 1) {
       dispatch(incrementConfirmations());
-    } else if (reponseUser === 2) {
+    } else if (reponseSelectionnee === 2) {
       dispatch(incrementDoutes());
-    } else if (reponseUser === 3) {
+    } else if (reponseSelectionnee === 3) {
       dispatch(incrementRejections());
     }
 
     // Enregistrez la réponse sur le serveur ou localStorage
     console.log({
-      invitationId: id,
-      ...formData,
-      status: reponseUser,
+      idInvitation: id,
+      ...formulaire,
+      statut: reponseSelectionnee,
     });
+
+    setPopupVisible(false); // Masque le popup
+    naviguer('/'); // Redirige vers la page d'accueil
+    if (userId) {
+      naviguer(`/e/${eId}/dashboard/`);
+    } else {
+      naviguer('/');
+    }
+  };
+
+  const annulerReponse = () => {
+    setPopupVisible(false); // Masque le popup sans rien faire
   };
 
   return (
     <div className="px-8 py-14 flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="p-6 bg-white  rounded-lg shadow-lg w-full">
+      <div className="p-6 bg-white rounded-lg shadow-lg w-full">
         <h2 className="mb-4 text-xl font-bold text-center">
-          Invitation #{id} : {cetInvitation.nombrePersonnes}
+          Invitation #{id} : {cetteInvitation.nombrePersonnes}
         </h2>
         <input
           type="text"
           name="prenom"
           placeholder="Prénom"
-          value={formData.prenom}
-          onChange={handleInputChange}
+          value={formulaire.prenom}
+          onChange={gererChangementInput}
           className="w-full px-4 py-2 mb-4 border rounded"
         />
         <input
           type="text"
           name="nom"
           placeholder="Nom"
-          value={formData.nom}
-          onChange={handleInputChange}
+          value={formulaire.nom}
+          onChange={gererChangementInput}
           className="w-full px-4 py-2 mb-4 border rounded"
         />
         <div className="flex justify-center space-x-4">
           <button
-            onClick={() => handleSubmit(1)}
-            className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 flex-grow">
-            Confirmer
+            onClick={() => gererClicReponse(1)}
+            className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-800 flex-grow">
+            Je serais là
           </button>
           <button
-            onClick={() => handleSubmit(2)}
-            className="px-4 py-2 text-white bg-yellow-500 rounded hover:bg-yellow-600 flex-grow">
+            onClick={() => gererClicReponse(2)}
+            className="px-4 py-2 text-white bg-yellow-600 rounded hover:bg-yellow-800 flex-grow">
             Peut-être
           </button>
           <button
-            onClick={() => handleSubmit(3)}
-            className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 flex-grow">
+            onClick={() => gererClicReponse(3)}
+            className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-800 flex-grow">
             Ne sera pas là
           </button>
         </div>
-        {response && (
-          <p className="mt-4 text-center text-green-600">
-            Réponse enregistrée : {response}
-          </p>
-        )}
       </div>
+
+      {/* Affichage conditionnel du bouton Retour à l'événement */}
+      {userId && (
+        <div className="mt-4">
+          <button
+            onClick={() => naviguer(`/e/${eId}/dashboard/`)}
+            className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-800">
+            Retour à l'événement
+          </button>
+        </div>
+      )}
+
+      {/* Popup de confirmation */}
+      {popupVisible && (
+        <div className="px-8 py-14 fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-lg font-bold mb-4">Confirmer votre choix</h3>
+            <p className="mb-6">
+              Vous avez choisi :{' '}
+              <strong>{libellesReponses[reponseSelectionnee!]}</strong>.
+              Êtes-vous sûr de vouloir confirmer ?
+            </p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={confirmerReponse}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-800">
+                Confirmer
+              </button>
+              <button
+                onClick={annulerReponse}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-800">
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

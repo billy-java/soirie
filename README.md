@@ -1,10 +1,7 @@
-### a faire
-- finir dintegrer lobjet IData a ma page Home.tsx
-
 # a ameliorer:
+- integrer les slice de redux
 - gerer le lien dinvitation
 - un system de login
-- integrer les slice de redux
 
 
 -- gestion des erreurs
@@ -16,10 +13,4 @@
 
 
 ### terminee
--- boutons uniformes
--- couleurs
--- div
--- font
--- responsive Design
-
 -- Textes descriptifs pour aider l'utilisateur

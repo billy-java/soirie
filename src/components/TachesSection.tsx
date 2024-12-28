@@ -10,9 +10,15 @@ import { Titre3 } from './Titres';
 import { convertirPrioriteF } from '../lib/functions/mesFonctions';
 import { useParams } from 'react-router-dom';
 import { initialiserTache } from '../lib/functions/initialiseEntities';
+import { useDispatch } from 'react-redux';
+import {
+  setToutesLesTaches,
+  setToutesLesTachesPrioritaires,
+} from '../redux/tacheSlice';
 
 interface TachesProps {
   tachesProps: ITache[];
+  toutesLesTaches: boolean;
 }
 
 interface IData {
@@ -22,7 +28,11 @@ interface IData {
   sauvegargerListe: boolean;
 }
 
-const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
+const TachesSection: React.FC<TachesProps> = ({
+  tachesProps = [],
+  toutesLesTaches,
+}) => {
+  const dispatch = useDispatch();
   const { eId } = useParams();
   const [taches, setTaches] = useState<ITache[]>(tachesProps);
   const [data, setData] = useState<IData>({
@@ -83,6 +93,11 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
 
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
+    if (toutesLesTaches) {
+      dispatch(setToutesLesTaches(taches));
+    } else {
+      dispatch(setToutesLesTachesPrioritaires(taches));
+    }
   };
 
   const validerModification = (e: React.FormEvent) => {
@@ -152,7 +167,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
       <div className="flex justify-center w-full">
         <button
           onClick={toggleFormulaireAjout}
-          className={`px-6 py-3 text-lg rounded-md shadow-md transition ${
+          className={`px-6 py-3 text-lg rounded-md shadow-md  ${
             data.ajouter
               ? 'bg-red-600 hover:bg-red-600 text-white'
               : 'bg-indigo-600 hover:bg-indigo-800 text-white'
@@ -377,7 +392,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                     if (data.idSuppression) annulerSuppression();
                     demarrerModification(tache.id);
                   }}
-                  className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
+                  className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800">
                   {iconsListe.modifier}
                 </button>
                 <button
@@ -388,7 +403,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                       confirmerSuppression(tache.id);
                     }
                   }}
-                  className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 transition">
+                  className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800">
                   {iconsListe.supprimer}
                 </button>
               </div>
@@ -402,12 +417,12 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
                 <div className="flex gap-4 mt-2">
                   <button
                     onClick={() => supprimerTache(tache.id)}
-                    className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600 transition">
+                    className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-600">
                     Oui
                   </button>
                   <button
                     onClick={annulerSuppression}
-                    className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 transition">
+                    className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400">
                     Non
                   </button>
                 </div>
@@ -421,7 +436,7 @@ const TachesSection: React.FC<TachesProps> = ({ tachesProps = [] }) => {
         {data.sauvegargerListe && (
           <button
             onClick={sauvegardeSurleServeur}
-            className={`px-6 py-3 text-lg rounded-md shadow-md transition bg-indigo-600 hover:bg-indigo-800 text-white`}
+            className={`px-6 py-3 text-lg rounded-md shadow-md  bg-indigo-600 hover:bg-indigo-800 text-white`}
             title="Cliquez pour Sauvegarder tout la liste de taches.">
             {taches.length === 0
               ? 'Sauvegarger une liste vide'

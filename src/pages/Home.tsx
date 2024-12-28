@@ -96,7 +96,6 @@ const Home = () => {
 
   // Modification d'un événement existant
   const gererModificationEvenement = (id: string) => {
- 
     const evenementAModifier = evenements.find(
       (evenement) => evenement.id === id
     );
@@ -155,7 +154,7 @@ const Home = () => {
       {/* Bouton pour créer un événement */}
       <div className="mb-8">
         <button
-          className={`px-6 py-3 text-lg rounded-md shadow-md transition ${
+          className={`px-6 py-3 text-lg rounded-md shadow-md  ${
             data.ajouter
               ? 'bg-red-600 hover:bg-red-600 text-white'
               : 'bg-indigo-600 hover:bg-indigo-800 text-white'
@@ -275,7 +274,7 @@ const Home = () => {
           {evenements.map((evenement) => (
             <li
               key={evenement.id}
-              className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition relative">
+              className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl  relative">
               <div>
                 <Link
                   onClick={() => creerParams(evenement.id)}
@@ -311,7 +310,7 @@ const Home = () => {
                       setData({ ...data, idSuppression: null });
                     gererModificationEvenement(evenement.id);
                   }}
-                  className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition">
+                  className="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-800">
                   {iconsListe.modifier}
                 </button>
                 <button
@@ -325,7 +324,7 @@ const Home = () => {
                       setData({ ...data, idSuppression: evenement.id });
                     }
                   }}
-                  className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800 transition">
+                  className="bg-red-600 text-white px-2 py-2 rounded-md hover:bg-red-800">
                   {iconsListe.supprimer}
                 </button>
               </div>
@@ -334,8 +333,9 @@ const Home = () => {
               {data.modifier?.id === evenement.id && (
                 <form
                   onSubmit={(e) => {
-                    if (data.idSuppression){
-                      setData({ ...data, idSuppression: null });}
+                    if (data.idSuppression) {
+                      setData({ ...data, idSuppression: null });
+                    }
                     validerModification(e);
                   }}
                   className="mt-4 p-4 bg-gray-100 rounded-md">
@@ -456,12 +456,12 @@ const Home = () => {
                   <div className="flex gap-4 mt-2">
                     <button
                       onClick={() => gererSuppressionEvenement(evenement.id)}
-                      className="bg-red-600 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-800 transition">
+                      className="bg-red-600 text-white font-semibold rounded-md px-4 py-2 hover:bg-red-800">
                       Oui
                     </button>
                     <button
                       onClick={() => setData({ ...data, idSuppression: null })}
-                      className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400 transition">
+                      className="bg-gray-300 text-gray-700 font-semibold rounded-md px-4 py-2 hover:bg-gray-400">
                       Non
                     </button>
                   </div>
@@ -473,7 +473,7 @@ const Home = () => {
       </div>
 
       <button
-        className={`px-6 py-3 my-10 text-lg rounded-md shadow-md transition bg-red-600 hover:bg-red-600 text-white`}
+        className={`px-6 py-3 my-10 text-lg rounded-md shadow-md  bg-red-600 hover:bg-red-600 text-white`}
         onClick={deconnection}>
         Se deconnecter
       </button>

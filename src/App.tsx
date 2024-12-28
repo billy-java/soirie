@@ -23,10 +23,12 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/invitation" element={<Invitation />} />
           <Route path="/" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
           <Route path="/restaurer" element={<Restaurer />} />
+
+          <Route path="/e/:eId/invitation" element={<Invitation />} />
+
 
           {/* Routes pour les pages d'événements */}
           <Route

@@ -31,8 +31,7 @@ export interface ITache {
 export interface IInvitation {
   id: string;
   idEvenement: string;
-  nom: string;
-  nombrePersonnes: number | 'Aucune limite';
+  nombrePersonnes: number | null;
   nombreConfirmations: number;
   nombreDoute: number;
   nombreRejets: number;

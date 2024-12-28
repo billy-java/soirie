@@ -70,7 +70,7 @@ const Parametres = () => {
               <p>{actuelUser.nom}</p>
               <button
                 onClick={() => modifierF('nom')}
-                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -100,7 +100,7 @@ const Parametres = () => {
               <p>{actuelUser.email}</p>
               <button
                 onClick={() => modifierF('email')}
-                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -130,7 +130,7 @@ const Parametres = () => {
               <p>********</p>
               <button
                 onClick={() => modifierF('motDePasse')}
-                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800">
                 {iconsListe.modifier}
               </button>
             </div>
@@ -160,7 +160,7 @@ const Parametres = () => {
               <p>{actuelUser.telephone}</p>
               <button
                 onClick={() => modifierF('telephone')}
-                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
+                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800">
                 {iconsListe.modifier}
               </button>
             </div>

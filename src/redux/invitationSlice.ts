@@ -26,13 +26,8 @@ const invitationSlice = createSlice({
       state.invitation.nombreRejets += 1;
       alert('test ' + state.invitation.nombreRejets);
     },
-    updateStatus: (state, action: PayloadAction<1 | 2 | 3>) => {
-      state.invitation.statut = action.payload;
-      alert('test updateStatus' + action.payload);
-    },
-    updateNombrePersonnes: (state, action: PayloadAction<number>) => {
-      state.invitation.nombrePersonnes = action.payload;
-      alert('test updateNombrePersonnes' + state.invitation.nombrePersonnes);
+    updateInvitation: (state, action: PayloadAction<Partial<IInvitation>>) => {
+      state.invitation = { ...state.invitation, ...action.payload };
     },
   },
 });
@@ -41,8 +36,7 @@ export const {
   incrementConfirmations,
   incrementDoutes,
   incrementRejections,
-  updateStatus,
-  updateNombrePersonnes,
+  updateInvitation,
 } = invitationSlice.actions;
 
 export default invitationSlice.reducer;

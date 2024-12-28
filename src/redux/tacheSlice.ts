@@ -32,12 +32,31 @@ const tacheSlice = createSlice({
         (tache) => tache.id !== action.payload
       );
     },
-    setTaches: (state, action: PayloadAction<ITache[]>) => {
+    setToutesLesTaches: (state, action: PayloadAction<ITache[]>) => {
       state.taches = action.payload;
     },
+    setToutesLesTachesPrioritaires: (state, action: PayloadAction<ITache[]>) => {
+      // Récupérer les tâches prioritaires existantes
+      const tachesPrioritairesExistantes = state.taches.filter(tache => tache.priorite === 3);
+    
+      // Mettre à jour l'état avec les nouvelles tâches prioritaires
+      state.taches = state.taches.map(tache =>
+        tachesPrioritairesExistantes.some(tp => tp.id === tache.id)
+          ? action.payload.find(nt => nt.id === tache.id) || tache
+          : tache
+      );
+    
+      // Ajouter les nouvelles tâches qui ne sont pas encore dans l'état
+      action.payload.forEach(tache => {
+        if (!state.taches.some(t => t.id === tache.id)) {
+          state.taches.push(tache);
+        }
+      });
+    },
+    
   },
 });
 
-export const { addTache, updateTache, setTaches, removeTache } =
+export const { addTache, updateTache, removeTache , setToutesLesTaches, setToutesLesTachesPrioritaires } =
   tacheSlice.actions;
 export default tacheSlice.reducer;

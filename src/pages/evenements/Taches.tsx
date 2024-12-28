@@ -22,7 +22,7 @@ const Taches = () => {
         </p>
       </div>
 
-      <TachesSection tachesProps={anniversaireTaches} />
+      <TachesSection tachesProps={anniversaireTaches} toutesLesTaches={true} />
     </div>
   );
 };

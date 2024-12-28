@@ -2,36 +2,33 @@ import { useState, useEffect } from 'react';
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
 import { IEvenement } from '../../lib/interfaces/entites';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { RootState_DB } from '../../redux/store';
 import {
   iDateVersDateJS,
   iDateVersString,
 } from '../../lib/functions/convertirDates';
-import { iconsListe } from '../../lib/iconsListe';
-import React from 'react';
+
 import { Titre1, Titre2, Titre3 } from '../../components/Titres';
-import { updateNombrePersonnes } from '../../redux/invitationSlice';
-import { Link } from 'react-router-dom';
-
-
-
+import ModalInvitation from '../../components/ModalInvitation';
+import { iconsListe } from '../../lib/iconsListe';
 
 const Dashboard = () => {
   const { eId } = useParams();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cetEvenement = useSelector((state: RootState_DB) =>
     state.evenement.evenementsAttr.find((el) => el.id === eId)
   ) as IEvenement;
 
   const [showUrgentTasks, setShowUrgentTasks] = useState(false);
-  const anniversaireTaches = useSelector(((state: RootState_DB) => state.tache.taches))
+  const anniversaireTaches = useSelector(
+    (state: RootState_DB) => state.tache.taches
+  );
 
   const mesTaches = anniversaireTaches.filter(
     (el) => el.idEvenement === '1' && el.priorite === 3
   );
-  const [modifier, setModifier] = useState<boolean>(false);
 
   const cetInvitation = useSelector(
     (state: RootState_DB) => state.invitation.invitation
@@ -44,10 +41,10 @@ const Dashboard = () => {
     secondes: 0,
   });
 
-  const [nouvelleValeur, setNouvelleValeur] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    const calculerCompteARebours = () => {
+    const calculerCompteAReboursF = () => {
       const dateEvenement = iDateVersDateJS(cetEvenement.date).getTime();
       const dateActuelle = new Date().getTime();
       const tempsRestantEnMillisecondes = dateEvenement - dateActuelle;
@@ -77,36 +74,20 @@ const Dashboard = () => {
       }
     };
 
-    const interval = setInterval(calculerCompteARebours, 1000);
+    const interval = setInterval(calculerCompteAReboursF, 1000);
     return () => clearInterval(interval);
   }, [cetEvenement.date]);
 
-  const changeNombrePersonnes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nouvelleValeur = parseInt(e.target.value, 10);
-    if (isNaN(nouvelleValeur) || nouvelleValeur < 0) {
-      return;
-    } else {
-      /*  setInvitation({
-        ...invitation,
-        nombrePersonnes: nouvelleValeur,
-      }); */
-      setNouvelleValeur(nouvelleValeur);
-    }
+  const calculF = () => {
+    return (
+      Number(cetInvitation.nombreConfirmations) +
+      Number(cetInvitation.nombreDoute)
+    );
   };
-
-  function sauvegarder(): void {
-    dispatch(updateNombrePersonnes(nouvelleValeur));
-    setModifier(false);
-  }
-
-  function actionModifier(): void {
-    setModifier(true);
-  }
 
   return (
     <div className="px-8 py-14 mb-10 min-h-screen flex flex-col gap-8 bg-gray-50">
       <Titre1>Tableau de Bord</Titre1>
-
       {/* Compte à rebours */}
       <section className="bg-gradient-to-r from-blue-50 via-white to-blue-100 shadow-lg p-8 rounded-lg text-center">
         <Titre2>Compte à rebours ⏳</Titre2>
@@ -146,7 +127,6 @@ const Dashboard = () => {
           </p>
         )}
       </section>
-
       {/* Informations importantes */}
       <section className="bg-indigo-50 shadow-lg text-lg  p-6 rounded-lg border border-indigo-200">
         <Titre3>Informations importantes :</Titre3>
@@ -175,45 +155,21 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      {/* Lien d'invitation */}
-      <section className="mb-6 bg-green-50 shadow-lg text-lg p-6 rounded-lg border border-green-200">
+      {/* Lien d'invitation */} {/* partie a modifier grace a chatgpt */}
+      <section
+        className={`mb-6 shadow-lg text-lg p-6 rounded-lg border ${cetInvitation.statut === 1 ? 'bg-indigo-100 border-indigo-200' : cetInvitation.statut === 2 ? 'bg-green-100 border-green-200' : 'bg-red-50 border-red-200'}`}>
         <Titre3>Votre lien d'invitation :</Titre3>
         <div className="space-y-2">
-          {modifier ? (
-            <div className="flex items-center gap-4">
-              <input
-                type="number"
-                name="nom"
-                defaultValue={cetInvitation.nombrePersonnes}
-                onChange={changeNombrePersonnes}
-                className="border p-2 rounded-md flex-grow"
-              />
-              <button
-                onClick={sauvegarder}
-                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-                <p>Sauvegarder</p> {iconsListe.enregister}
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center justify-between">
-              <p>
-                <span className="font-semibold">
-                  Nombre de personnes souhaitées:
-                </span>{' '}
-                {cetInvitation.nombrePersonnes}
-              </p>
-              <button
-                onClick={() => actionModifier()}
-                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 transition">
-                {iconsListe.modifier}
-              </button>
-            </div>
-          )}
+          <p>
+            <span className="font-semibold">
+              Nombre de personnes souhaitées:
+            </span>{' '}
+            {cetInvitation.nombrePersonnes || 'Illimité'}
+          </p>
           <p>
             <span className="font-semibold">Nombre d''invites total :</span>{' '}
             <span className="font-bold text-white text-xl bg-green-700 px-2 py-1 rounded-lg">
-              {cetInvitation.nombreConfirmations + cetInvitation.nombreDoute}
+              {calculF()}
             </span>{' '}
           </p>{' '}
           <p>
@@ -231,43 +187,58 @@ const Dashboard = () => {
           <p>
             <span className="font-semibold">Statut de l'invitation:</span>{' '}
             <span
-              className={`font-bold ${cetInvitation.statut === 1 ? 'text-green-700' : 'text-red-600'}`}>
-              {cetInvitation.statut === 1 ? 'Ouvert' : 'Fermé'}
+              className={`font-bold ${cetInvitation.statut === 1 ? 'text-yellow-700' : cetInvitation.statut === 2 ? 'text-green-700' : cetInvitation.statut === 3 ? 'text-red-700' : 'text-black'}`}>
+              {cetInvitation.statut === 1
+                ? 'Ouvert'
+                : cetInvitation.statut === 2
+                  ? 'Terminé'
+                  : cetInvitation.statut === 3
+                    ? 'Annulé'
+                    : 'ERREUR'}
             </span>
           </p>
-          {/* <p>
-            <span className="font-semibold">Partagez ce lien :</span>{' '}
-            <Link to={`/${eId}/invitation`} className="text-blue-600 underline">
-              {window.location.origin}/{eId}/invitation
-            </Link>
-          </p> */}
           <p>
             <span className="font-semibold">Partagez ce lien :</span>{' '}
-            <Link to={`/invitation`} className="text-blue-600 underline">
-              {window.location.origin}/{eId}/invitation
-            </Link>
+            <span className="text-blue-600 underline">
+              {window.location.origin}/e/{eId}/invitation
+            </span>
           </p>
-          <CopierLien lien={`${window.location.origin}/${eId}/invitation`} />
-          <button
-            onClick={() => setShowUrgentTasks(!showUrgentTasks)}
-            className={`px-4 py-2 ml-10 size-fit text-white rounded-lg transition bg-red-600 hover:bg-red-800`}>
-            PAGE INVITATION
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <CopierLien lien={`${window.location.origin}/e/${eId}/invitation`} />
+            <button
+              onClick={() => navigate('/e/'+eId+'/invitation')}
+              className={`px-4 py-2 text-white rounded-lg  bg-green-600 hover:bg-green-800`}>
+              {iconsListe.voir}
+            </button>
+            <button
+              onClick={() => setModalVisible(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">
+              {iconsListe.modifier}
+            </button>
+          </div>
         </div>
       </section>
-
       {/* Tâches urgentes */}
       <section className="py-6 flex flex-col justify-center items-center">
         <Titre3>Tâches urgentes à faire :</Titre3>
 
         <button
           onClick={() => setShowUrgentTasks(!showUrgentTasks)}
-          className={`px-4 py-2 size-fit text-white rounded-lg transition ${showUrgentTasks ? 'bg-red-600 hover:bg-red-800' : 'bg-indigo-600 hover:bg-indigo-800'}`}>
+          className={`px-4 py-2 size-fit text-white rounded-lg  ${showUrgentTasks ? 'bg-red-600 hover:bg-red-800' : 'bg-indigo-600 hover:bg-indigo-800'}`}>
           {showUrgentTasks ? 'Masquer les tâches' : 'Afficher les tâches'}
         </button>
 
-        {showUrgentTasks && <TachesSection tachesProps={mesTaches} />}
+        {showUrgentTasks && (
+          <TachesSection tachesProps={mesTaches} toutesLesTaches={false} />
+        )}
       </section>
+      {/* Modal de modification */}
+      {modalVisible && (
+        <ModalInvitation
+          invitation={cetInvitation}
+          onClose={() => setModalVisible(false)}
+        />
+      )}
     </div>
   );
 };
