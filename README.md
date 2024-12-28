@@ -1,6 +1,5 @@
 # a ameliorer:
 - integrer les slice de redux
-- gerer le lien dinvitation
 - un system de login
 
 

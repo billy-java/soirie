@@ -23,6 +23,7 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
+
           <Route path="/" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
           <Route path="/restaurer" element={<Restaurer />} />
@@ -52,7 +53,8 @@ const App: React.FC = () => {
             element={<RoutesProtegee element={<Menu />} />}
           />
 
-          {/* Routes sans sous-routes */}
+      
+          
           <Route path="/parametres" element={<Parametres />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/aide" element={<Aide />} />
