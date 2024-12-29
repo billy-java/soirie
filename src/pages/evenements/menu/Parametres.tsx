@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { IUtilisateur } from '../../../lib/interfaces/entites';
 import { iconsListe } from '../../../lib/iconsListe';
+import { useSelector } from 'react-redux';
+import { RootState_DB } from '../../../redux/store';
+import { mettreAJourUtilisateur } from '../../../redux/authSlice';
+import { useDispatch } from 'react-redux';
 
 const Parametres = () => {
-  const [actuelUser, setActuelUser] = useState<IUtilisateur>({
-    id: '1',
-    idsEvenements: ['1', '2'],
-    nom: 'Alice Dupont',
-    email: 'alice@example.com',
-    motDePasse: 'password123',
-    telephone: '0102030405',
-    role: 1, // Organisateur
-  });
+  const dispatch = useDispatch();
+  const utilisateurEnLigne = useSelector(
+    (state: RootState_DB) => state.auth.userActuel
+  ) as IUtilisateur;
+  const [actuelUser, setActuelUser] =
+    useState<IUtilisateur>(utilisateurEnLigne);
 
   const [modifier, setModifier] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -20,26 +21,35 @@ const Parametres = () => {
     motDePasse: actuelUser.motDePasse,
     telephone: actuelUser.telephone,
   });
+  const [toutSauvegarder, setToutSauvegarder] = useState(false)
 
   const modifierF = (field: string) => {
     setModifier(field);
   };
-
+  
   const mettreAJourF = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  
   const sauvegarderF = (field: string) => {
     setActuelUser({
       ...actuelUser,
       [field]: formData[field as keyof typeof formData],
     });
     setModifier(null);
+    setToutSauvegarder(true)
   };
 
   const toutSauvegarderF = () => {
-    // Cette méthode sera implémentée ultérieurement
-    console.log('Tout sauvegarder : ', formData);
+    if (
+      formData.nom &&
+      formData.email &&
+      formData.motDePasse &&
+      formData.telephone
+    ) {
+      dispatch(mettreAJourUtilisateur(formData));
+      setToutSauvegarder(false)
+    }
   };
 
   return (
@@ -170,14 +180,16 @@ const Parametres = () => {
       </div>
 
       {/* Bouton "Tout sauvegarder" */}
-      <div className="mt-6 flex flex-wrap justify-center">
+      {toutSauvegarder &&  <div className="mt-6 flex flex-wrap justify-center">
         <button
           onClick={toutSauvegarderF}
           className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
           <p>Sauvegarder</p> {iconsListe.enregister}
         </button>
       </div>
+   } 
     </div>
+
   );
 };
 

@@ -50,6 +50,13 @@ export const menuParametre: IMenu[] = [
   {
     actif: true,
     afficher: true,
+    nom: 'Home',
+    lien: '/home',
+    icon1: iconsListe.home,
+  },
+  {
+    actif: true,
+    afficher: true,
     nom: 'Paramètres',
     lien: '/parametres',
     icon1: iconsListe.parametre1,

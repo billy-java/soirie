@@ -1,3 +1,4 @@
+import { IUtilisateur } from './../lib/interfaces/entites';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAuth } from '../lib/interfaces/IAuth';
 import { utilisateurs } from '../lib/localDB';
@@ -87,6 +88,14 @@ const authSlice = createSlice({
     setIdEvF: (state, action: PayloadAction<string | null>) => {
       state.idEv = action.payload;
     },
+    mettreAJourUtilisateur: (
+      state,
+      action: PayloadAction<Partial<IUtilisateur>>
+    ) => {
+      if (state.userActuel) {
+        state.userActuel = { ...state.userActuel, ...action.payload };
+     }
+    },
   },
 });
 
@@ -97,6 +106,7 @@ export const {
   restaurerF,
   setTokenF,
   setIdEvF,
+  mettreAJourUtilisateur,
 } = authSlice.actions;
 
 export default authSlice.reducer;

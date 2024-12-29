@@ -11,10 +11,12 @@ import Home from './pages/Home';
 import Menu from './pages/evenements/Menu';
 import Aide from './pages/evenements/menu/Aide';
 import Connexion from './pages/auth/Connexion';
-import RoutesProtegee from './RoutesProtegee';
 import Inscription from './pages/auth/Inscription';
 import Restaurer from './pages/auth/Restaurer';
 import Invitation from './pages/Invitations';
+
+import RoutesProtegee from './RoutesProtegee';
+import RoutesProtegeeAuth from './RoutesProtegeeAuth';
 
 const App: React.FC = () => {
   return (
@@ -55,6 +57,7 @@ const App: React.FC = () => {
 
       
           
+          <Route path="/parametres" element={<RoutesProtegeeAuth element={<Parametres />}/>} />
           <Route path="/parametres" element={<Parametres />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/aide" element={<Aide />} />
