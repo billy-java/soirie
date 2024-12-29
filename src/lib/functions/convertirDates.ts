@@ -89,13 +89,6 @@ export function iDateVersDateJS(date: IDate): Date {
   return new Date(date.annee, date.mois - 1, date.jour, heure, minute);
 }
 
-// Exemple d'utilisation
-const dateJS = iDateVersDateJS({ jour: 31, mois: 12, annee: 2024, heure: 23, minute: 59 });
-console.log(dateJS); // Tue Dec 31 2024 23:59:00 GMT+0000 (UTC)
-
-const dateJSWithoutTime = iDateVersDateJS({ jour: 31, mois: 12, annee: 2024 });
-console.log(dateJSWithoutTime); // Wed Dec 31 2024 00:00:00 GMT+0000 (UTC)
-
 
 
 

@@ -12,10 +12,7 @@ const Aide = () => {
   ); // Accordéon pour catégories
   const [questionActive, definirQuestionActive] = useState<string | null>(null); // Accordéon pour questions, type string pour correspondre à l'ID
 
-  const gererFeedbackF = (id: string, feedback: 'helpful' | 'notHelpful') => {
-    console.log(`Feedback for question ${id}: ${feedback}`);
-    // TODO: Ajouter la logique pour stocker ou traiter les feedbacks.
-  };
+  
 
   // Configuration de Fuse.js pour une recherche fuzzy
   const fuse = new Fuse(faqData, {
@@ -75,7 +72,7 @@ const Aide = () => {
                       {faq.question}
                     </h3>
                     <p className="mt-2 text-gray-700">{faq.reponse}</p>
-                    <div className="mt-2 flex gap-4">
+                    {/* <div className="mt-2 flex gap-4">
                       <button
                         onClick={() => gererFeedbackF(faq.id, 'helpful')}
                         className="text-green-600 underline">
@@ -86,7 +83,7 @@ const Aide = () => {
                         className="text-red-600 underline">
                         Pas utile
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
@@ -133,7 +130,7 @@ const Aide = () => {
                               : iconsListe.menu_MOINS}
                           </p>
                         </h3>
-                        {questionActive === faq.id && (
+                        {/* {questionActive === faq.id && (
                           <>
                             <p className="mt-2 text-gray-700">{faq.reponse}</p>
                             <div className="mt-2 flex gap-4">
@@ -153,7 +150,7 @@ const Aide = () => {
                               </button>
                             </div>
                           </>
-                        )}
+                        )} */}
                       </div>
                     ))}
                   </div>

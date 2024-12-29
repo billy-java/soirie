@@ -1,8 +1,4 @@
 # a ameliorer:
-- integrer les slice de redux
-- un system de login
-
-
 -- gestion des erreurs
 
 
