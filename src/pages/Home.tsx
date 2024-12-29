@@ -12,6 +12,7 @@ import {
 } from '../lib/functions/convertirDates';
 import { Titre1, Titre2, Titre3 } from '../components/Titres';
 import { initialiserEvenement } from '../lib/functions/initialiseEntities';
+import { ajouterEvenement, mettreAJourEvenement, supprimerEvenement } from '../redux/evenementSlice';
 
 interface IData {
   ajouter: IEvenement | null;
@@ -27,8 +28,7 @@ const Home = () => {
   const evenementsInitials = useSelector(
     (state: RootState_DB) => state.evenement.evenementsAttr
   );
-  const [evenements, setEvenements] =
-    useState<IEvenement[]>(evenementsInitials);
+  
 
   const [data, setData] = useState<IData>({
     ajouter: null,
@@ -58,13 +58,8 @@ const Home = () => {
   // Ajout d'un nouvel événement
   const gererAjoutEvenement = () => {
     if (data.ajouter?.nom.trim()) {
-      setEvenements((elements) => [
-        {
-          ...data.ajouter,
-          id: `${Date.now()}`,
-        } as IEvenement,
-        ...elements,
-      ]);
+     
+      dispatch(ajouterEvenement(data.ajouter));
       /* setAfficherFormulaireAjout(false); */
       setData({
         ajouter: null,
@@ -78,13 +73,8 @@ const Home = () => {
   const validerModification = (e: React.FormEvent) => {
     e.preventDefault();
     if (data.modifier && data.modifier.nom.trim()) {
-      setEvenements((elements) =>
-        elements.map((evenement) =>
-          evenement.id === data.modifier?.id
-            ? { ...evenement, ...data.modifier }
-            : evenement
-        )
-      );
+     
+      dispatch(mettreAJourEvenement(data.modifier));
       setData({
         ajouter: null,
         modifier: null,
@@ -96,7 +86,7 @@ const Home = () => {
 
   // Modification d'un événement existant
   const gererModificationEvenement = (id: string) => {
-    const evenementAModifier = evenements.find(
+    const evenementAModifier = evenementsInitials.find(
       (evenement) => evenement.id === id
     );
     if (evenementAModifier) {
@@ -111,8 +101,8 @@ const Home = () => {
 
   // Suppression d'un événement
   const gererSuppressionEvenement = (id: string) => {
-    setEvenements((prev) => prev.filter((evenement) => evenement.id !== id));
-    /* setIdConfirmationSuppression(null); */
+   
+    dispatch(supprimerEvenement(id));
     setData({ ...data, idSuppression: null });
   };
 
@@ -122,7 +112,6 @@ const Home = () => {
 
   const deconnection = () => {
     dispatch(logoutF());
-    setEvenements([]);
     navigate('/');
   };
 
@@ -275,7 +264,7 @@ const Home = () => {
       <div className="w-full max-w-4xl p-4">
         <Titre2>Vos événements :</Titre2>
         <ul className="space-y-6">
-          {evenements.map((evenement) => (
+          {evenementsInitials.map((evenement) => (
             <li
               key={evenement.id}
               className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl  relative">

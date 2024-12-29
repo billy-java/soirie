@@ -12,8 +12,8 @@ import { useParams } from 'react-router-dom';
 import { initialiserTache } from '../lib/functions/initialiseEntities';
 import { useDispatch } from 'react-redux';
 import {
-  setToutesLesTaches,
-  setToutesLesTachesPrioritaires,
+  remplacerToutesLesTaches,
+  remplacerToutesLesTachesPrioritaires,
 } from '../redux/tacheSlice';
 
 interface TachesProps {
@@ -94,9 +94,9 @@ const TachesSection: React.FC<TachesProps> = ({
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
     if (toutesLesTaches) {
-      dispatch(setToutesLesTaches(taches));
+      dispatch(remplacerToutesLesTaches(taches));
     } else {
-      dispatch(setToutesLesTachesPrioritaires(taches));
+      dispatch(remplacerToutesLesTachesPrioritaires(taches));
     }
   };
 

@@ -10,10 +10,11 @@ import {
   TNotification,
 } from '../interfaces/entites';
 import { dateJSVersIDate } from './convertirDates';
+import { genererIdUnique } from './mesFonctions';
 
 // Exemple de méthode pour initialiser un utilisateur
 export const initialiserUtilisateur = (): IUtilisateur => ({
-  id: '',
+  id: genererIdUnique('USER'),
   idsEvenements: [],
   nom: '',
   email: '',
@@ -23,19 +24,23 @@ export const initialiserUtilisateur = (): IUtilisateur => ({
 });
 
 // Exemple de méthode pour initialiser un événement
-export const initialiserEvenement = (): IEvenement => ({
-  id: "0",
-  idUtilisateur: '',
-  nom: '',
-  type: 'Anniversaire',
-  date: dateJSVersIDate(new Date()),
-  lieu: '',
-  budget: 0,
-});
+export const initialiserEvenement = (): IEvenement => {
+  const evenementID = genererIdUnique('EV');
+  return {
+    id: evenementID,
+    idUtilisateur: '',
+    nom: '',
+    type: 'Anniversaire',
+    date: dateJSVersIDate(new Date()),
+    lieu: '',
+    budget: 0,
+    invitation: initialiserInvitation(evenementID),
+  };
+};
 
 // Exemple de méthode pour initialiser une tâche
-export const initialiserTache = (evID:string): ITache => ({
-  id: Date.now().toString(),
+export const initialiserTache = (evID: string): ITache => ({
+  id: genererIdUnique('TA'),
   idEvenement: evID,
   titre: '',
   description: '',
@@ -45,9 +50,9 @@ export const initialiserTache = (evID:string): ITache => ({
 });
 
 // Exemple de méthode pour initialiser une invitation
-export const initialiserInvitation = (): IInvitation => ({
-  id: '',
-  idEvenement: '',
+export const initialiserInvitation = (evID: string): IInvitation => ({
+  id: genererIdUnique('INV'),
+  idEvenement: evID,
   nombrePersonnes: 100, // Par défaut
   nombreConfirmations: 10,
   nombreDoute: 5,
@@ -57,8 +62,8 @@ export const initialiserInvitation = (): IInvitation => ({
 });
 
 // Exemple de méthode pour initialiser une dépense
-export const initialiserDepense = (evID:string): IDepense => ({
-  id: Date.now().toString(),
+export const initialiserDepense = (evID: string): IDepense => ({
+  id: genererIdUnique('DEP'),
   idEvenement: evID,
   nom: '',
   description: '',
@@ -69,7 +74,7 @@ export const initialiserDepense = (evID:string): IDepense => ({
 
 // Exemple de méthode pour initialiser un prestataire
 export const initialiserPrestataire = (): IPrestataire => ({
-  id: '',
+  id: genererIdUnique('PRESTA'),
   nom: '',
   type: 4, // Par défaut, type = Autre
   localisation: '',
@@ -81,7 +86,7 @@ export const initialiserPrestataire = (): IPrestataire => ({
 
 // Exemple de méthode pour initialiser une notification
 export const initialiserNotification = (): TNotification => ({
-  id: '',
+  id: genererIdUnique('NOTIF'),
   idEvenement: '',
   idDestinateur: '',
   titre: '',

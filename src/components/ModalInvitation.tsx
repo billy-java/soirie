@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IInvitation } from '../lib/interfaces/entites';
 import { Titre3 } from './Titres';
 import { useDispatch } from 'react-redux';
-import { updateInvitation } from '../redux/invitationSlice';
+import { mettreAJourInvitation } from '../redux/evenementSlice';
 import { iconsListe } from '../lib/iconsListe';
 
 interface Props {
@@ -30,7 +30,7 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
   };
 
   const gererEnregistrement = () => {
-    dispatch(updateInvitation(formulaire));
+    dispatch(mettreAJourInvitation(formulaire));
     onClose();
   };
 
@@ -43,7 +43,7 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
           {/* Champ Nombre de personnes */}
           <div>
             <label className="block text-sm font-medium">
-              Nombre de personnes
+              Nombre de personnes souhaitées
             </label>
             <input
               required

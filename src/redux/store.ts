@@ -5,7 +5,6 @@ import authReducer from './authSlice';
 import evenementReducer from './evenementSlice';
 import tacheReducer from './tacheSlice';
 import depenseReducer from './depenseSlice';
-import invitationReducer from './invitationSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +12,6 @@ const store = configureStore({
     evenement: evenementReducer,
     tache: tacheReducer,
     depense: depenseReducer,
-    invitation: invitationReducer,
   },
 });
 

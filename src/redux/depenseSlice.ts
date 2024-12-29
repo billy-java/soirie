@@ -15,10 +15,10 @@ const depenseSlice = createSlice({
   name: 'depense',
   initialState,
   reducers: {
-    addDepense: (state, action: PayloadAction<IDepense>) => {
-      state.depenses.push(action.payload);
+    ajouterDepense: (state, action: PayloadAction<IDepense>) => {
+      state.depenses.unshift(action.payload);
     },
-    updateDepense: (state, action: PayloadAction<IDepense>) => {
+    mettreAJourDepense: (state, action: PayloadAction<IDepense>) => {
       // Trouver l'indice de la dépense à mettre à jour
       const index = state.depenses.findIndex(
         (depense) => depense.id === action.payload.id
@@ -26,21 +26,28 @@ const depenseSlice = createSlice({
 
       // Si la dépense existe, on met à jour ses informations
       if (index !== -1) {
-        state.depenses[index] = action.payload;
+        state.depenses[index] = {
+          ...state.depenses[index],
+          ...action.payload,
+        };
       }
     },
 
-    removeDepense: (state, action: PayloadAction<string>) => {
+    supprimerDepense: (state, action: PayloadAction<string>) => {
       state.depenses = state.depenses.filter(
         (depense) => depense.id !== action.payload
       );
     },
-    setToutesLesDepenses: (state, action: PayloadAction<IDepense[]>) => {
+    replacerTousLesDepenses: (state, action: PayloadAction<IDepense[]>) => {
       state.depenses = action.payload;
     },
   },
 });
 
-export const { addDepense, updateDepense, removeDepense, setToutesLesDepenses } =
-  depenseSlice.actions;
+export const {
+  ajouterDepense,
+  mettreAJourDepense,
+  supprimerDepense,
+  replacerTousLesDepenses,
+} = depenseSlice.actions;
 export default depenseSlice.reducer;

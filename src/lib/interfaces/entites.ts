@@ -16,6 +16,7 @@ export interface IEvenement {
   date: IDate;
   lieu: string;
   budget: number;
+  invitation: IInvitation;
 }
 
 export interface ITache {
@@ -60,7 +61,6 @@ export interface IPrestataire {
   email: string;
 }
 
-
 export interface IFaq {
   id: string;
   question: string;
@@ -70,9 +70,9 @@ export interface IFaq {
 }
 
 export interface IDate {
-  jour: number;   // Le jour du mois (1-31)
-  mois: number;   // Le mois de l'année (1-12)
-  annee: number;  // L'année (e.g., 2024)
+  jour: number; // Le jour du mois (1-31)
+  mois: number; // Le mois de l'année (1-12)
+  annee: number; // L'année (e.g., 2024)
   heure?: number; // L'heure (0-23), facultatif
   minute?: number; // Les minutes (0-59), facultatif
 }
@@ -83,7 +83,6 @@ export interface IData {
   idSuppression: string | null;
   sauvegargerListe: boolean;
 }
-
 
 export interface TNotification {
   id: string;

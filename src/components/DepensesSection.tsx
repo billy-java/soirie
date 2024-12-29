@@ -10,7 +10,7 @@ import { Titre3 } from './Titres';
 import ExportPDFButton from './ExportPDFButton';
 import { useParams } from 'react-router-dom';
 import { initialiserDepense } from '../lib/functions/initialiseEntities';
-import { setToutesLesDepenses } from '../redux/depenseSlice';
+import { replacerTousLesDepenses } from '../redux/depenseSlice';
 import { useDispatch } from 'react-redux';
 
 interface DepensesProps {
@@ -142,7 +142,6 @@ const SectionDepenses: React.FC<DepensesProps> = ({
       setDepenses([
         {
           ...data.ajouter,
-          id: Date.now().toString(),
         },
         ...depenses,
       ]);
@@ -269,7 +268,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
 
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
-    dispatch(setToutesLesDepenses(depenses));
+    dispatch(replacerTousLesDepenses(depenses));
   };
 
   return (

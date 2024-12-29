@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
                 className={`flex items-center space-x-1 ${
                   location.pathname.includes(item.lien) ? 'text-blue-400' : ''
                 }`}>
-                {item.icon1} {eId}
+                {item.icon1}
               </Link>
             </li>
           ) : (

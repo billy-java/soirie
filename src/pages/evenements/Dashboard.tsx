@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
-import { IEvenement } from '../../lib/interfaces/entites';
+import { IEvenement, IInvitation } from '../../lib/interfaces/entites';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState_DB } from '../../redux/store';
@@ -31,8 +31,8 @@ const Dashboard = () => {
   );
 
   const cetInvitation = useSelector(
-    (state: RootState_DB) => state.invitation.invitation
-  );
+      (etat: RootState_DB) => etat.evenement.evenementsAttr.find(el => el.id === eId)?.invitation
+    ) as IInvitation;
 
   const [tempsRestant, setTempsRestant] = useState({
     jours: 0,

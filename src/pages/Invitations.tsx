@@ -4,9 +4,10 @@ import {
   incrementConfirmations,
   incrementDoutes,
   incrementRejections,
-} from '../redux/invitationSlice';
+} from '../redux/evenementSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
+import { IInvitation } from '../lib/interfaces/entites';
 
 const Invitation: React.FC = () => {
   const { eId } = useParams();
@@ -18,12 +19,12 @@ const Invitation: React.FC = () => {
   const [reponseSelectionnee, setReponseSelectionnee] = useState<number | null>(
     null
   );
-  const userId = 'test00025'; //"test00025" oder null
+  const enLigne = useSelector((state:RootState_DB) => state.auth.token); 
   // Remplacez par votre logique de récupération de l'utilisateur connecté
 
   const cetteInvitation = useSelector(
-    (etat: RootState_DB) => etat.invitation.invitation
-  );
+    (etat: RootState_DB) => etat.evenement.evenementsAttr.find(el => el.id === eId)?.invitation
+  ) as IInvitation;
 
   const libellesReponses: Record<number, string> = {
     1: 'Je serais là',
@@ -43,11 +44,11 @@ const Invitation: React.FC = () => {
 
   const confirmerReponse = () => {
     if (reponseSelectionnee === 1) {
-      dispatch(incrementConfirmations());
+      dispatch(incrementConfirmations(eId!));
     } else if (reponseSelectionnee === 2) {
-      dispatch(incrementDoutes());
+      dispatch(incrementDoutes(eId!));
     } else if (reponseSelectionnee === 3) {
-      dispatch(incrementRejections());
+      dispatch(incrementRejections(eId!));
     }
 
     // Enregistrez la réponse sur le serveur ou localStorage
@@ -59,7 +60,7 @@ const Invitation: React.FC = () => {
 
     setPopupVisible(false); // Masque le popup
     naviguer('/'); // Redirige vers la page d'accueil
-    if (userId) {
+    if (enLigne) {
       naviguer(`/e/${eId}/dashboard/`);
     } else {
       naviguer('/');
@@ -76,23 +77,32 @@ const Invitation: React.FC = () => {
         <h2 className="mb-4 text-xl font-bold text-center">
           Invitation #{id} : {cetteInvitation.nombrePersonnes}
         </h2>
+        <label htmlFor="prenom" className="text-gray-500">
+          Prénom:
+        </label>
         <input
           required
           type="text"
+          id="prenom"
           name="prenom"
           placeholder="Prénom"
           value={formulaire.prenom}
           onChange={gererChangementInput}
-          className="w-full px-4 py-2 mb-4 border rounded"
+          className="w-full px-4 py-2 mt-1 mb-4 border rounded"
         />
+        <label htmlFor="nom" className="text-gray-500">
+          Nom:
+        </label>
+
         <input
           required
           type="text"
+          id="nom"
           name="nom"
           placeholder="Nom"
           value={formulaire.nom}
           onChange={gererChangementInput}
-          className="w-full px-4 py-2 mb-4 border rounded"
+          className="w-full px-4 py-2 mt-1 mb-4 border rounded"
         />
         <div className="flex justify-center space-x-4">
           <button
@@ -114,7 +124,7 @@ const Invitation: React.FC = () => {
       </div>
 
       {/* Affichage conditionnel du bouton Retour à l'événement */}
-      {userId && (
+      {enLigne && (
         <div className="mt-4">
           <button
             onClick={() => naviguer(`/e/${eId}/dashboard/`)}

@@ -1,6 +1,6 @@
 //src\lib\localDB.ts
 
-import { genererIdUnique } from './functions/mesFonctions';
+import { initialiserInvitation } from './functions/initialiseEntities';
 import {
   IUtilisateur,
   IEvenement,
@@ -13,7 +13,7 @@ import {
 // Un seul utilisateur
 export const utilisateurs: IUtilisateur[] = [
   {
-    id: genererIdUnique('USER'),
+    id: 'USER-M59JK763-1578',
     idsEvenements: ['1', '2'], // L'utilisateur participe à deux événements
     nom: 'Alice TEST',
     email: 'test@test.com',
@@ -26,7 +26,7 @@ export const utilisateurs: IUtilisateur[] = [
 // Deux événements différents
 export const evenements: IEvenement[] = [
   {
-    id: '1',
+    id: 'EV-M59JFWYK-5140',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: "Fête d'anniversaire",
     type: 'Anniversaire',
@@ -39,9 +39,10 @@ export const evenements: IEvenement[] = [
     }, // Date au format ISO
     lieu: 'Salle des fêtes',
     budget: 1000,
+    invitation: initialiserInvitation('EV-M59JFWYK-5140'),
   },
   {
-    id: '2',
+    id: 'EV-M59JGO9P-3520',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: 'Mariage de Bob',
     type: 'Anniversaire',
@@ -52,10 +53,9 @@ export const evenements: IEvenement[] = [
     }, // Date au format ISO
     lieu: 'Château de Versailles',
     budget: 5000,
+    invitation: initialiserInvitation('EV-M59JGO9P-3520'),
   },
 ];
-
-
 
 export const prestataires: IPrestataire[] = [
   {
@@ -165,7 +165,8 @@ export const anniversaireTaches: ITache[] = [
     id: '1',
     idEvenement: '1',
     titre: 'Planification générale',
-    description: "Choisir une date et une heure, définir un budget et sélectionner un thème pour la fête.",
+    description:
+      'Choisir une date et une heure, définir un budget et sélectionner un thème pour la fête.',
     dateLimite: { jour: 30, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
@@ -174,7 +175,8 @@ export const anniversaireTaches: ITache[] = [
     id: '2',
     idEvenement: '1',
     titre: 'Invitations',
-    description: 'Établir une liste d\'invités, envoyer les invitations et confirmer les RSVPs.',
+    description:
+      "Établir une liste d'invités, envoyer les invitations et confirmer les RSVPs.",
     dateLimite: { jour: 25, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
@@ -183,7 +185,8 @@ export const anniversaireTaches: ITache[] = [
     id: '3',
     idEvenement: '1',
     titre: 'Menu et Gâteau',
-    description: 'Planifier le menu, commander le gâteau et prévoir les boissons.',
+    description:
+      'Planifier le menu, commander le gâteau et prévoir les boissons.',
     dateLimite: { jour: 18, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 3,
@@ -192,7 +195,8 @@ export const anniversaireTaches: ITache[] = [
     id: '4',
     idEvenement: '1',
     titre: 'Décorations et Activités',
-    description: 'Organiser les décorations, prévoir les activités, et prévoir les cadeaux et les surprises.',
+    description:
+      'Organiser les décorations, prévoir les activités, et prévoir les cadeaux et les surprises.',
     dateLimite: { jour: 20, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
@@ -201,13 +205,13 @@ export const anniversaireTaches: ITache[] = [
     id: '5',
     idEvenement: '1',
     titre: 'Logistique',
-    description: "Planifier la logistique, prévoir les sièges, les tables et l'espace pour tout le monde.",
+    description:
+      "Planifier la logistique, prévoir les sièges, les tables et l'espace pour tout le monde.",
     dateLimite: { jour: 20, mois: 12, annee: 2024 },
     terminee: false,
     priorite: 2,
   },
 ];
-
 
 export const depenses: IDepense[] = [
   {
