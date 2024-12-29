@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IUtilisateur } from '../../lib/interfaces/entites';
 import { initialiserUtilisateur } from '../../lib/functions/initialiseEntities';
 import { Titre1 } from '../../components/Titres';
+import { useDispatch, useSelector } from 'react-redux';
+import { inscriptionF } from '../../redux/authSlice';
+import { RootState_DB } from '../../redux/store';
 
 const Inscription = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [user, setUser] = useState<IUtilisateur>(initialiserUtilisateur());
+  const token = useSelector((state: RootState_DB) => state.auth.token);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logique pour enregistrer l'utilisateur (exemple : appel API)
-    console.log('Inscription réussie:', user);
-    navigate('/home');
+
+    if (user.email && user.motDePasse && user.nom && user.telephone) {
+      dispatch(
+        inscriptionF({
+          nom: user.nom,
+          email: user.email,
+          motDePasse: user.motDePasse,
+          telephone: user.telephone,
+        })
+      );
+    }
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/home');
+    }
+  }, [token, navigate]);
 
   const modifierUser = (champ: keyof IUtilisateur, valeur: string) => {
     setUser((prevUser) => ({ ...prevUser, [champ]: valeur }));
@@ -29,14 +48,16 @@ const Inscription = () => {
           Créez un compte pour accéder à notre plateforme.
         </p>
         <input
+          required
           type="text"
           name="nom"
           value={user.nom}
           onChange={(e) => modifierUser('nom', e.target.value)}
-          placeholder="Nom"
+          placeholder="Nom complet"
           className="p-2 border border-gray-300 rounded-md"
         />
         <input
+          required
           type="email"
           name="email"
           value={user.email}
@@ -45,11 +66,21 @@ const Inscription = () => {
           className="p-2 border border-gray-300 rounded-md"
         />
         <input
+          required
           type="password"
           name="motDePasse"
           value={user.motDePasse}
           onChange={(e) => modifierUser('motDePasse', e.target.value)}
           placeholder="Mot de passe"
+          className="p-2 border border-gray-300 rounded-md"
+        />
+        <input
+          required
+          type="number"
+          name="telephone"
+          value={user.telephone}
+          onChange={(e) => modifierUser('telephone', e.target.value)}
+          placeholder="Téléphone"
           className="p-2 border border-gray-300 rounded-md"
         />
         <button

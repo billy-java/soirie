@@ -4,7 +4,7 @@ import { IEvenement } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
-import { logout, setIdEv } from '../redux/authSlice';
+import { logoutF, setIdEvF } from '../redux/authSlice';
 import {
   iDateVersDateJS,
   iDateVersInput,
@@ -117,11 +117,11 @@ const Home = () => {
   };
 
   const creerParams = (id: string) => {
-    dispatch(setIdEv(id));
+    dispatch(setIdEvF(id));
   };
 
   const deconnection = () => {
-    dispatch(logout());
+    dispatch(logoutF());
     setEvenements([]);
     navigate('/');
   };
@@ -174,6 +174,7 @@ const Home = () => {
           className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 mb-6">
           <h3 className="text-xl font-bold mb-4">Créer un nouvel événement</h3>
           <input
+            required
             type="text"
             placeholder="Nom de l'événement"
             value={data.ajouter?.nom || ''}
@@ -188,6 +189,7 @@ const Home = () => {
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
+            required
             type="date"
             value={data.ajouter?.date ? iDateVersInput(data.ajouter.date) : ''}
             onChange={(e) =>
@@ -204,6 +206,7 @@ const Home = () => {
             className="w-full border border-gray-300 rounded-md p-2 mb-4"
           />
           <input
+            required
             type="text"
             placeholder="Lieu"
             value={data.ajouter?.lieu || ''}
@@ -242,6 +245,7 @@ const Home = () => {
           </select>
 
           <input
+            required
             type="number"
             placeholder="Budget (€)"
             value={data.ajouter?.budget || ''}
@@ -342,6 +346,7 @@ const Home = () => {
                   <h4 className="font-semibold mb-2">Modifier l'événement</h4>
 
                   <input
+                    required
                     type="text"
                     placeholder="Nom"
                     value={data.modifier?.nom || ''}
@@ -356,6 +361,7 @@ const Home = () => {
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
+                    required
                     type="date"
                     value={
                       data.modifier?.date
@@ -376,6 +382,7 @@ const Home = () => {
                     className="w-full border border-gray-300 rounded-md p-2 mb-2"
                   />
                   <input
+                    required
                     type="text"
                     placeholder="Lieu"
                     value={data.modifier?.lieu || ''}
@@ -414,6 +421,7 @@ const Home = () => {
                   </select>
 
                   <input
+                    required
                     type="number"
                     placeholder="Budget (€)"
                     value={data.modifier?.budget || ''}

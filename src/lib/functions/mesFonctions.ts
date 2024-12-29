@@ -72,7 +72,40 @@ export function gerer_IInvitation_statut(
   return 'ERREUR STATUT INVITATION';
 }
 
-export function genererIdUnique<T extends { id: string }>(
+
+export function genererIdUnique(prefixe?: string): string {
+  // Obtenir l'heure actuelle en millisecondes
+  const maintenant = Date.now();
+  
+  // Convertir le timestamp en base 36 pour plus de compacité
+  const base36Timestamp = maintenant.toString(36).toUpperCase();
+
+  // Générer un suffixe aléatoire de 4 chiffres
+  const suffixe = Math.floor(1000 + Math.random() * 9000).toString();
+  
+  // Générer l'identifiant unique
+  const identifiant = `${prefixe ? `${prefixe}-` : ''}${base36Timestamp}-${suffixe}`;
+  
+  return identifiant;
+}
+
+export const genererToken = (userId: string): string => {
+  const randomPart = Math.random().toString(36).substr(2); // Partie aléatoire en base 36
+  const timestamp = Date.now().toString(36); // Timestamp en base 36
+  return `${userId}-${randomPart}-${timestamp}`;
+};
+
+function creerId(prefixe: string): string {
+  const part1 = Math.floor(Math.random() * 100)
+  .toString()
+  .padStart(2, '0');
+  const part2 = Math.floor(Math.random() * 10000)
+  .toString()
+  .padStart(4, '0');
+  return `${prefixe}-${part1}-${part2}`;
+}
+
+export function genererIdentifiantUnique<T extends { id: string }>(
   uneListe: T[],
   prefixe: string
 ): string {
@@ -83,14 +116,4 @@ export function genererIdUnique<T extends { id: string }>(
     nouveauId = creerId(prefixe);
   } while (ids_existants.has(nouveauId));
   return nouveauId;
-}
-
-function creerId(prefixe: string): string {
-  const part1 = Math.floor(Math.random() * 100)
-    .toString()
-    .padStart(2, '0');
-  const part2 = Math.floor(Math.random() * 10000)
-    .toString()
-    .padStart(4, '0');
-  return `${prefixe}-${part1}-${part2}`;
 }

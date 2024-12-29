@@ -77,6 +77,7 @@ const Invitation: React.FC = () => {
           Invitation #{id} : {cetteInvitation.nombrePersonnes}
         </h2>
         <input
+          required
           type="text"
           name="prenom"
           placeholder="Prénom"
@@ -85,6 +86,7 @@ const Invitation: React.FC = () => {
           className="w-full px-4 py-2 mb-4 border rounded"
         />
         <input
+          required
           type="text"
           name="nom"
           placeholder="Nom"

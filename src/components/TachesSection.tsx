@@ -188,6 +188,7 @@ const TachesSection: React.FC<TachesProps> = ({
             Remplissez le formulaire pour ajouter une nouvelle tâche.
           </p>
           <input
+            required
             type="text"
             value={data.ajouter?.titre || ''}
             onChange={(e) =>
@@ -215,6 +216,7 @@ const TachesSection: React.FC<TachesProps> = ({
             className="p-2 border border-gray-300 rounded-md"
           />
           <input
+            required
             type="date"
             value={
               data.ajouter?.dateLimite
@@ -286,6 +288,7 @@ const TachesSection: React.FC<TachesProps> = ({
                   }}
                   className="flex flex-wrap flex-grow gap-2 mr-4">
                   <input
+                    required
                     type="text"
                     value={data.modifier?.titre || ''}
                     onChange={(e) =>
@@ -299,6 +302,7 @@ const TachesSection: React.FC<TachesProps> = ({
                     className="p-2 border border-gray-300 rounded-md flex-grow"
                   />
                   <input
+                    required
                     value={data.modifier?.description || ''}
                     onChange={(e) =>
                       setData({
@@ -311,6 +315,7 @@ const TachesSection: React.FC<TachesProps> = ({
                     className="p-2 border border-gray-300 rounded-md flex-grow"
                   />
                   <input
+                    required
                     type="date"
                     value={iDateVersInput(
                       data.modifier?.dateLimite || {

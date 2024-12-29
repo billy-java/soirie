@@ -1,5 +1,6 @@
 //src\lib\localDB.ts
 
+import { genererIdUnique } from './functions/mesFonctions';
 import {
   IUtilisateur,
   IEvenement,
@@ -12,11 +13,11 @@ import {
 // Un seul utilisateur
 export const utilisateurs: IUtilisateur[] = [
   {
-    id: '1',
+    id: genererIdUnique('USER'),
     idsEvenements: ['1', '2'], // L'utilisateur participe à deux événements
-    nom: 'Alice Dupont',
-    email: 'alice@example.com',
-    motDePasse: 'password123',
+    nom: 'Alice TEST',
+    email: 'test@test.com',
+    motDePasse: 'test@test.com',
     telephone: '0102030405',
     role: 1, // Organisateur
   },

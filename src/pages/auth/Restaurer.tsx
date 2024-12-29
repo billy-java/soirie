@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Titre1 } from '../../components/Titres';
+import { useDispatch, useSelector } from 'react-redux';
+import { restaurerF } from '../../redux/authSlice';
+import { RootState_DB } from '../../redux/store';
 
 const Restaurer = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
+  const token = useSelector((state: RootState_DB) => state.auth.token);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logique pour envoyer un email de réinitialisation (exemple : appel API)
-    console.log('Demande de restauration pour :', email);
-    alert('Si un compte existe pour cet email, vous recevrez un lien de réinitialisation.');
-    navigate('/connexion');
+
+    dispatch(restaurerF(email));
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/home');
+    }
+  }, [token, navigate]);
 
   return (
     <div className="px-8 py-14 flex flex-col items-center justify-center h-screen bg-gray-100">
@@ -24,6 +33,7 @@ const Restaurer = () => {
           Entrez votre adresse email pour recevoir un lien de réinitialisation.
         </p>
         <input
+          required
           type="email"
           name="email"
           value={email}

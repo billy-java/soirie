@@ -53,6 +53,7 @@ const Parametres = () => {
           {modifier === 'nom' ? (
             <div className="flex items-center gap-4">
               <input
+                required
                 type="text"
                 name="nom"
                 value={formData.nom}

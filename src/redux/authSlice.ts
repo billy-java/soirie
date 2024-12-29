@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUtilisateur } from '../lib/interfaces/entites';
 import { IAuth } from '../lib/interfaces/IAuth';
+import { utilisateurs } from '../lib/localDB';
+import { genererIdUnique, genererToken } from '../lib/functions/mesFonctions';
 
 const initialState: IAuth = {
   userActuel: null,
@@ -12,32 +13,90 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (
+    connexionF: (
       state,
-      action: PayloadAction<IAuth>
+      action: PayloadAction<{ email: string; motDePasse: string }>
     ) => {
-      const { userActuel, token, idEv } = action.payload;
-      state.userActuel = userActuel;
-      state.token = token;
-      state.idEv = idEv;
+      const user = utilisateurs.find(
+        (u) =>
+          u.email === action.payload.email &&
+          u.motDePasse === action.payload.motDePasse
+      );
+
+      if (user) {
+        state.userActuel = user;
+        state.token = genererToken(user.id);
+        state.idEv = null;
+      } else {
+        state.userActuel = null;
+        state.token = null;
+        state.idEv = null;
+      }
     },
-    logout: (state) => {
+    inscriptionF: (
+      state,
+      action: PayloadAction<{
+        nom: string;
+        email: string;
+        motDePasse: string;
+        telephone: string;
+      }>
+    ) => {
+      const user = utilisateurs.find((u) => u.email === action.payload.email);
+
+      if (!user) {
+        const userID = genererIdUnique('USER');
+        state.userActuel = {
+          id: userID,
+          idsEvenements: [],
+          nom: action.payload.nom,
+          email: action.payload.email,
+          motDePasse: action.payload.motDePasse,
+          telephone: action.payload.telephone,
+          role: 1,
+        };
+        state.token = genererToken(userID);
+        state.idEv = null;
+      } else {
+        state.userActuel = null;
+        state.token = null;
+        state.idEv = null;
+      }
+    },
+    logoutF: (state) => {
       state.userActuel = null;
       state.token = null;
       state.idEv = null;
     },
-    setToken: (state, action: PayloadAction<string | null>) => {
+    restaurerF: (state, action: PayloadAction<string>) => {
+      const user = utilisateurs.find((u) => u.email === action.payload);
+
+      if (user) {
+        state.userActuel = user;
+        state.token = genererToken(user.id);
+        state.idEv = null;
+      } else {
+        state.userActuel = null;
+        state.token = null;
+        state.idEv = null;
+      }
+    },
+    setTokenF: (state, action: PayloadAction<string | null>) => {
       state.token = action.payload;
     },
-    setUserActuel: (state, action: PayloadAction<IUtilisateur | null>) => {
-      state.userActuel = action.payload;
-    },
-    setIdEv: (state, action: PayloadAction<string | null>) => {
+    setIdEvF: (state, action: PayloadAction<string | null>) => {
       state.idEv = action.payload;
     },
   },
 });
 
-export const { login, logout, setToken, setUserActuel, setIdEv } = authSlice.actions;
+export const {
+  connexionF,
+  inscriptionF,
+  logoutF,
+  restaurerF,
+  setTokenF,
+  setIdEvF,
+} = authSlice.actions;
 
 export default authSlice.reducer;

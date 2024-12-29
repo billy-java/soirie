@@ -270,7 +270,6 @@ const SectionDepenses: React.FC<DepensesProps> = ({
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
     dispatch(setToutesLesDepenses(depenses));
-
   };
 
   return (
@@ -299,6 +298,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             Remplissez le formulaire pour ajouter une nouvelle dépense.
           </p>
           <input
+            required
             type="text"
             value={data.ajouter?.nom || ''}
             onChange={(e) =>
@@ -328,6 +328,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             title="Entrez une brève description de la dépense."
           />
           <input
+            required
             type="number"
             value={data.ajouter?.montant || 0}
             onChange={(e) =>
@@ -343,6 +344,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             title="Entrez le montant de la dépense."
           />
           <input
+            required
             type="date"
             value={iDateVersInput(data.ajouter?.date) || ''}
             onChange={(e) =>
@@ -501,6 +503,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                     className="flex flex-wrap flex-grow gap-2 mr-4">
                     {/* Formulaire de modification */}
                     <input
+                      required
                       type="text"
                       value={data.modifier?.nom || ''}
                       onChange={(e) =>
@@ -515,6 +518,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       title="Modifiez le nom de la dépense."
                     />
                     <input
+                      required
                       value={data.modifier?.description || ''}
                       onChange={(e) =>
                         setData({
@@ -528,6 +532,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       title="Modifiez la description de la dépense."
                     />
                     <input
+                      required
                       type="number"
                       value={data.modifier?.montant || 0}
                       onChange={(e) =>
@@ -545,6 +550,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       title="Modifiez le montant de la dépense."
                     />
                     <input
+                      required
                       type="date"
                       value={iDateVersInput(data.modifier?.date) || ''}
                       onChange={(e) =>

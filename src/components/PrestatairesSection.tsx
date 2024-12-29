@@ -88,6 +88,7 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
       {/* Barre de recherche */}
       <div className="flex flex-wrap gap-4 mb-4">
         <input
+          required
           type="text"
           placeholder="Rechercher par nom ou localisation"
           value={recherche}

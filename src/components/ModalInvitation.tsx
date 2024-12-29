@@ -24,8 +24,8 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
         name === 'nombrePersonnes' && value === '' // Si vide, mettre null pour "Aucune limite"
           ? null
           : name === 'statut' // Le statut est un nombre, le convertir en entier
-          ? Number(value)
-          : value,
+            ? Number(value)
+            : value,
     }));
   };
 
@@ -46,6 +46,7 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
               Nombre de personnes
             </label>
             <input
+              required
               type="number"
               name="nombrePersonnes"
               value={formulaire.nombrePersonnes || ''} // Si null, on affiche une chaîne vide
@@ -61,6 +62,7 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
               Nombre de confirmations
             </label>
             <input
+              required
               type="number"
               name="nombreConfirmations"
               value={formulaire.nombreConfirmations}
@@ -75,6 +77,7 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
               Nombre de doutes
             </label>
             <input
+              required
               type="number"
               name="nombreDoute"
               value={formulaire.nombreDoute}
@@ -89,6 +92,7 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
               Nombre de rejets
             </label>
             <input
+              required
               type="number"
               name="nombreRejets"
               value={formulaire.nombreRejets}

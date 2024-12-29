@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IUtilisateur } from '../../lib/interfaces/entites';
 import { initialiserUtilisateur } from '../../lib/functions/initialiseEntities';
-import { login } from '../../redux/authSlice';
-import { IAuth } from '../../lib/interfaces/IAuth';
+import { connexionF } from '../../redux/authSlice';
 import { Titre1 } from '../../components/Titres';
+import { useSelector } from 'react-redux';
+import { RootState_DB } from '../../redux/store';
 
 const Connexion = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] = useState<IUtilisateur>(initialiserUtilisateur());
+  const token = useSelector((state: RootState_DB) => state.auth.token);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const temp: IAuth = { userActuel: user, token: null, idEv: '0' };
-    dispatch(login(temp));
-    navigate('/home');
+    if (user.email && user.motDePasse) {
+      dispatch(connexionF({ email: user.email, motDePasse: user.motDePasse }));
+    }
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/home');
+    }
+  }, [token, navigate]);
 
   const modifierUser = (champ: keyof IUtilisateur, valeur: string) => {
     setUser((prevUser) => ({ ...prevUser, [champ]: valeur }));
@@ -33,6 +41,7 @@ const Connexion = () => {
           Veuillez vous connecter à votre compte.
         </p>
         <input
+          required
           type="email"
           name="email"
           value={user.email}
@@ -41,6 +50,7 @@ const Connexion = () => {
           className="p-2 border border-gray-300 rounded-md"
         />
         <input
+          required
           type="password"
           name="motDePasse"
           value={user.motDePasse}

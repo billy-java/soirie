@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from './redux/store';
-import { setIdEv } from './redux/authSlice';
+import { setIdEvF } from './redux/authSlice';
 
 interface ProtectedRouteProps {
   element: React.ReactElement;
@@ -21,7 +21,7 @@ const RoutesProtegee: React.FC<ProtectedRouteProps> = ({ element }) => {
     const eventExists = ListeDesEvenements.some((event) => event.id === eId);
     if (eventExists) {
       if (userActuel_idEv !== eId && eId !== undefined) {
-        dispatch(setIdEv(eId));
+        dispatch(setIdEvF(eId));
       }
       return element;
     } else {
