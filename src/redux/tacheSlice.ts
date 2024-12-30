@@ -16,7 +16,10 @@ const tacheSlice = createSlice({
   name: 'tache',
   initialState,
   reducers: {
-    chargerTachesParType: (state, action: PayloadAction<{ typeEvenement: string, evId: string }>) => {
+    chargerTachesParType: (
+      state,
+      action: PayloadAction<{ typeEvenement: string; evId: string }>
+    ) => {
       const { typeEvenement, evId } = action.payload;
       state.taches = getTachesParType(typeEvenement, evId);
     },
@@ -38,8 +41,29 @@ const tacheSlice = createSlice({
       );
     },
     remplacerToutesLesTaches: (state, action: PayloadAction<ITache[]>) => {
-      state.taches = action.payload;
+      const nouvellesTaches = action.payload;
+
+      // Mettre à jour l'état avec les nouvelles tâches
+      state.taches = state.taches.map((tache) =>
+        nouvellesTaches.some((nt) => nt.id === tache.id)
+          ? nouvellesTaches.find((nt) => nt.id === tache.id) || tache
+          : tache
+      );
+
+      // Ajouter les nouvelles tâches qui ne sont pas encore dans l'état
+      nouvellesTaches.forEach((tache) => {
+        if (!state.taches.some((t) => t.id === tache.id)) {
+          state.taches.push(tache);
+        }
+      });
+
+      // Supprimer les tâches manquantes de la liste générale des tâches
+      const idsNouvellesTaches = nouvellesTaches.map((tache) => tache.id);
+      state.taches = state.taches.filter((tache) =>
+        idsNouvellesTaches.includes(tache.id)
+      );
     },
+
     remplacerToutesLesTachesPrioritaires: (
       state,
       action: PayloadAction<ITache[]>

@@ -5,6 +5,7 @@ import { RootState_DB } from '../../redux/store';
 import { chargerTachesParType } from '../../redux/tacheSlice';
 import { useParams } from 'react-router-dom';
 import { IEvenement } from '../../lib/interfaces/entites';
+import { useEffect } from 'react';
 
 const Taches = () => {
   const { eId } = useParams();
@@ -13,11 +14,15 @@ const Taches = () => {
   ) as IEvenement;
   const dispatch = useDispatch();
 
-  dispatch(chargerTachesParType({typeEvenement:cetEvenement.type!, evId: eId!}));
-
   const listeDesTaches = useSelector(
     (state: RootState_DB) => state.tache.taches
   );
+
+  useEffect(() => {
+    dispatch(
+      chargerTachesParType({ typeEvenement: cetEvenement.type!, evId: eId! })
+    );
+  }, [cetEvenement.type, dispatch, eId]);
 
   return (
     <div className="px-4 py-10 min-h-screen bg-gray-100">

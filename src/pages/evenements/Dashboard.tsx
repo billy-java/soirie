@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
-import { IEvenement, IInvitation } from '../../lib/interfaces/entites';
+import { IEvenement, IInvitation, ITache } from '../../lib/interfaces/entites';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../../redux/store';
@@ -23,20 +23,17 @@ const Dashboard = () => {
   ) as IEvenement;
   const dispatch = useDispatch();
   const [showUrgentTasks, setShowUrgentTasks] = useState(false);
-  
-  dispatch(chargerTachesParType({typeEvenement:cetEvenement.type!, evId: eId!}));
-  
-    const listeDesTaches = useSelector(
-      (state: RootState_DB) => state.tache.taches
-    );
 
-  const mesTaches = listeDesTaches.filter(
-    (el) => el.idEvenement === eId && el.priorite === 3
+  const listeDesTaches = useSelector(
+    (state: RootState_DB) => state.tache.taches
   );
 
+  const [mesTaches, setMesTaches] = useState<ITache[]>([]);
+
   const cetInvitation = useSelector(
-      (etat: RootState_DB) => etat.evenement.evenementsAttr.find(el => el.id === eId)?.invitation
-    ) as IInvitation;
+    (etat: RootState_DB) =>
+      etat.evenement.evenementsAttr.find((el) => el.id === eId)?.invitation
+  ) as IInvitation;
 
   const [tempsRestant, setTempsRestant] = useState({
     jours: 0,
@@ -46,6 +43,20 @@ const Dashboard = () => {
   });
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    setMesTaches(
+      listeDesTaches.filter(
+        (el) => el.idEvenement === eId! && el.priorite === 3
+      )
+    );
+  }, [eId, listeDesTaches, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      chargerTachesParType({ typeEvenement: cetEvenement.type!, evId: eId! })
+    );
+  }, [cetEvenement.type, dispatch, eId]);
 
   useEffect(() => {
     const calculerCompteAReboursF = () => {
@@ -208,9 +219,11 @@ const Dashboard = () => {
             </span>
           </p>
           <div className="flex flex-wrap items-center gap-2">
-            <CopierLien lien={`${window.location.origin}/e/${eId}/invitation`} />
+            <CopierLien
+              lien={`${window.location.origin}/e/${eId}/invitation`}
+            />
             <button
-              onClick={() => navigate('/e/'+eId+'/invitation')}
+              onClick={() => navigate('/e/' + eId + '/invitation')}
               className={`px-4 py-2 text-white rounded-lg  bg-green-600 hover:bg-green-800`}>
               {iconsListe.voir}
             </button>
