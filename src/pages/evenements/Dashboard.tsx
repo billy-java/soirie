@@ -31,7 +31,7 @@ const Dashboard = () => {
     );
 
   const mesTaches = listeDesTaches.filter(
-    (el) => el.idEvenement === '1' && el.priorite === 3
+    (el) => el.idEvenement === eId && el.priorite === 3
   );
 
   const cetInvitation = useSelector(

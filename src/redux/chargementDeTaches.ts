@@ -22,7 +22,7 @@ function creerFeteTaches(idEvenement: string): ITache[] {
     {
       id: genererIdUnique('TA'),
       idEvenement: genererIdUnique(idEvenement),
-      titre: 'Choisir un thème',
+      titre: 'Organiser une fête',
       description: 'Déterminer le thème principal pour la fête.',
       dateLimite: { jour: 10, mois: 1, annee: 2025 },
       terminee: false,
@@ -73,6 +73,15 @@ function creerMariageTaches(idEvenement: string): ITache[] {
     {
       id: genererIdUnique('TA'),
       idEvenement: genererIdUnique(idEvenement),
+      titre: 'Organiser un mariage',	
+      description: 'Acheter ou louer la robe de mariée et les costumes.',
+      dateLimite: { jour: 20, mois: 2, annee: 2025 },
+      terminee: false,
+      priorite: 3,
+    },
+    {
+      id: genererIdUnique('TA'),
+      idEvenement: genererIdUnique(idEvenement),
       titre: 'Réservation du lieu',
       description:
         'Choisir et réserver le lieu de la cérémonie et de la réception.',
@@ -87,15 +96,6 @@ function creerMariageTaches(idEvenement: string): ITache[] {
       description:
         'Établir une liste complète des invités et envoyer les invitations.',
       dateLimite: { jour: 15, mois: 2, annee: 2025 },
-      terminee: false,
-      priorite: 2,
-    },
-    {
-      id: genererIdUnique('TA'),
-      idEvenement: genererIdUnique(idEvenement),
-      titre: 'Robe et costumes',
-      description: 'Acheter ou louer la robe de mariée et les costumes.',
-      dateLimite: { jour: 20, mois: 2, annee: 2025 },
       terminee: false,
       priorite: 2,
     },
@@ -126,7 +126,7 @@ function creerAnniversaireTaches(idEvenement: string): ITache[] {
     {
       id: genererIdUnique('TA'),
       idEvenement: genererIdUnique(idEvenement),
-      titre: 'Planification générale',
+      titre: 'Organiser un anniversaire',
       description:
         'Choisir une date et une heure, définir un budget et sélectionner un thème pour la fête.',
       dateLimite: { jour: 30, mois: 12, annee: 2024 },
@@ -180,7 +180,7 @@ function creerAutreTaches(idEvenement: string): ITache[] {
     {
       id: genererIdUnique('TA'),
       idEvenement: genererIdUnique(idEvenement),
-      titre: 'Définir les objectifs',
+      titre: 'Organiser une Réunion',
       description: "Clarifier les objectifs principaux de l'événement.",
       dateLimite: { jour: 15, mois: 4, annee: 2025 },
       terminee: false,
