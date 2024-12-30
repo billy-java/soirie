@@ -1,10 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TachesSection from '../../components/TachesSection';
 import { Titre1 } from '../../components/Titres';
 import { RootState_DB } from '../../redux/store';
+import { chargerTachesParType } from '../../redux/tacheSlice';
+import { useParams } from 'react-router-dom';
+import { IEvenement } from '../../lib/interfaces/entites';
 
 const Taches = () => {
-  const anniversaireTaches = useSelector(
+  const { eId } = useParams();
+  const cetEvenement = useSelector((state: RootState_DB) =>
+    state.evenement.evenementsAttr.find((el) => el.id === eId)
+  ) as IEvenement;
+  const dispatch = useDispatch();
+
+  dispatch(chargerTachesParType({typeEvenement:cetEvenement.type!, evId: eId!}));
+
+  const listeDesTaches = useSelector(
     (state: RootState_DB) => state.tache.taches
   );
 
@@ -22,7 +33,7 @@ const Taches = () => {
         </p>
       </div>
 
-      <TachesSection tachesProps={anniversaireTaches} toutesLesTaches={true} />
+      <TachesSection tachesProps={listeDesTaches} toutesLesTaches={true} />
     </div>
   );
 };

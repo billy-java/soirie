@@ -130,10 +130,10 @@ const Aide = () => {
                               : iconsListe.menu_MOINS}
                           </p>
                         </h3>
-                        {/* {questionActive === faq.id && (
+                        {questionActive === faq.id && (
                           <>
                             <p className="mt-2 text-gray-700">{faq.reponse}</p>
-                            <div className="mt-2 flex gap-4">
+                            {/* <div className="mt-2 flex gap-4">
                               <button
                                 onClick={() =>
                                   gererFeedbackF(faq.id, 'helpful')
@@ -148,9 +148,9 @@ const Aide = () => {
                                 className="text-red-600 underline">
                                 Pas utile
                               </button>
-                            </div>
+                            </div> */}
                           </>
-                        )} */}
+                        )} 
                       </div>
                     ))}
                   </div>

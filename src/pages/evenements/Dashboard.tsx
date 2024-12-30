@@ -3,7 +3,7 @@ import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
 import { IEvenement, IInvitation } from '../../lib/interfaces/entites';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../../redux/store';
 import {
   iDateVersDateJS,
@@ -13,6 +13,7 @@ import {
 import { Titre1, Titre2, Titre3 } from '../../components/Titres';
 import ModalInvitation from '../../components/ModalInvitation';
 import { iconsListe } from '../../lib/iconsListe';
+import { chargerTachesParType } from '../../redux/tacheSlice';
 
 const Dashboard = () => {
   const { eId } = useParams();
@@ -20,13 +21,16 @@ const Dashboard = () => {
   const cetEvenement = useSelector((state: RootState_DB) =>
     state.evenement.evenementsAttr.find((el) => el.id === eId)
   ) as IEvenement;
-
+  const dispatch = useDispatch();
   const [showUrgentTasks, setShowUrgentTasks] = useState(false);
-  const anniversaireTaches = useSelector(
-    (state: RootState_DB) => state.tache.taches
-  );
+  
+  dispatch(chargerTachesParType({typeEvenement:cetEvenement.type!, evId: eId!}));
+  
+    const listeDesTaches = useSelector(
+      (state: RootState_DB) => state.tache.taches
+    );
 
-  const mesTaches = anniversaireTaches.filter(
+  const mesTaches = listeDesTaches.filter(
     (el) => el.idEvenement === '1' && el.priorite === 3
   );
 
@@ -236,6 +240,7 @@ const Dashboard = () => {
       {modalVisible && (
         <ModalInvitation
           invitation={cetInvitation}
+          idEvenement={eId!}
           onClose={() => setModalVisible(false)}
         />
       )}

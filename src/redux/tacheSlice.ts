@@ -2,6 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITache } from '../lib/interfaces/entites';
 import { anniversaireTaches } from '../lib/localDB';
+import { getTachesParType } from './chargementDeTaches';
 
 interface TacheState {
   taches: ITache[];
@@ -15,6 +16,10 @@ const tacheSlice = createSlice({
   name: 'tache',
   initialState,
   reducers: {
+    chargerTachesParType: (state, action: PayloadAction<{ typeEvenement: string, evId: string }>) => {
+      const { typeEvenement, evId } = action.payload;
+      state.taches = getTachesParType(typeEvenement, evId);
+    },
     addTache: (state, action: PayloadAction<ITache>) => {
       state.taches.unshift(action.payload);
     },
@@ -71,6 +76,7 @@ const tacheSlice = createSlice({
 });
 
 export const {
+  chargerTachesParType,
   addTache,
   updateTache,
   removeTache,

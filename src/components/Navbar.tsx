@@ -11,10 +11,11 @@ const Navbar: React.FC = () => {
   const displayNavbarPages2 = ['/parametres', '/contact', '/aide', '/home'];
   const isMenu2Page = displayNavbarPages2.includes(location.pathname);
   const idEvenement = useSelector((state: RootState_DB) => state.auth.idEv);
+  const hideNavbarRoutes = ['/', '/inscription', '/restaurer', '/invitation'];
 
   if (isMenu2Page) {
     return (
-      <nav className="fixed bottom-0 left-0 w-full bg-gray-800 text-white">
+      <nav className="fixed bottom-0 left-0 w-full bg-gray-800 text-white z-50">
         <ul className="flex justify-around items-center py-3">
           {menuParametre.map((item, index) => (
             <li key={index}>
@@ -30,7 +31,7 @@ const Navbar: React.FC = () => {
     );
   }
 
-  if (!isEventPage && !'/invitation'.includes(location.pathname)) {
+  if (!isEventPage && !hideNavbarRoutes.includes(location.pathname)) {
     return null;
   }
 

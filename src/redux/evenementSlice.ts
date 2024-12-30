@@ -16,6 +16,7 @@ const evenementSlice = createSlice({
   initialState,
   reducers: {
     ajouterEvenement: (state, action: PayloadAction<IEvenement>) => {
+      /* getTachesParType(action.payload.type!, action.payload.id!); */
       state.evenementsAttr.unshift(action.payload);
     },
     mettreAJourEvenement: (state, action: PayloadAction<IEvenement>) => {
@@ -61,17 +62,19 @@ const evenementSlice = createSlice({
         evenement.invitation.nombreRejets += 1;
       }
     },
-    mettreAJourInvitation: (state, action: PayloadAction<IInvitation>) => {
-      const evenement = state.evenementsAttr.find(
-        (e) => e.id === action.payload.id
-      );
+    mettreAJourInvitation: (
+      state,
+      action: PayloadAction<{ idEv: string; invitation: IInvitation }>
+    ) => {
+      const { idEv, invitation } = action.payload;
+    
+      const evenement = state.evenementsAttr.find((e) => e.id === idEv);
+    
       if (evenement) {
-        evenement.invitation = {
-          ...evenement.invitation,
-          ...action.payload,
-        };
+        evenement.invitation = invitation;
       }
     },
+    
   },
 });
 

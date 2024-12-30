@@ -1,6 +1,7 @@
 //src\lib\localDB.ts
 
 import { initialiserInvitation } from './functions/initialiseEntities';
+import { genererIdUnique } from './functions/mesFonctions';
 import {
   IUtilisateur,
   IEvenement,
@@ -28,7 +29,7 @@ export const evenements: IEvenement[] = [
   {
     id: 'EV-M59JFWYK-5140',
     idUtilisateur: '1', // Alice est l'organisateur
-    nom: "Fête d'anniversaire",
+    nom: 'Anniversaire',
     type: 'Anniversaire',
     date: {
       jour: 26,
@@ -45,7 +46,37 @@ export const evenements: IEvenement[] = [
     id: 'EV-M59JGO9P-3520',
     idUtilisateur: '1', // Alice est l'organisateur
     nom: 'Mariage de Bob',
-    type: 'Anniversaire',
+    type: 'Mariage',
+    date: {
+      jour: 31,
+      mois: 12,
+      annee: 2024,
+    }, // Date au format ISO
+    lieu: 'Château de Versailles',
+    budget: 5000,
+    invitation: initialiserInvitation('EV-M59JGO9P-3520'),
+  },
+  {
+    id: 'EV-M59JFWYK-5550',
+    idUtilisateur: '1', // Alice est l'organisateur
+    nom: 'Réunion',
+    type: 'Autre',
+    date: {
+      jour: 26,
+      mois: 12,
+      annee: 2024,
+      heure: 18,
+      minute: 31,
+    }, // Date au format ISO
+    lieu: 'Salle des fêtes',
+    budget: 1000,
+    invitation: initialiserInvitation('EV-M59JFWYK-5140'),
+  },
+  {
+    id: 'EV-M59JGO9P-3880',
+    idUtilisateur: '1', // Alice est l'organisateur
+    nom: 'Fête',
+    type: 'Fête',
     date: {
       jour: 31,
       mois: 12,
@@ -208,6 +239,155 @@ export const anniversaireTaches: ITache[] = [
     description:
       "Planifier la logistique, prévoir les sièges, les tables et l'espace pour tout le monde.",
     dateLimite: { jour: 20, mois: 12, annee: 2024 },
+    terminee: false,
+    priorite: 2,
+  },
+];
+
+export const feteTaches: ITache[] = [
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Choisir un thème',
+    description: 'Déterminer le thème principal pour la fête.',
+    dateLimite: { jour: 10, mois: 1, annee: 2025 },
+    terminee: false,
+    priorite: 3,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Sélectionner un lieu',
+    description: "Réserver ou préparer l'endroit où aura lieu la fête.",
+    dateLimite: { jour: 15, mois: 1, annee: 2025 },
+    terminee: false,
+    priorite: 2,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Musique et divertissement',
+    description:
+      'Organiser une playlist, engager un DJ ou un groupe, et planifier des jeux ou activités.',
+    dateLimite: { jour: 20, mois: 1, annee: 2025 },
+    terminee: false,
+    priorite: 1,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Planifier le menu',
+    description: 'Choisir les snacks, repas et boissons qui seront servis.',
+    dateLimite: { jour: 18, mois: 1, annee: 2025 },
+    terminee: false,
+    priorite: 2,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Envoyer les invitations',
+    description: 'Créer et distribuer les invitations aux invités.',
+    dateLimite: { jour: 12, mois: 1, annee: 2025 },
+    terminee: false,
+    priorite: 3,
+  },
+];
+
+export const mariageTaches: ITache[] = [
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Réservation du lieu',
+    description:
+      'Choisir et réserver le lieu de la cérémonie et de la réception.',
+    dateLimite: { jour: 1, mois: 3, annee: 2025 },
+    terminee: false,
+    priorite: 3,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Liste des invités',
+    description:
+      'Établir une liste complète des invités et envoyer les invitations.',
+    dateLimite: { jour: 15, mois: 2, annee: 2025 },
+    terminee: false,
+    priorite: 2,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Robe et costumes',
+    description: 'Acheter ou louer la robe de mariée et les costumes.',
+    dateLimite: { jour: 20, mois: 2, annee: 2025 },
+    terminee: false,
+    priorite: 2,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Photographe et vidéaste',
+    description: 'Engager un photographe et un vidéaste professionnels.',
+    dateLimite: { jour: 10, mois: 2, annee: 2025 },
+    terminee: false,
+    priorite: 1,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Planification de la cérémonie',
+    description:
+      'Préparer les vœux, engager un officiant et choisir les musiques.',
+    dateLimite: { jour: 28, mois: 2, annee: 2025 },
+    terminee: false,
+    priorite: 3,
+  },
+];
+
+export const autreTaches: ITache[] = [
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Définir les objectifs',
+    description: "Clarifier les objectifs principaux de l'événement.",
+    dateLimite: { jour: 15, mois: 4, annee: 2025 },
+    terminee: false,
+    priorite: 3,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Créer un planning',
+    description: 'Établir un horaire pour les activités et présentations.',
+    dateLimite: { jour: 20, mois: 4, annee: 2025 },
+    terminee: false,
+    priorite: 2,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Réunir les ressources',
+    description: 'Acheter ou louer les équipements nécessaires.',
+    dateLimite: { jour: 25, mois: 4, annee: 2025 },
+    terminee: false,
+    priorite: 1,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Envoyer les invitations',
+    description:
+      'Notifier toutes les parties prenantes de la date et de l’heure.',
+    dateLimite: { jour: 18, mois: 4, annee: 2025 },
+    terminee: false,
+    priorite: 3,
+  },
+  {
+    id: genererIdUnique('TA'),
+    idEvenement: genererIdUnique('EV'),
+    titre: 'Logistique',
+    description: "S'assurer que tout est prêt pour le jour de l'événement.",
+    dateLimite: { jour: 30, mois: 4, annee: 2025 },
     terminee: false,
     priorite: 2,
   },

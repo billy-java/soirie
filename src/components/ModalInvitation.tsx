@@ -7,10 +7,15 @@ import { iconsListe } from '../lib/iconsListe';
 
 interface Props {
   invitation: IInvitation;
+  idEvenement: string;
   onClose: () => void;
 }
 
-const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
+const ModalInvitation: React.FC<Props> = ({
+  invitation,
+  idEvenement,
+  onClose,
+}) => {
   const dispatch = useDispatch();
   const [formulaire, setFormulaire] = useState<IInvitation>(invitation);
 
@@ -30,7 +35,12 @@ const ModalInvitation: React.FC<Props> = ({ invitation, onClose }) => {
   };
 
   const gererEnregistrement = () => {
-    dispatch(mettreAJourInvitation(formulaire));
+    dispatch(
+      mettreAJourInvitation({
+        idEv: idEvenement,
+        invitation: formulaire,
+      })
+    );
     onClose();
   };
 
