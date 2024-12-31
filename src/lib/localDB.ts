@@ -56,36 +56,6 @@ export const evenements: IEvenement[] = [
     budget: 5000,
     invitation: initialiserInvitation('EV-M59JGO9P-3520'),
   },
-  {
-    id: 'EV-M59JFWYK-5550',
-    idUtilisateur: '1', // Alice est l'organisateur
-    nom: 'Réunion',
-    type: 'Autre',
-    date: {
-      jour: 26,
-      mois: 12,
-      annee: 2024,
-      heure: 18,
-      minute: 31,
-    }, // Date au format ISO
-    lieu: 'Salle des fêtes',
-    budget: 1000,
-    invitation: initialiserInvitation('EV-M59JFWYK-5140'),
-  },
-  {
-    id: 'EV-M59JGO9P-3880',
-    idUtilisateur: '1', // Alice est l'organisateur
-    nom: 'Fête',
-    type: 'Fête',
-    date: {
-      jour: 31,
-      mois: 12,
-      annee: 2024,
-    }, // Date au format ISO
-    lieu: 'Château de Versailles',
-    budget: 5000,
-    invitation: initialiserInvitation('EV-M59JGO9P-3520'),
-  },
 ];
 
 export const prestataires: IPrestataire[] = [
