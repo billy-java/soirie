@@ -225,7 +225,7 @@ const Dashboard = () => {
             <button
               onClick={() => navigate('/e/' + eId + '/invitation')}
               className={`px-4 py-2 text-white rounded-lg  bg-green-600 hover:bg-green-800`}>
-              {iconsListe.voir}
+              {iconsListe.oeil_ON}
             </button>
             <button
               onClick={() => setModalVisible(true)}

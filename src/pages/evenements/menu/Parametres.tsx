@@ -21,6 +21,7 @@ const Parametres = () => {
     motDePasse: actuelUser.motDePasse,
     telephone: actuelUser.telephone,
   });
+  const [motDePasseVisible, setMotDePasseVisible] = useState(false);
   const [toutSauvegarder, setToutSauvegarder] = useState(false);
 
   const modifierF = (field: string) => {
@@ -73,17 +74,17 @@ const Parametres = () => {
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Nom :</label>
           {modifier === 'nom' ? (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col mt-2 items-center gap-4">
               <input
                 required
                 type="text"
                 name="nom"
                 value={formData.nom}
                 onChange={mettreAJourF}
-                className="border p-2 rounded-md flex-grow"
+                className="w-full border p-2 rounded-md"
               />
 
-              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
+              <div className="w-full flex flex-nowrap justify-center items-center gap-2">
                 <button
                   onClick={() => sauvegarderF('nom')}
                   className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
@@ -113,15 +114,15 @@ const Parametres = () => {
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Email :</label>
           {modifier === 'email' ? (
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col mt-2 items-center gap-4">
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={mettreAJourF}
-                className="border p-2 rounded-md flex-grow"
+                className="w-full border p-2 rounded-md"
               />
-              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
+              <div className="w-full flex flex-nowrap justify-center items-center gap-2">
                 <button
                   onClick={() => sauvegarderF('nom')}
                   className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
@@ -151,17 +152,25 @@ const Parametres = () => {
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Mot de Passe :</label>
           {modifier === 'motDePasse' ? (
-            <div className="flex items-center gap-4">
-              <input
-                type="password"
-                name="motDePasse"
-                value={formData.motDePasse}
-                onChange={mettreAJourF}
-                className="border p-2 rounded-md flex-grow"
-              />
-              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
+            <div className="flex flex-col mt-2 items-center gap-4">
+              <div className="relative w-full">
+                <input
+                  type={motDePasseVisible ? 'text' : 'password'}
+                  name="motDePasse"
+                  value={formData.motDePasse}
+                  onChange={mettreAJourF}
+                  className="w-full border p-2 rounded-md"
+                />
                 <button
-                  onClick={() => sauvegarderF('nom')}
+                  type="button"
+                  onClick={() => setMotDePasseVisible(!motDePasseVisible)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                  {motDePasseVisible ? iconsListe.oeil_OFF : iconsListe.oeil_ON}
+                </button>
+              </div>
+              <div className="w-full flex flex-nowrap justify-center items-center gap-2">
+                <button
+                  onClick={() => sauvegarderF('motDePasse')}
                   className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
                   {iconsListe.enregister}
                 </button>
@@ -189,15 +198,15 @@ const Parametres = () => {
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Téléphone :</label>
           {modifier === 'telephone' ? (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col mt-2 items-center gap-4">
               <input
                 type="tel"
                 name="telephone"
                 value={formData.telephone}
                 onChange={mettreAJourF}
-                className="border p-2 rounded-md flex-grow"
+                className="w-full border p-2 rounded-md"
               />
-              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
+              <div className="w-full flex flex-nowrap justify-center items-center gap-2">
                 <button
                   onClick={() => sauvegarderF('nom')}
                   className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
