@@ -114,7 +114,7 @@ const ModalInvitation: React.FC<Props> = ({
           {/* Champ Statut */}
           <div>
             <label className="block text-sm font-medium">Statut</label>
-            <select
+            <select  required
               name="statut"
               value={formulaire.statut}
               onChange={gererChangement}

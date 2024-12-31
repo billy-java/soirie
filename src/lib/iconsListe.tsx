@@ -96,7 +96,7 @@ export const iconsListe: { [key: string]: React.ReactElement } = {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="size-5">
+      className="size-6">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -771,6 +771,21 @@ export const iconsListe: { [key: string]: React.ReactElement } = {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+      />
+    </svg>
+  ),
+  annuler: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="size-6">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
       />
     </svg>
   ),

@@ -292,71 +292,98 @@ const SectionDepenses: React.FC<DepensesProps> = ({
             if (data.idSuppression) annulerSuppression();
             ajouterDepense(e);
           }}
-          className="flex flex-col gap-2 mt-4">
-          <p className="text-gray-500">
+          className="flex flex-col gap-6 mt-4">
+          <p className="text-gray-800 text-center">
             Remplissez le formulaire pour ajouter une nouvelle dépense.
           </p>
-          <input
-            required
-            type="text"
-            value={data.ajouter?.nom || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, nom: e.target.value }
-                  : null,
-              })
-            }
-            placeholder="Nom de la dépense"
-            className="p-2 border border-gray-300 rounded-md"
-            title="Entrez le nom de la dépense."
-          />
-          <textarea
-            value={data.ajouter?.description || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, description: e.target.value }
-                  : null,
-              })
-            }
-            placeholder="Description de la dépense"
-            className="p-2 border border-gray-300 rounded-md"
-            title="Entrez une brève description de la dépense."
-          />
-          <input
-            required
-            type="number"
-            value={data.ajouter?.montant || 0}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, montant: parseFloat(e.target.value) }
-                  : null,
-              })
-            }
-            placeholder="Montant"
-            className="p-2 border border-gray-300 rounded-md"
-            title="Entrez le montant de la dépense."
-          />
-          <input
-            required
-            type="date"
-            value={iDateVersInput(data.ajouter?.date) || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, date: inputVersIDate(e.target.value) }
-                  : null,
-              })
-            }
-            className="p-2 border border-gray-300 rounded-md"
-            title="Sélectionnez la date de la dépense."
-          />
+          <div className="flex flex-col gap-2">
+            <label htmlFor="nom" className="text-gray-500">
+              Nom de la dépense:
+            </label>
+            <input
+              id="nom"
+              required
+              type="text"
+              value={data.ajouter?.nom || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, nom: e.target.value }
+                    : null,
+                })
+              }
+              placeholder="Nom de la dépense"
+              className="p-2 border border-gray-300 rounded-md"
+              title="Entrez le nom de la dépense."
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="description" className="text-gray-500">
+              Description de la dépense:
+            </label>
+            <textarea
+              required
+              id="description"
+              value={data.ajouter?.description || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, description: e.target.value }
+                    : null,
+                })
+              }
+              placeholder="Description de la dépense"
+              className="p-2 border border-gray-300 rounded-md"
+              title="Entrez une brève description de la dépense."
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="montant" className="text-gray-500">
+              Montant prévu pour la dépense:
+            </label>
+            <input
+              id="montant"
+              required
+              type="number"
+              value={data.ajouter?.montant || 0}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, montant: parseFloat(e.target.value) }
+                    : null,
+                })
+              }
+              placeholder="Montant"
+              className="p-2 border border-gray-300 rounded-md"
+              title="Entrez le montant de la dépense."
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="date" className="text-gray-500">
+              La dépense doit etre effectué avant le:
+            </label>
+            <input
+              id="date"
+              required
+              type="date"
+              value={iDateVersInput(data.ajouter?.date) || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, date: inputVersIDate(e.target.value) }
+                    : null,
+                })
+              }
+              className="p-2 border border-gray-300 rounded-md"
+              title="Sélectionnez la date de la dépense."
+            />
+          </div>
 
           <button
             type="submit"
@@ -459,6 +486,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
         <div className="flex flex-wrap gap-4 mb-10">
           {/* Liste déroulante pour le critère de tri */}
           <select
+            required
             value={triCritere}
             onChange={(e) => {
               const critere = e.target.value as 'date' | 'montant' | 'terminee';
@@ -499,80 +527,110 @@ const SectionDepenses: React.FC<DepensesProps> = ({
                       if (data.idSuppression) annulerSuppression();
                       validerModification(e);
                     }}
-                    className="flex flex-wrap flex-grow gap-2 mr-4">
+                    className="flex flex-wrap flex-grow gap-6 mr-4">
                     {/* Formulaire de modification */}
-                    <input
-                      required
-                      type="text"
-                      value={data.modifier?.nom || ''}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          modifier: data.modifier
-                            ? { ...data.modifier, nom: e.target.value }
-                            : null,
-                        })
-                      }
-                      className="p-2 border border-gray-300 rounded-md flex-grow"
-                      title="Modifiez le nom de la dépense."
-                    />
-                    <input
-                      required
-                      value={data.modifier?.description || ''}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          modifier: data.modifier
-                            ? { ...data.modifier, description: e.target.value }
-                            : null,
-                        })
-                      }
-                      className="p-2 border border-gray-300 rounded-md flex-grow"
-                      title="Modifiez la description de la dépense."
-                    />
-                    <input
-                      required
-                      type="number"
-                      value={data.modifier?.montant || 0}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          modifier: data.modifier
-                            ? {
-                                ...data.modifier,
-                                montant: parseFloat(e.target.value),
-                              }
-                            : null,
-                        })
-                      }
-                      className="p-2 border border-gray-300 rounded-md flex-grow"
-                      title="Modifiez le montant de la dépense."
-                    />
-                    <input
-                      required
-                      type="date"
-                      value={iDateVersInput(data.modifier?.date) || ''}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          modifier: data.modifier
-                            ? {
-                                ...data.modifier,
-                                date: inputVersIDate(e.target.value),
-                              }
-                            : null,
-                        })
-                      }
-                      className="p-2 border border-gray-300 rounded-md flex-grow"
-                      title="Modifiez la date de la dépense."
-                    />
+                    <div className="flex flex-col flex-grow gap-2">
+                      <label htmlFor="nom" className="text-gray-500">
+                        Nom de la dépense:
+                      </label>
+                      <input
+                        id="nom"
+                        required
+                        type="text"
+                        value={data.modifier?.nom || ''}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            modifier: data.modifier
+                              ? { ...data.modifier, nom: e.target.value }
+                              : null,
+                          })
+                        }
+                        className="p-2 border border-gray-300 rounded-md flex-grow"
+                        title="Modifiez le nom de la dépense."
+                      />
+                    </div>
+
+                    <div className="flex flex-col flex-grow gap-2">
+                      <label htmlFor="description" className="text-gray-500">
+                        Description de la dépense:
+                      </label>
+                      <input
+                        id="description"
+                        required
+                        value={data.modifier?.description || ''}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            modifier: data.modifier
+                              ? {
+                                  ...data.modifier,
+                                  description: e.target.value,
+                                }
+                              : null,
+                          })
+                        }
+                        className="p-2 border border-gray-300 rounded-md flex-grow"
+                        title="Modifiez la description de la dépense."
+                      />
+                    </div>
+
+                    <div className="flex flex-col flex-grow gap-2">
+                      <label htmlFor="montant" className="text-gray-500">
+                        Montant prévu pour la dépense:
+                      </label>
+                      <input
+                        id="montant"
+                        required
+                        type="number"
+                        value={data.modifier?.montant || 0}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            modifier: data.modifier
+                              ? {
+                                  ...data.modifier,
+                                  montant: parseFloat(e.target.value),
+                                }
+                              : null,
+                          })
+                        }
+                        className="p-2 border border-gray-300 rounded-md flex-grow"
+                        title="Modifiez le montant de la dépense."
+                      />
+                    </div>
+
+                    <div className="flex flex-col flex-grow gap-2">
+                      <label htmlFor="date" className="text-gray-500">
+                        La dépense doit etre effectué avant le:
+                      </label>
+                      <input
+                        id="date"
+                        required
+                        type="date"
+                        value={iDateVersInput(data.modifier?.date) || ''}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            modifier: data.modifier
+                              ? {
+                                  ...data.modifier,
+                                  date: inputVersIDate(e.target.value),
+                                }
+                              : null,
+                          })
+                        }
+                        className="p-2 border border-gray-300 rounded-md flex-grow"
+                        title="Modifiez la date de la dépense."
+                      />
+                    </div>
 
                     <div className="w-full flex justify-center space-x-4">
                       <button
                         type="submit"
                         title="Cliquez pour enregistrer les modifications."
-                        className="bg-indigo-600 text-white w-full px-4 py-2 size-fit rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-                        <p>Sauvegarder</p> {iconsListe.enregister}
+                        className="bg-indigo-600 text-white w-full px-4 py-2 size-fit rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
+                        <span>Sauvegarder</span> {iconsListe.enregister}
                       </button>
                       <button
                         onClick={annulerModification}

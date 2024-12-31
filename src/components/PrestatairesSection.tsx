@@ -96,7 +96,7 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
           className="p-2 border border-gray-300 rounded-md flex-grow"
         />
 
-        <select
+        <select  required
           value={filtreType}
           onChange={(e) => setFiltreType(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow">
@@ -107,7 +107,7 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
           <option value="4">Autre</option>
         </select>
 
-        <select
+        <select  required
           value={filtreNote}
           onChange={(e) => setFiltreNote(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow">
@@ -119,7 +119,7 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
           ))}
         </select>
 
-        <select
+        <select  required
           value={trierPar}
           onChange={(e) => setTrierPar(e.target.value)}
           className="p-2 border border-gray-300 rounded-md flex-grow">

@@ -21,23 +21,23 @@ const Parametres = () => {
     motDePasse: actuelUser.motDePasse,
     telephone: actuelUser.telephone,
   });
-  const [toutSauvegarder, setToutSauvegarder] = useState(false)
+  const [toutSauvegarder, setToutSauvegarder] = useState(false);
 
   const modifierF = (field: string) => {
     setModifier(field);
   };
-  
+
   const mettreAJourF = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const sauvegarderF = (field: string) => {
     setActuelUser({
       ...actuelUser,
       [field]: formData[field as keyof typeof formData],
     });
     setModifier(null);
-    setToutSauvegarder(true)
+    setToutSauvegarder(true);
   };
 
   const toutSauvegarderF = () => {
@@ -48,8 +48,20 @@ const Parametres = () => {
       formData.telephone
     ) {
       dispatch(mettreAJourUtilisateur(formData));
-      setToutSauvegarder(false)
+      setToutSauvegarder(false);
     }
+  };
+
+  const annulerF = () => {
+    // Réinitialiser les champs du formulaire avec les valeurs initiales de l'utilisateur actuel
+    setFormData({
+      nom: actuelUser.nom,
+      email: actuelUser.email,
+      motDePasse: actuelUser.motDePasse,
+      telephone: actuelUser.telephone,
+    });
+    // Annuler le mode de modification
+    setModifier(null);
   };
 
   return (
@@ -70,11 +82,20 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <button
-                onClick={() => sauvegarderF('nom')}
-                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-                <p>Sauvegarder</p> {iconsListe.enregister}
-              </button>
+
+              <div className="flex flex-nowrap justify-center items-center space-x-1">
+                <button
+                  onClick={() => sauvegarderF('nom')}
+                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  {iconsListe.enregister}
+                </button>
+                <button
+                  onClick={annulerF}
+                  type="reset"
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  {iconsListe.annuler}
+                </button>
+              </div>
             </div>
           ) : (
             <div className="flex items-center justify-between">
@@ -100,11 +121,19 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <button
-                onClick={() => sauvegarderF('email')}
-                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-                <p>Sauvegarder</p> {iconsListe.enregister}
-              </button>
+              <div className="flex flex-nowrap justify-center items-center space-x-1">
+                <button
+                  onClick={() => sauvegarderF('nom')}
+                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  {iconsListe.enregister}
+                </button>
+                <button
+                  onClick={annulerF}
+                  type="reset"
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  {iconsListe.annuler}
+                </button>
+              </div>
             </div>
           ) : (
             <div className="flex items-center justify-between">
@@ -130,11 +159,19 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <button
-                onClick={() => sauvegarderF('motDePasse')}
-                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-                <p>Sauvegarder</p> {iconsListe.enregister}
-              </button>
+              <div className="flex flex-nowrap justify-center items-center space-x-1">
+                <button
+                  onClick={() => sauvegarderF('nom')}
+                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  {iconsListe.enregister}
+                </button>
+                <button
+                  onClick={annulerF}
+                  type="reset"
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  {iconsListe.annuler}
+                </button>
+              </div>
             </div>
           ) : (
             <div className="flex items-center justify-between">
@@ -160,11 +197,19 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <button
-                onClick={() => sauvegarderF('telephone')}
-                className="bg-indigo-600 text-white  px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-                <p>Sauvegarder</p> {iconsListe.enregister}
-              </button>
+              <div className="flex flex-nowrap justify-center items-center space-x-1">
+                <button
+                  onClick={() => sauvegarderF('nom')}
+                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  {iconsListe.enregister}
+                </button>
+                <button
+                  onClick={annulerF}
+                  type="reset"
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  {iconsListe.annuler}
+                </button>
+              </div>
             </div>
           ) : (
             <div className="flex items-center justify-between">
@@ -180,16 +225,16 @@ const Parametres = () => {
       </div>
 
       {/* Bouton "Tout sauvegarder" */}
-      {toutSauvegarder &&  <div className="mt-6 flex flex-wrap justify-center">
-        <button
-          onClick={toutSauvegarderF}
-          className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-          <p>Sauvegarder</p> {iconsListe.enregister}
-        </button>
-      </div>
-   } 
+      {toutSauvegarder && (
+        <div className="mt-6 flex flex-wrap justify-center">
+          <button
+            onClick={toutSauvegarderF}
+            className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+            <p>Sauvegarder</p> {iconsListe.enregister}
+          </button>
+        </div>
+      )}
     </div>
-
   );
 };
 

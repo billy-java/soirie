@@ -12,7 +12,11 @@ import {
 } from '../lib/functions/convertirDates';
 import { Titre1, Titre2, Titre3 } from '../components/Titres';
 import { initialiserEvenement } from '../lib/functions/initialiseEntities';
-import { ajouterEvenement, mettreAJourEvenement, supprimerEvenement } from '../redux/evenementSlice';
+import {
+  ajouterEvenement,
+  mettreAJourEvenement,
+  supprimerEvenement,
+} from '../redux/evenementSlice';
 
 interface IData {
   ajouter: IEvenement | null;
@@ -28,7 +32,6 @@ const Home = () => {
   const evenementsInitials = useSelector(
     (state: RootState_DB) => state.evenement.evenementsAttr
   );
-  
 
   const [data, setData] = useState<IData>({
     ajouter: null,
@@ -58,7 +61,6 @@ const Home = () => {
   // Ajout d'un nouvel événement
   const gererAjoutEvenement = () => {
     if (data.ajouter?.nom.trim()) {
-     
       dispatch(ajouterEvenement(data.ajouter));
       /* setAfficherFormulaireAjout(false); */
       setData({
@@ -73,7 +75,6 @@ const Home = () => {
   const validerModification = (e: React.FormEvent) => {
     e.preventDefault();
     if (data.modifier && data.modifier.nom.trim()) {
-     
       dispatch(mettreAJourEvenement(data.modifier));
       setData({
         ajouter: null,
@@ -101,7 +102,6 @@ const Home = () => {
 
   // Suppression d'un événement
   const gererSuppressionEvenement = (id: string) => {
-   
     dispatch(supprimerEvenement(id));
     setData({ ...data, idSuppression: null });
   };
@@ -160,10 +160,14 @@ const Home = () => {
             if (data.idSuppression) annulerSuppression();
             gererAjoutEvenement();
           }}
-          className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 mb-6">
+          className="w-full max-w-md p-6 mb-6">
           <h3 className="text-xl font-bold mb-4">Créer un nouvel événement</h3>
+          <label htmlFor="date" className="text-gray-500">
+            Nom de l'événement:
+          </label>
           <input
             required
+            id="nom"
             type="text"
             placeholder="Nom de l'événement"
             value={data.ajouter?.nom || ''}
@@ -175,9 +179,13 @@ const Home = () => {
                   : null,
               })
             }
-            className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
           />
+          <label htmlFor="date" className="text-gray-500">
+            Date:
+          </label>
           <input
+            id="date"
             required
             type="date"
             value={data.ajouter?.date ? iDateVersInput(data.ajouter.date) : ''}
@@ -192,9 +200,13 @@ const Home = () => {
                   : null,
               })
             }
-            className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
           />
+          <label htmlFor="lieu" className="text-gray-500">
+            Lieu de l'événement:
+          </label>
           <input
+            id="lieu"
             required
             type="text"
             placeholder="Lieu"
@@ -207,9 +219,14 @@ const Home = () => {
                   : null,
               })
             }
-            className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            className="w-full border mt-1 border-gray-300 rounded-md p-2 mb-4"
           />
+          <label htmlFor="typeE" className="text-gray-500">
+            Type de l'événement:
+          </label>
           <select
+            required
+            id="typeE"
             value={data.ajouter?.type}
             onChange={(e) =>
               setData({
@@ -226,14 +243,17 @@ const Home = () => {
                   : null,
               })
             }
-            className="w-full border border-gray-300 rounded-md p-2 mb-4">
+            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4">
             <option value="Fête">Fête</option>
             <option value="Mariage">Mariage</option>
             <option value="Anniversaire">Anniversaire</option>
             <option value="Autre">Autre</option>
           </select>
-
+          <label htmlFor="budget" className="text-gray-500">
+            Budget prévu pour l'événement:
+          </label>
           <input
+            id="budget"
             required
             type="number"
             placeholder="Budget (€)"
@@ -246,16 +266,12 @@ const Home = () => {
                   : null,
               })
             }
-            className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
           />
           <button
             type="submit"
-            /* onClick={() => {
-              if (data.idSuppression) setData({ ...data, idSuppression: null });
-              gererAjoutEvenement();
-            }} */
             className="bg-indigo-600 text-white size-fit px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
-            <p>Sauvegarder</p> {iconsListe.enregister}
+            <span>Sauvegarder</span> {iconsListe.enregister}
           </button>
         </form>
       )}
@@ -333,9 +349,12 @@ const Home = () => {
                   }}
                   className="mt-4 p-4 bg-gray-100 rounded-md">
                   <h4 className="font-semibold mb-2">Modifier l'événement</h4>
-
+                  <label htmlFor="date" className="text-gray-500">
+                    Nom de l'événement:
+                  </label>
                   <input
                     required
+                    id="nom"
                     type="text"
                     placeholder="Nom"
                     value={data.modifier?.nom || ''}
@@ -347,9 +366,13 @@ const Home = () => {
                           : null,
                       })
                     }
-                    className="w-full border border-gray-300 rounded-md p-2 mb-2"
+                    className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
                   />
+                  <label htmlFor="date" className="text-gray-500">
+                    Date:
+                  </label>
                   <input
+                    id="date"
                     required
                     type="date"
                     value={
@@ -368,9 +391,13 @@ const Home = () => {
                           : null,
                       })
                     }
-                    className="w-full border border-gray-300 rounded-md p-2 mb-2"
+                    className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
                   />
+                  <label htmlFor="lieu" className="text-gray-500">
+                    Lieu de l'événement:
+                  </label>{' '}
                   <input
+                    id="lieu"
                     required
                     type="text"
                     placeholder="Lieu"
@@ -383,9 +410,14 @@ const Home = () => {
                           : null,
                       })
                     }
-                    className="w-full border border-gray-300 rounded-md p-2 mb-2"
+                    className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
                   />
+                  <label htmlFor="typeE" className="text-gray-500">
+                    Type de l'événement:
+                  </label>{' '}
                   <select
+                    required
+                    id="typeE"
                     value={data.modifier?.type || evenement.type}
                     onChange={(e) =>
                       setData({
@@ -402,14 +434,17 @@ const Home = () => {
                           : null,
                       })
                     }
-                    className="w-full border border-gray-300 rounded-md p-2 mb-2">
+                    className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4">
                     <option value="Fête">Fête</option>
                     <option value="Mariage">Mariage</option>
                     <option value="Anniversaire">Anniversaire</option>
                     <option value="Autre">Autre</option>
                   </select>
-
+                  <label htmlFor="budget" className="text-gray-500">
+                    Budget prévu pour l'événement:
+                  </label>
                   <input
+                    id="budget"
                     required
                     type="number"
                     placeholder="Budget (€)"
@@ -425,9 +460,8 @@ const Home = () => {
                           : null,
                       })
                     }
-                    className="w-full border border-gray-300 rounded-md p-2 mb-2"
+                    className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
                   />
-
                   <div className="flex justify-center space-x-4">
                     <button
                       type="submit"

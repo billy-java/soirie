@@ -77,12 +77,7 @@ export interface IDate {
   minute?: number; // Les minutes (0-59), facultatif
 }
 
-export interface IData {
-  ajouter: ITache | null;
-  modifier: ITache | null;
-  idSuppression: string | null;
-  sauvegargerListe: boolean;
-}
+
 
 export interface TNotification {
   id: string;

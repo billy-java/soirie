@@ -1,3 +1,23 @@
+import { ITache } from "../interfaces/entites";
+import { iDateVersDateJS } from "./convertirDates";
+
+export function trierTachesParDate(taches: ITache[]): ITache[] {
+  return taches.slice().sort((a, b) => {
+    // Si une des tâches n'a pas de date limite, la placer en dernier
+    if (!a.dateLimite && !b.dateLimite) return 0;
+    if (!a.dateLimite) return 1;
+    if (!b.dateLimite) return -1;
+
+    // Utiliser iDateVersDateJS pour convertir les dates
+    const dateA = iDateVersDateJS(a.dateLimite);
+    const dateB = iDateVersDateJS(b.dateLimite);
+
+    // Comparer les deux dates
+    return dateA.getTime() - dateB.getTime();
+  });
+}
+
+
 export function gerer_IUtilisateur_Role(
   valeur: number | string
 ): string | number {

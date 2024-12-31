@@ -7,25 +7,20 @@ import {
 } from '../redux/evenementSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState_DB } from '../redux/store';
-import { IInvitation } from '../lib/interfaces/entites';
 
 const Invitation: React.FC = () => {
   const { eId } = useParams();
   const dispatch = useDispatch();
   const naviguer = useNavigate();
-  const { id } = useParams<{ id: string }>();
   const [formulaire, setFormulaire] = useState({ prenom: '', nom: '' });
   const [popupVisible, setPopupVisible] = useState(false);
   const [reponseSelectionnee, setReponseSelectionnee] = useState<number | null>(
     null
   );
   const enLigne = useSelector((state:RootState_DB) => state.auth.token); 
-  // Remplacez par votre logique de récupération de l'utilisateur connecté
 
-  const cetteInvitation = useSelector(
-    (etat: RootState_DB) => etat.evenement.evenementsAttr.find(el => el.id === eId)?.invitation
-  ) as IInvitation;
-
+  
+ 
   const libellesReponses: Record<number, string> = {
     1: 'Je serais là',
     2: 'Peut-être',
@@ -75,7 +70,7 @@ const Invitation: React.FC = () => {
     <div className="px-8 py-14 flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="p-6 bg-white rounded-lg shadow-lg w-full">
         <h2 className="mb-4 text-xl font-bold text-center">
-          Invitation #{id} : {cetteInvitation.nombrePersonnes}
+          Invitation
         </h2>
         <label htmlFor="prenom" className="text-gray-500">
           Prénom:

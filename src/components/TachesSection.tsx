@@ -7,7 +7,10 @@ import {
   inputVersIDate,
 } from '../lib/functions/convertirDates';
 import { Titre3 } from './Titres';
-import { convertirPrioriteF } from '../lib/functions/mesFonctions';
+import {
+  convertirPrioriteF,
+  trierTachesParDate,
+} from '../lib/functions/mesFonctions';
 import { useParams } from 'react-router-dom';
 import { initialiserTache } from '../lib/functions/initialiseEntities';
 import { useDispatch } from 'react-redux';
@@ -183,78 +186,107 @@ const TachesSection: React.FC<TachesProps> = ({
             if (data.idSuppression) annulerSuppression();
             ajouterTache(e);
           }}
-          className="flex flex-col gap-2 mt-4">
+          className="flex flex-col gap-6 mt-4">
           <p className="text-gray-500">
             Remplissez le formulaire pour ajouter une nouvelle tâche.
           </p>
-          <input
-            required
-            type="text"
-            value={data.ajouter?.titre || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, titre: e.target.value }
-                  : null,
-              })
-            }
-            placeholder="Titre de la tâche"
-            className="p-2 border border-gray-300 rounded-md"
-          />
-          <textarea
-            value={data.ajouter?.description || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, description: e.target.value }
-                  : null,
-              })
-            }
-            placeholder="Description de la tâche"
-            className="p-2 border border-gray-300 rounded-md"
-          />
-          <input
-            required
-            type="date"
-            value={
-              data.ajouter?.dateLimite
-                ? iDateVersInput(data.ajouter.dateLimite)
-                : ''
-            }
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? {
-                      ...data.ajouter,
-                      dateLimite: inputVersIDate(e.target.value),
-                    }
-                  : null,
-              })
-            }
-            className="p-2 border border-gray-300 rounded-md"
-          />
+          <div className="flex flex-col gap-2">
+            <label htmlFor="titre" className="text-gray-500">
+              Titre de la tâche
+            </label>
+            <input
+              id="titre"
+              required
+              type="text"
+              value={data.ajouter?.titre || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, titre: e.target.value }
+                    : null,
+                })
+              }
+              placeholder="Titre de la tâche"
+              className="p-2 border border-gray-300 rounded-md"
+            />
+          </div>
 
-          <select
-            value={data.ajouter?.priorite || 2}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? {
-                      ...data.ajouter,
-                      priorite: parseInt(e.target.value) as 1 | 2 | 3,
-                    }
-                  : null,
-              })
-            }
-            className="p-2 border border-gray-300 rounded-md">
-            <option value={1}>Basse</option>
-            <option value={2}>Moyenne</option>
-            <option value={3}>Haute</option>
-          </select>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="description" className="text-gray-500">
+              Description de la tâche
+            </label>
+            <textarea
+              id="description"
+              required
+              value={data.ajouter?.description || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, description: e.target.value }
+                    : null,
+                })
+              }
+              placeholder="Description de la tâche"
+              className="p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="dateLimite" className="text-gray-500">
+              Date limite de la tâche
+            </label>
+
+            <input
+              id="dateLimite"
+              required
+              type="date"
+              value={
+                data.ajouter?.dateLimite
+                  ? iDateVersInput(data.ajouter.dateLimite)
+                  : ''
+              }
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? {
+                        ...data.ajouter,
+                        dateLimite: inputVersIDate(e.target.value),
+                      }
+                    : null,
+                })
+              }
+              className="p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="priorite" className="text-gray-500">
+              Priorité de la tâche
+            </label>
+            <select
+              id="priorite"
+              required
+              value={data.ajouter?.priorite || 2}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? {
+                        ...data.ajouter,
+                        priorite: parseInt(e.target.value) as 1 | 2 | 3,
+                      }
+                    : null,
+                })
+              }
+              className="p-2 border border-gray-300 rounded-md">
+              <option value={1}>Basse</option>
+              <option value={2}>Moyenne</option>
+              <option value={3}>Haute</option>
+            </select>
+          </div>
 
           <button
             type="submit"
@@ -270,7 +302,7 @@ const TachesSection: React.FC<TachesProps> = ({
           Utilisez les boutons a droite pour valider(⚠️), modifier ou supprimer
           vos tâches.
         </p>
-        {taches.map((tache) => (
+        {trierTachesParDate(taches).map((tache) => (
           <li
             key={tache.id}
             className={`flex flex-col shadow-lg rounded-lg ${data.idSuppression === tache.id ? 'bg-red-50' : 'bg-white'}`}>
@@ -286,78 +318,107 @@ const TachesSection: React.FC<TachesProps> = ({
                     if (data.idSuppression) annulerSuppression();
                     validerModification(e);
                   }}
-                  className="flex flex-wrap flex-grow gap-2 mr-4">
-                  <input
-                    required
-                    type="text"
-                    value={data.modifier?.titre || ''}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        modifier: data.modifier
-                          ? { ...data.modifier, titre: e.target.value }
-                          : null,
-                      })
-                    }
-                    className="p-2 border border-gray-300 rounded-md flex-grow"
-                  />
-                  <input
-                    required
-                    value={data.modifier?.description || ''}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        modifier: data.modifier
-                          ? { ...data.modifier, description: e.target.value }
-                          : null,
-                      })
-                    }
-                    className="p-2 border border-gray-300 rounded-md flex-grow"
-                  />
-                  <input
-                    required
-                    type="date"
-                    value={iDateVersInput(
-                      data.modifier?.dateLimite || {
-                        jour: 1,
-                        mois: 1,
-                        annee: 2025,
-                        heure: 0,
-                        minute: 0,
-                      }
-                    )}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        modifier: data.modifier
-                          ? {
-                              ...data.modifier,
-                              dateLimite: inputVersIDate(e.target.value),
-                            }
-                          : null,
-                      })
-                    }
-                    className="p-2 border border-gray-300 rounded-md flex-grow"
-                  />
+                  className="flex flex-wrap flex-grow gap-6 mr-4">
+                  <div className="flex flex-col flex-grow gap-2">
+                    <label htmlFor="titre" className="text-gray-500">
+                      Titre de la tâche
+                    </label>
 
-                  <select
-                    value={data.modifier?.priorite || 2}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        modifier: data.modifier
-                          ? {
-                              ...data.modifier,
-                              priorite: parseInt(e.target.value) as 1 | 2 | 3,
-                            }
-                          : null,
-                      })
-                    }
-                    className="p-2 border border-gray-300 rounded-md">
-                    <option value={1}>Basse</option>
-                    <option value={2}>Moyenne</option>
-                    <option value={3}>Haute</option>
-                  </select>
+                    <input
+                      id="titre"
+                      required
+                      type="text"
+                      value={data.modifier?.titre || ''}
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          modifier: data.modifier
+                            ? { ...data.modifier, titre: e.target.value }
+                            : null,
+                        })
+                      }
+                      className="p-2 border border-gray-300 rounded-md flex-grow"
+                    />
+                  </div>
+
+                  <div className="flex flex-col flex-grow gap-2">
+                    <label htmlFor="description" className="text-gray-500">
+                      Description de la tâche
+                    </label>
+                    <input
+                      id="description"
+                      required
+                      value={data.modifier?.description || ''}
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          modifier: data.modifier
+                            ? { ...data.modifier, description: e.target.value }
+                            : null,
+                        })
+                      }
+                      className="p-2 border border-gray-300 rounded-md flex-grow"
+                    />
+                  </div>
+
+                  <div className="flex flex-col flex-grow gap-2">
+                    <label htmlFor="dateLimite" className="text-gray-500">
+                      Date limite de la tâche
+                    </label>
+                    <input
+                      id="dateLimite"
+                      required
+                      type="date"
+                      value={iDateVersInput(
+                        data.modifier?.dateLimite || {
+                          jour: 1,
+                          mois: 1,
+                          annee: 2025,
+                          heure: 0,
+                          minute: 0,
+                        }
+                      )}
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          modifier: data.modifier
+                            ? {
+                                ...data.modifier,
+                                dateLimite: inputVersIDate(e.target.value),
+                              }
+                            : null,
+                        })
+                      }
+                      className="p-2 border border-gray-300 rounded-md flex-grow"
+                    />
+                  </div>
+
+                  <div className="flex flex-col flex-grow gap-2">
+                    <label htmlFor="priorite" className="text-gray-500">
+                      Priorité de la tâche
+                    </label>
+                    <select
+                      id="priorite"
+                      required
+                      value={data.modifier?.priorite || 2}
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          modifier: data.modifier
+                            ? {
+                                ...data.modifier,
+                                priorite: parseInt(e.target.value) as 1 | 2 | 3,
+                              }
+                            : null,
+                        })
+                      }
+                      className="p-2 border border-gray-300 rounded-md">
+                      <option value={1}>Basse</option>
+                      <option value={2}>Moyenne</option>
+                      <option value={3}>Haute</option>
+                    </select>
+                  </div>
+
                   <div className="w-full flex justify-center space-x-4">
                     <button
                       type="submit"

@@ -1,15 +1,15 @@
 // src/redux/tacheSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITache } from '../lib/interfaces/entites';
-import { anniversaireTaches } from '../lib/localDB';
 import { getTachesParType } from './chargementDeTaches';
+import { trierTachesParDate } from '../lib/functions/mesFonctions';
 
 interface TacheState {
   taches: ITache[];
 }
 
 const initialState: TacheState = {
-  taches: anniversaireTaches || [],
+  taches: [],
 };
 
 const tacheSlice = createSlice({
@@ -21,7 +21,7 @@ const tacheSlice = createSlice({
       action: PayloadAction<{ typeEvenement: string; evId: string }>
     ) => {
       const { typeEvenement, evId } = action.payload;
-      state.taches = getTachesParType(typeEvenement, evId);
+      state.taches = trierTachesParDate(getTachesParType(typeEvenement, evId));
     },
     addTache: (state, action: PayloadAction<ITache>) => {
       state.taches.unshift(action.payload);
