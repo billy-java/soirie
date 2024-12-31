@@ -11,7 +11,8 @@ const Navbar: React.FC = () => {
   const displayNavbarPages2 = ['/parametres', '/contact', '/aide', '/home'];
   const isMenu2Page = displayNavbarPages2.includes(location.pathname);
   const idEvenement = useSelector((state: RootState_DB) => state.auth.idEv);
-  const hideNavbarRoutes = ['/', '/inscription', '/restaurer', '/invitation'];
+  const hideNavbarRoutes = ['/', '/inscription', '/restaurer'];
+
 
   if (isMenu2Page) {
     return (
@@ -31,7 +32,12 @@ const Navbar: React.FC = () => {
     );
   }
 
-  if (!isEventPage && !hideNavbarRoutes.includes(location.pathname)) {
+  // Masquer la navbar sur la page Invitation
+  if (location.pathname.includes('/invitation')) {
+    return null;
+  }
+
+  if (!isEventPage && hideNavbarRoutes.includes(location.pathname)) {
     return null;
   }
 
@@ -68,23 +74,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-
-/* return (
-      <nav className="fixed bottom-0 left-0 w-full bg-gray-800 text-white">
-        <ul className="flex justify-around items-center py-3">
-          {menuParametre.map((item, index) => (
-            <li key={index}>
-              <Link
-                to={item.lien}
-                className={`flex items-center space-x-1 ${
-                  location.pathname.includes(item.lien) ? 'text-blue-400' : ''
-                }`}>
-                {item.icon1}
-                <span className="text-sm">{item.nom}222</span>
-                {location.pathname.includes(item.lien) && <p>{item.nom}</p>}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    ); */
