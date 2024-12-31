@@ -114,7 +114,8 @@ const ModalInvitation: React.FC<Props> = ({
           {/* Champ Statut */}
           <div>
             <label className="block text-sm font-medium">Statut</label>
-            <select  required
+            <select
+              required
               name="statut"
               value={formulaire.statut}
               onChange={gererChangement}
@@ -128,7 +129,7 @@ const ModalInvitation: React.FC<Props> = ({
           <div className="flex justify-center space-x-4">
             <button
               onClick={gererEnregistrement}
-              className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
+              className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
               <span>Sauvegarder</span> {iconsListe.enregister}
             </button>
             <button
