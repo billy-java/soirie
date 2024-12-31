@@ -32,7 +32,6 @@ const App: React.FC = () => {
 
           <Route path="/e/:eId/invitation" element={<Invitation />} />
 
-
           {/* Routes pour les pages d'événements */}
           <Route
             path="/e/:eId/dashboard"
@@ -55,10 +54,11 @@ const App: React.FC = () => {
             element={<RoutesProtegee element={<Menu />} />}
           />
 
-      
-          
-          <Route path="/parametres" element={<RoutesProtegeeAuth element={<Parametres />}/>} />
-          <Route path="/parametres" element={<Parametres />} />
+          <Route
+            path="/parametres"
+            element={<RoutesProtegeeAuth element={<Parametres />} />}
+          />
+
           <Route path="/contact" element={<Contact />} />
           <Route path="/aide" element={<Aide />} />
         </Routes>

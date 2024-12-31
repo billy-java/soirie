@@ -83,16 +83,16 @@ const Parametres = () => {
                 className="border p-2 rounded-md flex-grow"
               />
 
-              <div className="flex flex-nowrap justify-center items-center space-x-1">
+              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
                 <button
                   onClick={() => sauvegarderF('nom')}
-                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
                   {iconsListe.enregister}
                 </button>
                 <button
                   onClick={annulerF}
                   type="reset"
-                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800 flex justify-center">
                   {iconsListe.annuler}
                 </button>
               </div>
@@ -113,7 +113,7 @@ const Parametres = () => {
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <label className="block font-semibold">Email :</label>
           {modifier === 'email' ? (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <input
                 type="email"
                 name="email"
@@ -121,16 +121,16 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <div className="flex flex-nowrap justify-center items-center space-x-1">
+              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
                 <button
                   onClick={() => sauvegarderF('nom')}
-                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
                   {iconsListe.enregister}
                 </button>
                 <button
                   onClick={annulerF}
                   type="reset"
-                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800 flex justify-center">
                   {iconsListe.annuler}
                 </button>
               </div>
@@ -159,16 +159,16 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <div className="flex flex-nowrap justify-center items-center space-x-1">
+              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
                 <button
                   onClick={() => sauvegarderF('nom')}
-                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
                   {iconsListe.enregister}
                 </button>
                 <button
                   onClick={annulerF}
                   type="reset"
-                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800 flex justify-center">
                   {iconsListe.annuler}
                 </button>
               </div>
@@ -197,16 +197,16 @@ const Parametres = () => {
                 onChange={mettreAJourF}
                 className="border p-2 rounded-md flex-grow"
               />
-              <div className="flex flex-nowrap justify-center items-center space-x-1">
+              <div className="flex flex-nowrap flex-grow justify-center items-center space-x-1">
                 <button
                   onClick={() => sauvegarderF('nom')}
-                  className="bg-indigo-600 text-white p-2  rounded-md hover:bg-indigo-800">
+                  className="bg-indigo-600 text-white w-full p-2 rounded-md hover:bg-indigo-800 flex justify-center">
                   {iconsListe.enregister}
                 </button>
                 <button
                   onClick={annulerF}
                   type="reset"
-                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800">
+                  className="bg-red-600 text-white w-full p-2  rounded-md hover:bg-red-800 flex justify-center">
                   {iconsListe.annuler}
                 </button>
               </div>

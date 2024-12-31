@@ -46,12 +46,7 @@ const Invitation: React.FC = () => {
       dispatch(incrementRejections(eId!));
     }
 
-    /* // Enregistrez la réponse sur le serveur ou localStorage
-    console.log({
-      idInvitation: id,
-      ...formulaire,
-      statut: reponseSelectionnee,
-    }); */
+    
 
     setPopupVisible(false); // Masque le popup
     naviguer('/'); // Redirige vers la page d'accueil
