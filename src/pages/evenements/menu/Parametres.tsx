@@ -229,8 +229,8 @@ const Parametres = () => {
         <div className="mt-6 flex flex-wrap justify-center">
           <button
             onClick={toutSauvegarderF}
-            className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-            <p>Sauvegarder</p> {iconsListe.enregister}
+            className="bg-indigo-600 text-white  px-4 py-3 rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
+            <span>Sauvegarder</span> {iconsListe.enregister}
           </button>
         </div>
       )}

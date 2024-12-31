@@ -388,8 +388,8 @@ const SectionDepenses: React.FC<DepensesProps> = ({
           <button
             type="submit"
             title="Cliquez pour sauvegarder la dépense."
-            className="bg-indigo-600 text-white w-full px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-wrap justify-center items-center space-x-2">
-            <p>Sauvegarder</p> {iconsListe.enregister}
+            className="bg-indigo-600 text-white w-full px-4 py-2 size-fit rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">
+            <span>Sauvegarder</span> {iconsListe.enregister}
           </button>
         </form>
       )}
