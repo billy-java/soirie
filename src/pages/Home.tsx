@@ -162,112 +162,125 @@ const Home = () => {
           }}
           className="w-full max-w-md p-6 mb-6">
           <h3 className="text-xl font-bold mb-4">Créer un nouvel événement</h3>
-          <label htmlFor="date" className="text-gray-500">
-            Nom de l'événement:
-          </label>
-          <input
-            required
-            id="nom"
-            type="text"
-            placeholder="Nom de l'événement"
-            value={data.ajouter?.nom || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, nom: e.target.value }
-                  : null,
-              })
-            }
-            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
-          />
-          <label htmlFor="date" className="text-gray-500">
-            Date:
-          </label>
-          <input
-            id="date"
-            required
-            type="date"
-            value={data.ajouter?.date ? iDateVersInput(data.ajouter.date) : ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? {
-                      ...data.ajouter,
-                      date: inputVersIDate(e.target.value),
-                    }
-                  : null,
-              })
-            }
-            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
-          />
-          <label htmlFor="lieu" className="text-gray-500">
-            Lieu de l'événement:
-          </label>
-          <input
-            id="lieu"
-            required
-            type="text"
-            placeholder="Lieu"
-            value={data.ajouter?.lieu || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, lieu: e.target.value }
-                  : null,
-              })
-            }
-            className="w-full border mt-1 border-gray-300 rounded-md p-2 mb-4"
-          />
-          <label htmlFor="typeE" className="text-gray-500">
-            Type de l'événement:
-          </label>
-          <select
-            required
-            id="typeE"
-            value={data.ajouter?.type}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? {
-                      ...data.ajouter,
-                      type: e.target.value as
-                        | 'Fête'
-                        | 'Mariage'
-                        | 'Anniversaire'
-                        | 'Autre',
-                    }
-                  : null,
-              })
-            }
-            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4">
-            <option value="Fête">Fête</option>
-            <option value="Mariage">Mariage</option>
-            <option value="Anniversaire">Anniversaire</option>
-            <option value="Autre">Autre</option>
-          </select>
-          <label htmlFor="budget" className="text-gray-500">
-            Budget prévu pour l'événement:
-          </label>
-          <input
-            id="budget"
-            required
-            type="number"
-            placeholder="Budget (€)"
-            value={data.ajouter?.budget || ''}
-            onChange={(e) =>
-              setData({
-                ...data,
-                ajouter: data.ajouter
-                  ? { ...data.ajouter, budget: parseFloat(e.target.value) }
-                  : null,
-              })
-            }
-            className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
-          />
+          <div className="flex flex-col">
+            <label htmlFor="date" className="text-gray-500">
+              Nom de l'événement:
+            </label>
+            <input
+              required
+              id="nom"
+              type="text"
+              placeholder="Nom de l'événement"
+              value={data.ajouter?.nom || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, nom: e.target.value }
+                    : null,
+                })
+              }
+              className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="date" className="text-gray-500">
+              Date:
+            </label>
+            <input
+              id="date"
+              required
+              type="date"
+              value={
+                data.ajouter?.date ? iDateVersInput(data.ajouter.date) : ''
+              }
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? {
+                        ...data.ajouter,
+                        date: inputVersIDate(e.target.value),
+                      }
+                    : null,
+                })
+              }
+              className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="lieu" className="text-gray-500">
+              Lieu de l'événement:
+            </label>
+            <input
+              id="lieu"
+              required
+              type="text"
+              placeholder="Lieu"
+              value={data.ajouter?.lieu || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, lieu: e.target.value }
+                    : null,
+                })
+              }
+              className="w-full border mt-1 border-gray-300 rounded-md p-2 mb-4"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="typeE" className="text-gray-500">
+              Type de l'événement:
+            </label>
+            <select
+              required
+              id="typeE"
+              value={data.ajouter?.type}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? {
+                        ...data.ajouter,
+                        type: e.target.value as
+                          | 'Fête'
+                          | 'Mariage'
+                          | 'Anniversaire'
+                          | 'Autre',
+                      }
+                    : null,
+                })
+              }
+              className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4">
+              <option value="Fête">Fête</option>
+              <option value="Mariage">Mariage</option>
+              <option value="Anniversaire">Anniversaire</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="budget" className="text-gray-500">
+              Budget prévu pour l'événement:
+            </label>
+            <input
+              id="budget"
+              required
+              type="number"
+              placeholder="Budget (€)"
+              value={data.ajouter?.budget || ''}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  ajouter: data.ajouter
+                    ? { ...data.ajouter, budget: parseFloat(e.target.value) }
+                    : null,
+                })
+              }
+              className="w-full mt-1 border border-gray-300 rounded-md p-2 mb-4"
+            />
+          </div>
+
           <button
             type="submit"
             className="bg-indigo-600 text-white size-fit px-4 py-2 rounded-md hover:bg-indigo-800 flex flex-nowrap justify-center items-center space-x-2">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   incrementConfirmations,
@@ -17,10 +17,27 @@ const Invitation: React.FC = () => {
   const [reponseSelectionnee, setReponseSelectionnee] = useState<number | null>(
     null
   );
-  const enLigne = useSelector((state:RootState_DB) => state.auth.token); 
+  const [verification, setVerification] = useState<{
+    evExiste: boolean;
+    evEncours: boolean;
+  }>({ evExiste: false, evEncours: false });
+  const enLigne = useSelector((state: RootState_DB) => state.auth.token);
 
-  
- 
+  const cetEvenement = useSelector((state: RootState_DB) =>
+    state.evenement.evenementsAttr.find((el) => el.id === eId!)
+  );
+
+  useEffect(() => {
+    if (cetEvenement) {
+      setVerification({
+        evExiste: true,
+        evEncours: cetEvenement.invitation.statut === 1,
+      });
+    } else {
+      setVerification({ evExiste: false, evEncours: false });
+    }
+  }, [cetEvenement]);
+
   const libellesReponses: Record<number, string> = {
     1: 'Je serais là',
     2: 'Peut-être',
@@ -46,8 +63,6 @@ const Invitation: React.FC = () => {
       dispatch(incrementRejections(eId!));
     }
 
-    
-
     setPopupVisible(false); // Masque le popup
     naviguer('/'); // Redirige vers la page d'accueil
     if (enLigne) {
@@ -63,55 +78,64 @@ const Invitation: React.FC = () => {
 
   return (
     <div className="px-8 py-14 flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="p-6 bg-white rounded-lg shadow-lg w-full">
-        <h2 className="mb-4 text-xl font-bold text-center">
-          Invitation
-        </h2>
-        <label htmlFor="prenom" className="text-gray-500">
-          Prénom:
-        </label>
-        <input
-          required
-          type="text"
-          id="prenom"
-          name="prenom"
-          placeholder="Prénom"
-          value={formulaire.prenom}
-          onChange={gererChangementInput}
-          className="w-full px-4 py-2 mt-1 mb-4 border rounded"
-        />
-        <label htmlFor="nom" className="text-gray-500">
-          Nom:
-        </label>
-
-        <input
-          required
-          type="text"
-          id="nom"
-          name="nom"
-          placeholder="Nom"
-          value={formulaire.nom}
-          onChange={gererChangementInput}
-          className="w-full px-4 py-2 mt-1 mb-4 border rounded"
-        />
-        <div className="flex justify-center space-x-4">
-          <button
-            onClick={() => gererClicReponse(1)}
-            className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-800 flex-grow">
-            Je serais là
-          </button>
-          <button
-            onClick={() => gererClicReponse(2)}
-            className="px-4 py-2 text-white bg-yellow-600 rounded hover:bg-yellow-800 flex-grow">
-            Peut-être
-          </button>
-          <button
-            onClick={() => gererClicReponse(3)}
-            className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-800 flex-grow">
-            Ne sera pas là
-          </button>
+      {!eId || !verification.evExiste ? (
+        <div className="h-screen p-10 text-2xl text-red-700 flex justify-center items-center text-center">
+          Aucun événement n'existe sur ce lien.
         </div>
-      </div>
+      ) : verification.evExiste && !verification.evEncours ? (
+        <div className="p-10 text-2xl text-red-700 flex justify-center items-center text-center">
+          Les invitations pour cet événement ont été fermées. Veillez s'il vous
+          plaît informer l'organisateur.
+        </div>
+      ) : (
+        <div className="p-6 bg-white rounded-lg shadow-lg w-full">
+          <h2 className="mb-4 text-xl font-bold text-center">Invitation</h2>
+          <label htmlFor="prenom" className="text-gray-500">
+            Prénom:
+          </label>
+          <input
+            required
+            type="text"
+            id="prenom"
+            name="prenom"
+            placeholder="Prénom"
+            value={formulaire.prenom}
+            onChange={gererChangementInput}
+            className="w-full px-4 py-2 mt-1 mb-4 border rounded"
+          />
+          <label htmlFor="nom" className="text-gray-500">
+            Nom:
+          </label>
+
+          <input
+            required
+            type="text"
+            id="nom"
+            name="nom"
+            placeholder="Nom"
+            value={formulaire.nom}
+            onChange={gererChangementInput}
+            className="w-full px-4 py-2 mt-1 mb-4 border rounded"
+          />
+          <div className="flex justify-center space-x-4">
+            <button
+              onClick={() => gererClicReponse(1)}
+              className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-800 flex-grow">
+              Je serais là
+            </button>
+            <button
+              onClick={() => gererClicReponse(2)}
+              className="px-4 py-2 text-white bg-yellow-600 rounded hover:bg-yellow-800 flex-grow">
+              Peut-être
+            </button>
+            <button
+              onClick={() => gererClicReponse(3)}
+              className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-800 flex-grow">
+              Ne sera pas là
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Affichage conditionnel du bouton Retour à l'événement */}
       {enLigne && (
@@ -152,5 +176,4 @@ const Invitation: React.FC = () => {
     </div>
   );
 };
-
 export default Invitation;
