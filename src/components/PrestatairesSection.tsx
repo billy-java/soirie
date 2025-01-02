@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { iconsListe } from '../lib/iconsListe';
 import { Link } from 'react-router-dom';
+import { IPrestataire } from '../lib/interfaces/entites';
 
-interface IPrestataire {
-  id: string;
-  nom: string;
-  type: 1 | 2 | 3 | 4; // 1 = Traiteur, 2 = DJ, 3 = Décorateur, 4 = Autre
-  localisation: string;
-  gammePrix: string;
-  note: 1 | 2 | 3 | 4 | 5;
-  telephone: string;
-  email: string;
-}
+
 
 interface PrestatairesProps {
   prestatairesInitiales: IPrestataire[];
@@ -150,6 +142,8 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
                   ]
                 }
               </p>
+              <p>Telephone: {prestataire.telephone}</p>
+              <p>Email: {prestataire.email}</p>
               <p>Localisation: {prestataire.localisation}</p>
               <p className="flex flex-nowrap">
                 Note: {afficherEtoilesF(prestataire.note)}
@@ -168,12 +162,12 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
               {contactOptionsVisible === prestataire.id && (
                 <div className="flex flex-col text-center gap-2">
                   <Link
-                    to={`tel:+49${prestataire.telephone}`}
+                    to={`tel:+${prestataire.telephone}`}
                     className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-800">
                     Appeler
                   </Link>
                   <Link
-                    to={`https://wa.me/49${prestataire.telephone}`}
+                    to={`https://wa.me/${prestataire.telephone}`}
                     className="bg-green-600 text-white px-4 py-1 rounded-md hover:bg-green-800">
                     Écrire sur WhatsApp
                   </Link>

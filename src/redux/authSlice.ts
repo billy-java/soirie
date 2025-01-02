@@ -49,7 +49,6 @@ const authSlice = createSlice({
         const userID = genererIdUnique('USER');
         state.userActuel = {
           id: userID,
-          idsEvenements: [],
           nom: action.payload.nom,
           email: action.payload.email,
           motDePasse: action.payload.motDePasse,
