@@ -15,7 +15,6 @@ import { genererIdUnique } from './mesFonctions';
 // Exemple de méthode pour initialiser un utilisateur
 export const initialiserUtilisateur = (): IUtilisateur => ({
   id: genererIdUnique('USER'),
-  idsEvenements: [],
   nom: '',
   email: '',
   motDePasse: '',

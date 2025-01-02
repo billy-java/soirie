@@ -1,11 +1,10 @@
 export interface IUtilisateur {
   id: string;
-  idsEvenements: string[];
   nom: string;
   email: string;
   motDePasse?: string;
   telephone: string;
-  role: 1 | 2; // 1 = organisateur, 2 = participant
+  role: 1 | 2; // 1(par defaut) = organisateur, 2 = participant
 }
 
 export interface IEvenement {

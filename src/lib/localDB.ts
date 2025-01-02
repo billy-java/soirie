@@ -15,8 +15,7 @@ import {
 export const utilisateurs: IUtilisateur[] = [
   {
     id: 'USER-M59JK763-1578',
-    idsEvenements: ['1', '2'], // L'utilisateur participe à deux événements
-    nom: 'Alice TEST',
+   nom: 'Alice TEST',
     email: 'test@test.com',
     motDePasse: 'test@test.com',
     telephone: '0102030405',
