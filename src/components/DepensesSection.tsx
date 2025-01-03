@@ -10,8 +10,9 @@ import { Titre3 } from './Titres';
 import ExportPDFButton from './ExportPDFButton';
 import { useParams } from 'react-router-dom';
 import { initialiserDepense } from '../lib/functions/initialiseEntities';
-import { replacerTousLesDepenses } from '../redux/depenseSlice';
+import { createOrUpdateDepenses } from '../redux/depenseSlice';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
 
 interface DepensesProps {
   depensesInitiales: IDepense[];
@@ -28,7 +29,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
   depensesInitiales = [],
 }) => {
   const { eId } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [depenses, setDepenses] = useState<IDepense[]>(depensesInitiales);
   const [resultatCalculs, setResultatCalculs] = useState<{
@@ -65,6 +66,14 @@ const SectionDepenses: React.FC<DepensesProps> = ({
   );
   const [ordreCroissant, setOrdreCroissant] = useState<boolean>(true);
 
+  useEffect(() => {
+    if (Array.isArray(depensesInitiales)) {
+      setDepenses(depensesInitiales);
+    } else {
+      console.error('Les données des dépenses doivent être un tableau');
+    }
+  }, [depensesInitiales]);
+  
   useEffect(() => {
     const calculF = () => {
       // Filtrer les dépenses terminées et non terminées
@@ -268,7 +277,7 @@ const SectionDepenses: React.FC<DepensesProps> = ({
 
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
-    dispatch(replacerTousLesDepenses(depenses));
+    dispatch(createOrUpdateDepenses(depenses));
   };
 
   return (

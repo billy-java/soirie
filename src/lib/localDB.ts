@@ -1,13 +1,12 @@
 //src\lib\localDB.ts
 
-import { initialiserInvitation } from './functions/initialiseEntities';
+
+
 import { genererIdUnique } from './functions/mesFonctions';
 import {
   IUtilisateur,
-  IEvenement,
   IPrestataire,
   ITache,
-  IDepense,
   IFaq,
 } from './interfaces/entites';
 
@@ -23,39 +22,6 @@ export const utilisateurs: IUtilisateur[] = [
   },
 ];
 
-// Deux événements différents
-export const evenements: IEvenement[] = [
-  {
-    id: 'EV-M59JFWYK-5140',
-    idUtilisateur: '1', // Alice est l'organisateur
-    nom: 'Anniversaire',
-    type: 'Anniversaire',
-    date: {
-      jour: 26,
-      mois: 12,
-      annee: 2024,
-      heure: 18,
-      minute: 31,
-    }, // Date au format ISO
-    lieu: 'Salle des fêtes',
-    budget: 1000,
-    invitation: initialiserInvitation('EV-M59JFWYK-5140'),
-  },
-  {
-    id: 'EV-M59JGO9P-3520',
-    idUtilisateur: '1', // Alice est l'organisateur
-    nom: 'Mariage de Bob',
-    type: 'Mariage',
-    date: {
-      jour: 31,
-      mois: 12,
-      annee: 2024,
-    }, // Date au format ISO
-    lieu: 'Château de Versailles',
-    budget: 5000,
-    invitation: initialiserInvitation('EV-M59JGO9P-3520'),
-  },
-];
 
 export const prestataires: IPrestataire[] = [
   {
@@ -163,7 +129,7 @@ export const prestataires: IPrestataire[] = [
 export const anniversaireTaches: ITache[] = [
   {
     id: '1',
-    idEvenement: '1',
+    idEvenement: 'DEP-M5G20ZKS-2232',
     titre: 'Planification générale',
     description:
       'Choisir une date et une heure, définir un budget et sélectionner un thème pour la fête.',
@@ -173,7 +139,7 @@ export const anniversaireTaches: ITache[] = [
   },
   {
     id: '2',
-    idEvenement: '1',
+    idEvenement: 'DEP-M5G20ZKS-2232',
     titre: 'Invitations',
     description:
       "Établir une liste d'invités, envoyer les invitations et confirmer les RSVPs.",
@@ -183,7 +149,7 @@ export const anniversaireTaches: ITache[] = [
   },
   {
     id: '3',
-    idEvenement: '1',
+    idEvenement: 'DEP-M5G20ZKS-2232',
     titre: 'Menu et Gâteau',
     description:
       'Planifier le menu, commander le gâteau et prévoir les boissons.',
@@ -193,7 +159,7 @@ export const anniversaireTaches: ITache[] = [
   },
   {
     id: '4',
-    idEvenement: '1',
+    idEvenement: 'DEP-M5G20ZKS-2232',
     titre: 'Décorations et Activités',
     description:
       'Organiser les décorations, prévoir les activités, et prévoir les cadeaux et les surprises.',
@@ -203,7 +169,7 @@ export const anniversaireTaches: ITache[] = [
   },
   {
     id: '5',
-    idEvenement: '1',
+    idEvenement: 'DEP-M5G20ZKS-2232',
     titre: 'Logistique',
     description:
       "Planifier la logistique, prévoir les sièges, les tables et l'espace pour tout le monde.",
@@ -362,10 +328,10 @@ export const autreTaches: ITache[] = [
   },
 ];
 
-export const depenses: IDepense[] = [
+/* export const depenses: IDepense[] = [
   {
     id: '1',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: 'Location de salle',
     description: "Location d'une salle de fête pour l'anniversaire.",
     montant: 0.0,
@@ -374,7 +340,7 @@ export const depenses: IDepense[] = [
   },
   {
     id: '2',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: 'Décoration',
     description: 'Ballons, banderoles, et autres décorations pour la fête.',
     montant: 0.0,
@@ -383,7 +349,7 @@ export const depenses: IDepense[] = [
   },
   {
     id: '3',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: 'Nourriture',
     description: 'Catering pour les invités, incluant boissons et repas.',
     montant: 150.0,
@@ -392,7 +358,7 @@ export const depenses: IDepense[] = [
   },
   {
     id: '4',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: 'Boissons',
     description: 'Catering pour les invités, incluant boissons et repas.',
     montant: 200.0,
@@ -401,7 +367,7 @@ export const depenses: IDepense[] = [
   },
   {
     id: '5',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: "Gâteau d'anniversaire",
     description: "Gâteau personnalisé pour l'anniversaire.",
     montant: 32.0,
@@ -410,7 +376,7 @@ export const depenses: IDepense[] = [
   },
   {
     id: '6',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: 'Divertissement',
     description: 'DJ et matériel de sonorisation pour la musique.',
     montant: 0.0,
@@ -419,14 +385,14 @@ export const depenses: IDepense[] = [
   },
   {
     id: '7',
-    idEvenement: '1',
+    idEvenement: 'EVE-M5FWJ2FN-9641',
     nom: 'Invitations',
     description: "Cartes d'invitation imprimées et envoyées aux invités.",
     montant: 0.0,
     date: { jour: 6, mois: 12, annee: 2023 },
     terminee: false,
   },
-];
+]; */
 
 export const faqData: IFaq[] = [
   // Catégorie "Utilisation"

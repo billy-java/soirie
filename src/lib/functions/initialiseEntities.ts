@@ -53,11 +53,11 @@ export const initialiserInvitation = (evID: string): IInvitation => ({
   id: genererIdUnique('INV'),
   idEvenement: evID,
   nombrePersonnes: 100, // Par défaut
-  nombreConfirmations: 10,
-  nombreDoute: 5,
+  nombreConfirmations: 2,
+  nombreDoute: 1,
   nombreRejets: 0,
   statut: 1, // Par défaut, statut = ouvert
-  lien: '',
+  lien: `/e/${evID}/invitation`,
 });
 
 // Exemple de méthode pour initialiser une dépense

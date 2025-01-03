@@ -1,5 +1,4 @@
-import { IDate } from "../interfaces/entites";
-
+import { IDate, IDepense } from '../interfaces/entites';
 
 //1- Conversion d'un string en IDate
 // "31/12/2024 23:59" ou "31/12/2024"
@@ -22,11 +21,13 @@ export function stringVersIDate(dateString: string): IDate {
   return date;
 }
 
-
 //2- Convertir un IDate en string
 // const dateFormattee = iDateVersString({ jour: 31, mois: 12, annee: 2024, heure: 23, minute: 59 });
 // const dateFormatteeSansHeure = iDateVersString({ jour: 31, mois: 12, annee: 2024 });
-export function iDateVersString(date: IDate, afficherHeureMinute?: boolean): string { 
+export function iDateVersString(
+  date: IDate,
+  afficherHeureMinute?: boolean
+): string {
   const jour = date.jour.toString().padStart(2, '0');
   const mois = date.mois.toString().padStart(2, '0');
   const annee = date.annee.toString();
@@ -34,7 +35,11 @@ export function iDateVersString(date: IDate, afficherHeureMinute?: boolean): str
   let result = `${jour}/${mois}/${annee}`;
 
   // Si l'option pour afficher l'heure et la minute est activée et que les données existent, on les affiche
-  if (afficherHeureMinute && date.heure !== undefined && date.minute !== undefined) {
+  if (
+    afficherHeureMinute &&
+    date.heure !== undefined &&
+    date.minute !== undefined
+  ) {
     const heure = date.heure.toString().padStart(2, '0');
     const minute = date.minute.toString().padStart(2, '0');
     result += ` ${heure}:${minute}`;
@@ -42,8 +47,6 @@ export function iDateVersString(date: IDate, afficherHeureMinute?: boolean): str
 
   return result;
 }
-
-
 
 //3- Convertir un input de type datetime-local en IDate
 // Exemple d'utilisation
@@ -67,7 +70,6 @@ export function inputVersIDate(inputValue: string): IDate {
   return date;
 }
 
-
 //4- Convertir un input de type datetime-local en IDate
 // le format de date de l input est: 2024-12-21
 export function iDateVersInput(date: IDate): string {
@@ -79,8 +81,6 @@ export function iDateVersInput(date: IDate): string {
   return `${annee}-${mois}-${jour}`;
 }
 
-
-
 //5- Convertir un IDate en Date JavaScript
 export function iDateVersDateJS(date: IDate): Date {
   const heure = date.heure !== undefined ? date.heure : 0;
@@ -88,9 +88,6 @@ export function iDateVersDateJS(date: IDate): Date {
 
   return new Date(date.annee, date.mois - 1, date.jour, heure, minute);
 }
-
-
-
 
 //6- Convertir une Date JavaScript en IDate
 export function dateJSVersIDate(date: Date): IDate {
@@ -109,4 +106,36 @@ export function dateJSVersIDate(date: Date): IDate {
   }
 
   return iDate;
+}
+
+export interface IDepense_BD {
+  id: string;
+  idEvenement: string;
+  nom: string;
+  description?: string;
+  montant: number;
+  date: string;
+  terminee: boolean;
+}
+
+export function transformerListeStringDB_IDate_Depenses(
+  evenements: IDepense_BD[]
+): IDepense[] {
+  return evenements.map((evenement) => {
+    return {
+      ...evenement,
+      date: stringVersIDate(evenement.date), // Transformation de la date
+    };
+  });
+}
+
+export function transformerIDate_ListeStringDB_Depenses(
+  depenses: IDepense[]
+): IDepense_BD[] {
+  return depenses.map((dep) => {
+    return {
+      ...dep,
+      date: iDateVersString(dep.date), // Transformation de la date
+    };
+  });
 }

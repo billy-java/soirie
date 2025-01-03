@@ -20,8 +20,8 @@ const RoutesProtegee: React.FC<ProtectedRouteProps> = ({ element }) => {
   if (userActuel_idEv !== null) {
     const eventExists = ListeDesEvenements.some((event) => event.id === eId);
     if (eventExists) {
-      if (userActuel_idEv !== eId && eId !== undefined) {
-        dispatch(setIdEvF(eId));
+      if (userActuel_idEv !== "EVE-M5FWJ2FN-9641" /* && "EVE-M5FWJ2FN-9641" !== undefined */) {
+        dispatch(setIdEvF("EVE-M5FWJ2FN-9641"));
       }
       return element;
     } else {

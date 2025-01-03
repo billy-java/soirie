@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IEvenement } from '../lib/interfaces/entites';
 import { iconsListe } from '../lib/iconsListe';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState_DB } from '../redux/store';
+import { AppDispatch, RootState_DB } from '../redux/store';
 import { logoutF, setIdEvF } from '../redux/authSlice';
 import {
   iDateVersDateJS,
@@ -13,9 +13,10 @@ import {
 import { Titre1, Titre2, Titre3 } from '../components/Titres';
 import { initialiserEvenement } from '../lib/functions/initialiseEntities';
 import {
-  ajouterEvenement,
-  mettreAJourEvenement,
-  supprimerEvenement,
+  createEvenement,
+  fetchEvenements,
+  updateEvenement,
+  deleteEvenement,
 } from '../redux/evenementSlice';
 
 interface IData {
@@ -26,7 +27,7 @@ interface IData {
 }
 
 const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const evenementsInitials = useSelector(
@@ -39,6 +40,10 @@ const Home = () => {
     idSuppression: null,
     sauvegargerListe: false,
   });
+
+  useEffect(() => {
+    dispatch(fetchEvenements());
+  }, [dispatch]);
 
   const toggleFormulaireAjout = () => {
     if (data.ajouter) {
@@ -61,7 +66,7 @@ const Home = () => {
   // Ajout d'un nouvel événement
   const gererAjoutEvenement = () => {
     if (data.ajouter?.nom.trim()) {
-      dispatch(ajouterEvenement(data.ajouter));
+      dispatch(createEvenement(data.ajouter));
       /* setAfficherFormulaireAjout(false); */
       setData({
         ajouter: null,
@@ -75,7 +80,9 @@ const Home = () => {
   const validerModification = (e: React.FormEvent) => {
     e.preventDefault();
     if (data.modifier && data.modifier.nom.trim()) {
-      dispatch(mettreAJourEvenement(data.modifier));
+      dispatch(
+        updateEvenement({ id: data.modifier.id, evenement: data.modifier })
+      );
       setData({
         ajouter: null,
         modifier: null,
@@ -102,12 +109,13 @@ const Home = () => {
 
   // Suppression d'un événement
   const gererSuppressionEvenement = (id: string) => {
-    dispatch(supprimerEvenement(id));
+    dispatch(deleteEvenement(id));
     setData({ ...data, idSuppression: null });
   };
 
   const creerParams = (id: string) => {
-    dispatch(setIdEvF(id));
+    console.log(id);
+    dispatch(setIdEvF("EVE-M5FWJ2FN-9641"));
   };
 
   const deconnection = () => {
@@ -300,7 +308,7 @@ const Home = () => {
               <div>
                 <Link
                   onClick={() => creerParams(evenement.id)}
-                  to={`/e/${evenement.id}/dashboard`}
+                  to={`/e/${evenement.id}/depenses`}
                   className="block text-indigo-600 hover:text-indigo-800">
                   <Titre3>{evenement.nom}</Titre3>
                   <p className="text-gray-600">
