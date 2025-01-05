@@ -15,9 +15,10 @@ import { useParams } from 'react-router-dom';
 import { initialiserTache } from '../lib/functions/initialiseEntities';
 import { useDispatch } from 'react-redux';
 import {
-  remplacerToutesLesTaches,
-  remplacerToutesLesTachesPrioritaires,
+  saveTachesByEvenement,
+  saveTachesPrioritaires,
 } from '../redux/tacheSlice';
+import { AppDispatch } from '../redux/store';
 
 interface TachesProps {
   tachesProps: ITache[];
@@ -35,7 +36,7 @@ const TachesSection: React.FC<TachesProps> = ({
   tachesProps = [],
   toutesLesTaches,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { eId } = useParams();
   const [taches, setTaches] = useState<ITache[]>(tachesProps);
   const [data, setData] = useState<IData>({
@@ -97,9 +98,9 @@ const TachesSection: React.FC<TachesProps> = ({
   const sauvegardeSurleServeur = () => {
     setData({ ...data, sauvegargerListe: false });
     if (toutesLesTaches) {
-      dispatch(remplacerToutesLesTaches(taches));
+      dispatch(saveTachesByEvenement(taches));
     } else {
-      dispatch(remplacerToutesLesTachesPrioritaires(taches));
+      dispatch(saveTachesPrioritaires(taches));
     }
   };
 

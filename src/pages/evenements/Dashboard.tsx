@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import CopierLien from '../../components/CopierLien';
 import TachesSection from '../../components/TachesSection';
-import { IEvenement, IInvitation, ITache } from '../../lib/interfaces/entites';
+import { IEvenement, IInvitation } from '../../lib/interfaces/entites';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState_DB } from '../../redux/store';
+import { AppDispatch, RootState_DB } from '../../redux/store';
 import {
   iDateVersDateJS,
   iDateVersString,
@@ -13,7 +13,7 @@ import {
 import { Titre1, Titre2, Titre3 } from '../../components/Titres';
 import ModalInvitation from '../../components/ModalInvitation';
 import { iconsListe } from '../../lib/iconsListe';
-import { chargerTachesParType } from '../../redux/tacheSlice';
+import { fetchTachesPrioritaireByEvenement } from '../../redux/tacheSlice';
 
 const Dashboard = () => {
   const { eId } = useParams();
@@ -21,14 +21,16 @@ const Dashboard = () => {
   const cetEvenement = useSelector((state: RootState_DB) =>
     state.evenement.evenementsAttr.find((el) => el.id === eId)
   ) as IEvenement;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [showUrgentTasks, setShowUrgentTasks] = useState(false);
 
-  const listeDesTaches = useSelector(
-    (state: RootState_DB) => state.tache.taches
-  );
+  const {
+    taches: listeDesTaches,
+    loading,
+    error,
+  } = useSelector((state: RootState_DB) => state.tache);
 
-  const [mesTaches, setMesTaches] = useState<ITache[]>([]);
+  
 
   const cetInvitation = useSelector(
     (etat: RootState_DB) =>
@@ -45,18 +47,10 @@ const Dashboard = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    setMesTaches(
-      listeDesTaches.filter(
-        (el) => el.idEvenement === eId! && el.priorite === 3
-      )
-    );
-  }, [eId, listeDesTaches, dispatch]);
-
-  useEffect(() => {
-    dispatch(
-      chargerTachesParType({ typeEvenement: cetEvenement.type!, evId: eId! })
-    );
-  }, [cetEvenement.type, dispatch, eId]);
+    if (eId) {
+      dispatch(fetchTachesPrioritaireByEvenement(eId));
+    }
+  }, [dispatch, eId]);
 
   useEffect(() => {
     const calculerCompteAReboursF = () => {
@@ -235,18 +229,28 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-      {/* Tâches urgentes */}
+      {/* Chargement, erreur ou affichage des tâches */}
       <section className="py-6 flex flex-col justify-center items-center">
         <Titre3>Tâches urgentes à faire :</Titre3>
 
-        <button
-          onClick={() => setShowUrgentTasks(!showUrgentTasks)}
-          className={`px-4 py-2 size-fit text-white rounded-lg  ${showUrgentTasks ? 'bg-red-600 hover:bg-red-800' : 'bg-indigo-600 hover:bg-indigo-800'}`}>
-          {showUrgentTasks ? 'Masquer les tâches' : 'Afficher les tâches'}
-        </button>
+        {loading && <p>Chargement des tâches...</p>}
+        {error && <p className="text-red-500">Erreur : {error}</p>}
+        {!loading && !error && (
+          <>
+            <button
+              onClick={() => setShowUrgentTasks(!showUrgentTasks)}
+              className={`px-4 py-2 size-fit text-white rounded-lg ${
+                showUrgentTasks
+                  ? 'bg-red-600 hover:bg-red-800'
+                  : 'bg-indigo-600 hover:bg-indigo-800'
+              }`}>
+              {showUrgentTasks ? 'Masquer les tâches' : 'Afficher les tâches'}
+            </button>
 
-        {showUrgentTasks && (
-          <TachesSection tachesProps={mesTaches} toutesLesTaches={false} />
+            {showUrgentTasks && (
+              <TachesSection tachesProps={listeDesTaches} toutesLesTaches={false} />
+            )}
+          </>
         )}
       </section>
       {/* Modal de modification */}

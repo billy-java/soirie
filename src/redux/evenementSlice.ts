@@ -19,6 +19,8 @@ const initialState: EvenementState = {
 // Thunks pour les opérations asynchrones
 export const fetchEvenements = createAsyncThunk('evenements/fetchEvenements', async () => {
   const evenements = await evenementAPI.getEvenements();
+  console.log('44444444444444');
+  console.log(evenements);
   return evenements;
 });
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { IEvenement } from '../lib/interfaces/entites';
+import { transformerListeStringDB_IDate_Evenements, transformerONEEvenement_IDate_ListeStringDB, transformerONEEvenement_StringDB_IDate } from '../lib/functions/convertirDates';
 
 // Définissez l'URL de base pour votre backend
 const BASE_URL = 'http://localhost:8080/api/evenements';
@@ -9,7 +10,7 @@ const BASE_URL = 'http://localhost:8080/api/evenements';
 export const getEvenements = async (): Promise<IEvenement[]> => {
   try {
     const response = await axios.get(`${BASE_URL}/liste`);
-    return response.data;
+    return transformerListeStringDB_IDate_Evenements(response.data);
   } catch (error) {
     console.error('Error fetching events:', error);
     throw error;
@@ -30,8 +31,10 @@ export const getEvenementById = async (id: string): Promise<IEvenement> => {
 // Fonction pour créer un nouvel événement
 export const createEvenement = async (evenement: IEvenement): Promise<IEvenement> => {
   try {
-    const response = await axios.post(`${BASE_URL}/creer`, evenement);
-    return response.data;
+    const bonFormat = transformerONEEvenement_IDate_ListeStringDB(evenement)
+    
+    const response = await axios.post(`${BASE_URL}/creer`, bonFormat);
+    return transformerONEEvenement_StringDB_IDate(response.data);
   } catch (error) {
     console.error('Error creating event:', error);
     throw error;
@@ -41,8 +44,9 @@ export const createEvenement = async (evenement: IEvenement): Promise<IEvenement
 // Fonction pour mettre à jour un événement
 export const updateEvenement = async (id: string, evenement: IEvenement): Promise<IEvenement> => {
   try {
-    const response = await axios.put(`${BASE_URL}/${id}`, evenement);
-    return response.data;
+    const bonFormat = transformerONEEvenement_IDate_ListeStringDB(evenement)
+    const response = await axios.put(`${BASE_URL}/${id}`, bonFormat);
+    return transformerONEEvenement_StringDB_IDate(response.data);
   } catch (error) {
     console.error(`Error updating event with id ${id}:`, error);
     throw error;
@@ -63,7 +67,7 @@ export const deleteEvenement = async (id: string): Promise<void> => {
 export const getEvenementsByUtilisateur = async (idUtilisateur: string): Promise<IEvenement[]> => {
   try {
     const response = await axios.get(`${BASE_URL}/utilisateur/${idUtilisateur}`);
-    return response.data;
+    return transformerListeStringDB_IDate_Evenements(response.data);
   } catch (error) {
     console.error(`Error fetching events for user ${idUtilisateur}:`, error);
     throw error;

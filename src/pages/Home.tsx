@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState_DB } from '../redux/store';
 import { logoutF, setIdEvF } from '../redux/authSlice';
 import {
-  iDateVersDateJS,
   iDateVersInput,
+  iDateVersString,
   inputVersIDate,
 } from '../lib/functions/convertirDates';
 import { Titre1, Titre2, Titre3 } from '../components/Titres';
@@ -30,9 +30,11 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const evenementsInitials = useSelector(
-    (state: RootState_DB) => state.evenement.evenementsAttr
-  );
+  const {
+    evenementsAttr: evenementsInitials,
+    error,
+    loading,
+  } = useSelector((state: RootState_DB) => state.evenement);
 
   const [data, setData] = useState<IData>({
     ajouter: null,
@@ -115,7 +117,7 @@ const Home = () => {
 
   const creerParams = (id: string) => {
     console.log(id);
-    dispatch(setIdEvF("EVE-M5FWJ2FN-9641"));
+    dispatch(setIdEvF('EVE-M5FWJ2FN-9641'));
   };
 
   const deconnection = () => {
@@ -300,6 +302,16 @@ const Home = () => {
       {/* Liste des événements */}
       <div className="w-full max-w-4xl p-4">
         <Titre2>Vos événements :</Titre2>
+
+        {loading && (
+          <div className="text-blue-500 text-center">
+            Chargement des événements...
+          </div>
+        )}
+        {error && (
+          <div className="text-red-500 text-center">Erreur : {error}</div>
+        )}
+
         <ul className="space-y-6">
           {evenementsInitials.map((evenement) => (
             <li
@@ -317,7 +329,7 @@ const Home = () => {
                   </p>
                   <p className="text-gray-600">
                     <span className="font-semibold">Date :</span>{' '}
-                    {iDateVersDateJS(evenement.date).toLocaleDateString()}
+                    {iDateVersString(evenement.date, true)}
                   </p>
                   <p className="text-gray-600">
                     <span className="font-semibold">Lieu :</span>{' '}

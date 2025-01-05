@@ -1,110 +1,139 @@
-// src/redux/tacheSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ITache } from '../lib/interfaces/entites';
-import { getTachesParType } from './chargementDeTaches';
+import {
+  getTachesByEvenement,
+  updateTachesByEvenement,
+  updateTachesPrioritaires,
+} from '../api/tachesAPI';
 import { trierTachesParDate } from '../lib/functions/mesFonctions';
 
 interface TacheState {
   taches: ITache[];
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: TacheState = {
   taches: [],
+  loading: false,
+  error: null,
 };
 
+// Thunks pour gérer les appels API
+
+// Charger les tâches d'un événement spécifique
+export const fetchTachesByEvenement = createAsyncThunk(
+  'tache/fetchTachesByEvenement',
+  async (idEvenement: string) => {
+    const taches = await getTachesByEvenement(idEvenement);
+    console.log('5555555555555');
+    console.log(taches);
+    return taches;
+  }
+);
+
+export const fetchTachesPrioritaireByEvenement = createAsyncThunk(
+  'tache/fetchTachesByEvenement',
+  async (idEvenement: string) => {
+    const taches = await getTachesByEvenement(idEvenement);
+    console.log('5555555555555');
+    console.log(taches);
+    return taches.filter(
+      (el) => el.idEvenement === idEvenement && el.priorite === 3
+    );
+  }
+);
+
+// Mettre à jour les tâches d'un événement
+export const saveTachesByEvenement = createAsyncThunk(
+  'tache/saveTachesByEvenement',
+  async (taches: ITache[], { rejectWithValue }) => {
+    try {
+      const updatedTaches = await updateTachesByEvenement(taches);
+      console.log('66666666666666');
+      console.log(taches);
+      return updatedTaches;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  }
+);
+
+// Mettre à jour les tâches prioritaires d'un événement
+export const saveTachesPrioritaires = createAsyncThunk(
+  'tache/saveTachesPrioritaires',
+  async (taches: ITache[], { rejectWithValue }) => {
+    try {
+      const updatedTaches = await updateTachesPrioritaires(taches);
+      console.log('77777777777');
+      console.log(taches);
+      return updatedTaches;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  }
+);
+
+// Slice Redux
 const tacheSlice = createSlice({
   name: 'tache',
   initialState,
-  reducers: {
-    chargerTachesParType: (
-      state,
-      action: PayloadAction<{ typeEvenement: string; evId: string }>
-    ) => {
-      const { typeEvenement, evId } = action.payload;
-      state.taches = trierTachesParDate(getTachesParType(typeEvenement, evId));
-    },
-    addTache: (state, action: PayloadAction<ITache>) => {
-      state.taches.unshift(action.payload);
-    },
-    updateTache: (state, action: PayloadAction<ITache>) => {
-      const index = state.taches.findIndex(
-        (tache) => tache.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.taches[index] = action.payload;
-      }
-    },
-
-    removeTache: (state, action: PayloadAction<string>) => {
-      state.taches = state.taches.filter(
-        (tache) => tache.id !== action.payload
-      );
-    },
-    remplacerToutesLesTaches: (state, action: PayloadAction<ITache[]>) => {
-      const nouvellesTaches = action.payload;
-
-      // Mettre à jour l'état avec les nouvelles tâches
-      state.taches = state.taches.map((tache) =>
-        nouvellesTaches.some((nt) => nt.id === tache.id)
-          ? nouvellesTaches.find((nt) => nt.id === tache.id) || tache
-          : tache
-      );
-
-      // Ajouter les nouvelles tâches qui ne sont pas encore dans l'état
-      nouvellesTaches.forEach((tache) => {
-        if (!state.taches.some((t) => t.id === tache.id)) {
-          state.taches.push(tache);
-        }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // fetchTachesByEvenement
+      .addCase(fetchTachesByEvenement.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTachesByEvenement.fulfilled, (state, action) => {
+        state.loading = false;
+        state.taches = trierTachesParDate(action.payload);
+      })
+      .addCase(fetchTachesByEvenement.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // saveTachesByEvenement
+      .addCase(saveTachesByEvenement.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(saveTachesByEvenement.fulfilled, (state, action) => {
+        state.loading = false;
+        state.taches = action.payload;
+      })
+      .addCase(saveTachesByEvenement.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // saveTachesPrioritaires
+      .addCase(saveTachesPrioritaires.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(saveTachesPrioritaires.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedIds = action.payload.map((tache) => tache.id);
+        state.taches = state.taches.map((tache) =>
+          updatedIds.includes(tache.id)
+            ? action.payload.find((updated) => updated.id === tache.id) || tache
+            : tache
+        );
+      })
+      .addCase(saveTachesPrioritaires.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
-
-      // Supprimer les tâches manquantes de la liste générale des tâches
-      const idsNouvellesTaches = nouvellesTaches.map((tache) => tache.id);
-      state.taches = state.taches.filter((tache) =>
-        idsNouvellesTaches.includes(tache.id)
-      );
-    },
-
-    remplacerToutesLesTachesPrioritaires: (
-      state,
-      action: PayloadAction<ITache[]>
-    ) => {
-      // Récupérer les tâches prioritaires existantes
-      const tachesPrioritairesExistantes = state.taches.filter(
-        (tache) => tache.priorite === 3
-      );
-
-      // Mettre à jour l'état avec les nouvelles tâches prioritaires
-      state.taches = state.taches.map((tache) =>
-        tachesPrioritairesExistantes.some((tp) => tp.id === tache.id)
-          ? action.payload.find((nt) => nt.id === tache.id) || tache
-          : tache
-      );
-
-      // Ajouter les nouvelles tâches qui ne sont pas encore dans l'état
-      action.payload.forEach((tache) => {
-        if (!state.taches.some((t) => t.id === tache.id)) {
-          state.taches.push(tache);
-        }
-      });
-
-      // Supprimer les tâches prioritaires manquantes de la liste générale des tâches
-      const idsTachesPrioritairesAction = action.payload.map(
-        (tache) => tache.id
-      );
-      state.taches = state.taches.filter(
-        (tache) =>
-          tache.priorite !== 3 || idsTachesPrioritairesAction.includes(tache.id)
-      );
-    },
   },
 });
 
-export const {
-  chargerTachesParType,
-  addTache,
-  updateTache,
-  removeTache,
-  remplacerToutesLesTaches,
-  remplacerToutesLesTachesPrioritaires,
-} = tacheSlice.actions;
+
+
 export default tacheSlice.reducer;

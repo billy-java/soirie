@@ -60,13 +60,16 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
   const afficherEtoilesF = (note: number) => {
     const etoile = (remplie: boolean) =>
       remplie ? iconsListe.etoile_remplie : iconsListe.etoile_vide;
-
+  
     return (
       <span className="flex flex-nowrap">
-        {[...Array(5)].map((_, index) => etoile(index < note))}
+        {[...Array(5)].map((_, index) => (
+          <span key={index}>{etoile(index < note)}</span>
+        ))}
       </span>
     );
   };
+  
 
   // Fonction pour afficher ou masquer les options de contact
   const toggleContactOptionsF = (prestataireId: string) => {
@@ -128,10 +131,10 @@ const PrestatairesSection: React.FC<PrestatairesProps> = ({
       </div>
 
       <ul className="space-y-6">
-        {trierPrestatairesF(prestatairesFiltres).map((prestataire) => (
-          <li
-            key={prestataire.id}
-            className="bg-white flex justify-between items-center p-4 shadow-lg rounded-lg">
+      {trierPrestatairesF(prestatairesFiltres).map((prestataire) => (
+    <li
+      key={prestataire.id}
+      className="bg-white flex justify-between items-center p-4 shadow-lg rounded-lg">
             <div className="pr-2 flex-grow">
               <p className="text-lg font-medium">{prestataire.nom}</p>
               <p>

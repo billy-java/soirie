@@ -1,4 +1,4 @@
-import { IDate, IDepense } from '../interfaces/entites';
+import { IDate, IDepense, IEvenement, IInvitation, ITache } from '../interfaces/entites';
 
 //1- Conversion d'un string en IDate
 // "31/12/2024 23:59" ou "31/12/2024"
@@ -108,23 +108,43 @@ export function dateJSVersIDate(date: Date): IDate {
   return iDate;
 }
 
-export interface IDepense_BD {
-  id: string;
-  idEvenement: string;
-  nom: string;
-  description?: string;
-  montant: number;
-  date: string;
-  terminee: boolean;
-}
 
-export function transformerListeStringDB_IDate_Depenses(
-  evenements: IDepense_BD[]
-): IDepense[] {
+export function transformerListeStringDB_IDate_Evenements(
+  evenements: IEvenement_BD[]
+): IEvenement[] {
   return evenements.map((evenement) => {
     return {
       ...evenement,
       date: stringVersIDate(evenement.date), // Transformation de la date
+    };
+  });
+}
+
+export function transformerONEEvenement_StringDB_IDate(
+  evenement: IEvenement_BD
+): IEvenement {
+  return {
+    ...evenement,
+    date: stringVersIDate(evenement.date), // Transformation de la date
+  };
+}
+
+export function transformerONEEvenement_IDate_ListeStringDB(
+  evenement: IEvenement
+): IEvenement_BD {
+  return {
+    ...evenement,
+    date: iDateVersString(evenement.date), // Transformation de la date
+  };
+}
+
+export function transformerListeStringDB_IDate_Depenses(
+  depenses: IDepense_BD[]
+): IDepense[] {
+  return depenses.map((dep) => {
+    return {
+      ...dep,
+      date: stringVersIDate(dep.date), // Transformation de la date
     };
   });
 }
@@ -138,4 +158,56 @@ export function transformerIDate_ListeStringDB_Depenses(
       date: iDateVersString(dep.date), // Transformation de la date
     };
   });
+}
+
+export function transformerListeStringDB_IDate_Taches(
+  taches: ITache_BD[]
+): ITache[] {
+  return taches.map((tache) => {
+    return {
+      ...tache,
+      dateLimite: stringVersIDate(tache.dateLimite), // Transformation de la date
+    };
+  });
+}
+
+export function transformerIDate_ListeStringDB_Taches(
+  taches: ITache[]
+): ITache_BD[] {
+  return taches.map((tache) => {
+    return {
+      ...tache,
+      dateLimite: iDateVersString(tache.dateLimite), // Transformation de la date
+    };
+  });
+}
+
+export interface IEvenement_BD {
+  id: string;
+    idUtilisateur: string;
+    nom: string;
+    type: 'Fête' | 'Mariage' | 'Anniversaire' | 'Autre';
+    date: string;
+    lieu: string;
+    budget: number;
+    invitation: IInvitation;
+  }
+export interface IDepense_BD {
+  id: string;
+  idEvenement: string;
+  nom: string;
+  description?: string;
+  montant: number;
+  date: string;
+  terminee: boolean;
+}
+
+export interface ITache_BD {
+  id: string;
+  idEvenement: string;
+  titre: string;
+  description?: string;
+  dateLimite: string;
+  terminee: boolean;
+  priorite: 1 | 2 | 3; // 1 = basse, 2 = moyenne, 3 = haute
 }

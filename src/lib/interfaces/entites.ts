@@ -23,7 +23,7 @@ export interface ITache {
   idEvenement: string;
   titre: string;
   description?: string;
-  dateLimite?: IDate;
+  dateLimite: IDate;
   terminee: boolean;
   priorite: 1 | 2 | 3; // 1 = basse, 2 = moyenne, 3 = haute
 }

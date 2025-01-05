@@ -24,11 +24,14 @@ const Prestataires = () => {
     <div className="px-4 py-10 min-h-screen flex flex-col items-center bg-gray-100">
       <Titre1>Prestataires</Titre1>
 
-      {/* Affichage du loader pendant que les données sont récupérées */}
-      {loading && <div>Loading...</div>}
-
-      {/* Affichage du message d'erreur si une erreur se produit */}
-      {error && <div className="text-red-500">Error: {error}</div>}
+      {loading && (
+          <div className="text-blue-500 text-center">
+            Chargement de la liste des prestataires...
+          </div>
+        )}
+        {error && (
+          <div className="text-red-500 text-center">Erreur : {error}</div>
+        )}
 
       {/* Si aucune erreur et les données sont chargées, afficher les prestataires */}
       {!loading && !error && (
