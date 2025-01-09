@@ -320,7 +320,7 @@ const Home = () => {
               <div>
                 <Link
                   onClick={() => creerParams(evenement.id)}
-                  to={`/e/${evenement.id}/depenses`}
+                  to={`/e/${evenement.id}/dashboard`}
                   className="block text-indigo-600 hover:text-indigo-800">
                   <Titre3>{evenement.nom}</Titre3>
                   <p className="text-gray-600">
